@@ -14,6 +14,13 @@ namespace Galaxy.Bootstrapping
    public static class GalaxyMainRegistrationExtensions
     {
         
+        public static IContainer InitializeGalaxy(this ContainerBuilder builder)
+        {
+            GalaxyMainBootsrapper.SingleInstanceBuilder = builder;
+            GalaxyMainBootsrapper.Container = builder.Build();
+            return GalaxyMainBootsrapper.Container;
+        }
+
         public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, params Assembly[] assembliesForInterceptors) 
         {
             builder.RegisterModule(new MediatrModule());

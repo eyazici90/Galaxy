@@ -55,6 +55,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Swagger", "Galaxy.Sw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Resilence", "Galaxy.Resilence\Galaxy.Resilence.csproj", "{0722027F-1800-495C-9F98-ABA12B068F5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.NHibernate", "Galaxy.NHibernate\Galaxy.NHibernate.csproj", "{1927CA7F-C1E3-421A-9A53-3E1F033D2EC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Nhibernate.Tests", "Galaxy.Nhibernate.Tests\Galaxy.Nhibernate.Tests.csproj", "{A438E4AF-4F09-41EE-950D-DBD2AD31DF82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +161,14 @@ Global
 		{0722027F-1800-495C-9F98-ABA12B068F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0722027F-1800-495C-9F98-ABA12B068F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0722027F-1800-495C-9F98-ABA12B068F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1927CA7F-C1E3-421A-9A53-3E1F033D2EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1927CA7F-C1E3-421A-9A53-3E1F033D2EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1927CA7F-C1E3-421A-9A53-3E1F033D2EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1927CA7F-C1E3-421A-9A53-3E1F033D2EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A438E4AF-4F09-41EE-950D-DBD2AD31DF82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A438E4AF-4F09-41EE-950D-DBD2AD31DF82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A438E4AF-4F09-41EE-950D-DBD2AD31DF82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A438E4AF-4F09-41EE-950D-DBD2AD31DF82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +198,8 @@ Global
 		{6348EB03-15C2-4C75-8163-044A4DF7CBA9} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{92DD5729-6FC6-4268-9ABB-991D93A85EC6} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 		{0722027F-1800-495C-9F98-ABA12B068F5F} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{1927CA7F-C1E3-421A-9A53-3E1F033D2EC8} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{A438E4AF-4F09-41EE-950D-DBD2AD31DF82} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}
