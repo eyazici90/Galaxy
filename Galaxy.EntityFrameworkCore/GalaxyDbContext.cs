@@ -27,7 +27,8 @@ namespace Galaxy.EFCore
 
         protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyDbContext).GetMethod(nameof(ConfigureGlobalFilters)
             , BindingFlags.Instance | BindingFlags.NonPublic);
-        
+
+     
 
         public GalaxyDbContext(DbContextOptions options) : base(options)
         {

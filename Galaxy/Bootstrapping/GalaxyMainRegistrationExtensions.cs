@@ -64,6 +64,16 @@ namespace Galaxy.Bootstrapping
             return builder;
         }
 
+        public static ContainerBuilder UseConventinalPolicies(this ContainerBuilder builder, params Assembly[] assemblies)
+        {
+            builder.RegisterAssemblyTypes(assemblies)
+              .AssignableTo<IPolicy>()
+              .AsImplementedInterfaces()
+              .InstancePerDependency();
+
+            return builder;
+        }
+
         public static ContainerBuilder UseConventinalDomainService(this ContainerBuilder builder, params Assembly[] assemblies)
         {
             builder.RegisterAssemblyTypes(assemblies)

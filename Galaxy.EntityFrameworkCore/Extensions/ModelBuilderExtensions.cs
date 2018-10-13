@@ -10,6 +10,40 @@ namespace Galaxy.EFCore.Extensions
 {
     public static class ModelBuilderExtensions
     {
+        public static void ApplyAllConfigurationsFromCurrentAssembly(this ModelBuilder builder, Assembly assemb)
+        {
+            var applyGenericMethods = typeof(ModelBuilder).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+            var applyGenericApplyConfigurationMethods = applyGenericMethods.Where(m => m.IsGenericMethod && m.Name.Equals("ApplyConfiguration", StringComparison.OrdinalIgnoreCase));
+            var applyGenericMethod = applyGenericApplyConfigurationMethods.Where(m => m.GetParameters().FirstOrDefault().ParameterType.Name == "IEntityTypeConfiguration`1").FirstOrDefault();
+
+        
+                var configurations = assemb.DefinedTypes.Where(t =>
+                  t.ImplementedInterfaces.Any(i =>
+                     i.IsGenericType &&
+                     i.Name.Equals(typeof(IEntityTypeConfiguration<>).Name,
+                            StringComparison.InvariantCultureIgnoreCase)
+                   ) &&
+                   t.IsClass &&
+                   !t.IsAbstract &&
+                   !t.IsNested)
+                   .ToList();
+
+                foreach (var configuration in configurations)
+                {
+                    try
+                    {
+                        var entityType = configuration.BaseType.GenericTypeArguments.SingleOrDefault(t => t.IsClass);
+
+
+                        var applyConfigGenericMethod = applyGenericMethod.MakeGenericMethod(entityType);
+
+                        applyConfigGenericMethod.Invoke(builder,
+                                new object[] { Activator.CreateInstance(configuration) });
+                    }
+                    catch (Exception ex) { }
+                }
+           
+        }
         public static void ApplyAllConfigurationsFromCurrentAssembly(this ModelBuilder builder)
         {
             var assemblyList = GetAllAssembliesFromBase();

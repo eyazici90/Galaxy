@@ -60,7 +60,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
                 new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession),  appSession)
             })
             .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<TDbContext>()
                .As<IGalaxyContextAsync>()
                .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionBase))
