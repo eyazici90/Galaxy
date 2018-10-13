@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AutoFacModules\" />
+    <Folder Include="Interceptors\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Galaxy\Galaxy.csproj" />
+  </ItemGroup>
+
+</Project>
