@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Castle.DynamicProxy;
 using Galaxy.Application;
 using Galaxy.Bootstrapping.AutoFacModules;
 using Galaxy.Domain;
@@ -13,11 +14,38 @@ namespace Galaxy.Bootstrapping
    public static class GalaxyMainRegistrationExtensions
     {
         
-        public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder) 
+        public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, params Assembly[] assembliesForInterceptors) 
         {
             builder.RegisterModule(new MediatrModule());
+
+            if (assembliesForInterceptors != null)
+                RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
+            
             return builder;
         }
+
+
+        public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, Action<ContainerBuilder> action, params Assembly[] assembliesForInterceptors)
+        {
+            builder.RegisterModule(new MediatrModule());
+
+            action(builder);
+
+            if (assembliesForInterceptors != null)
+                RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
+            
+
+            return builder;
+        }
+
+        private static ContainerBuilder RegisterInterceptorsIfAnyExist(this ContainerBuilder builder, params Assembly[] assemblies)
+        {
+            builder.RegisterAssemblyTypes(assemblies)
+             .AssignableTo<IInterceptor>()
+             .AsSelf();
+            return builder;
+        }
+
 
         public static ContainerBuilder UseConventinalCustomRepositories(this ContainerBuilder builder, params Assembly[] assemblies)
         {
