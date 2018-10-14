@@ -16,7 +16,9 @@ namespace Galaxy.Bootstrapping
         {
             var container = new ContainerBuilder();
             container.RegisterModule(new MediatrModule());
-
+            container.RegisterModule(new InterceptorModule());
+            container.RegisterModule(new BoostrapperModule());
+            
             return container;
         }
     }

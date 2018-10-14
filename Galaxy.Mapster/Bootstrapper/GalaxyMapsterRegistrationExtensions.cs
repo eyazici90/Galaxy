@@ -12,12 +12,7 @@ namespace Galaxy.Mapster.Bootstrapper
    public static  class GalaxyMapsterRegistrationExtensions
     {
 
-        public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder,  Assembly assembly)
-        {
-            builder.RegisterModule(new MapsterModule());
-            UseAutoMappedTypesAndRegister(assembly);
-            return builder;
-        }
+      
 
 
         public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Action initializeMappings = default)
@@ -28,7 +23,12 @@ namespace Galaxy.Mapster.Bootstrapper
             return builder;
         }
 
-
+        public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Assembly assembly)
+        {
+            builder.RegisterModule(new MapsterModule());
+            UseAutoMappedTypesAndRegister(assembly);
+            return builder;
+        }
         public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Assembly assembly, Action initializeMappings)
         {
             builder.RegisterModule(new MapsterModule());

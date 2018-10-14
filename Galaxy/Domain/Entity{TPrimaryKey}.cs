@@ -10,7 +10,7 @@ namespace Galaxy.Domain
     public abstract class Entity<TPrimaryKey> : IObjectState, IEntity<TPrimaryKey>
     {
 
-        public TPrimaryKey  Id { get; protected set; }
+        public virtual TPrimaryKey  Id { get; protected set; }
 
         private List<INotification> _domainEvents;
 
@@ -22,12 +22,12 @@ namespace Galaxy.Domain
             _domainEvents.Add(eventItem);
         }
 
-        public void RemoveDomainEvent(INotification eventItem)
+        public virtual void RemoveDomainEvent(INotification eventItem)
         {
             _domainEvents?.Remove(eventItem);
         }
 
-        public void ClearDomainEvents()
+        public virtual void ClearDomainEvents()
         {
             _domainEvents?.Clear();
         }

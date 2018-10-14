@@ -6,5 +6,6 @@ namespace Galaxy.Bootstrapping
 {
     public interface IBootsrapper
     {
+     
     }
 }

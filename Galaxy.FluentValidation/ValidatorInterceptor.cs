@@ -17,7 +17,10 @@ namespace Galaxy.FluentValidation
 {
     public class ValidatorInterceptor : IInterceptor
     {
-        public ValidatorInterceptor() { }
+        private readonly IResolver _resolver;
+        public ValidatorInterceptor(IResolver resolver) {
+            _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
+        }
 
 
         public void Intercept(IInvocation invocation)
@@ -58,7 +61,7 @@ namespace Galaxy.FluentValidation
             if (GalaxyMainBootsrapper.Container == default)
                 throw new GalaxyException($"You should set builded container of {nameof(GalaxyMainBootsrapper)} : {nameof(GalaxyMainBootsrapper.Container)}");
 
-            var validator = GalaxyMainBootsrapper.Container.ResolveOptional(requestValidatorType);
+            var validator = _resolver.ResolveOptional(requestValidatorType);
 
             if (validator == null)
                 return;

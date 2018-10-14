@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Galaxy.Auditing
 {
-    public class FullyAuditEntity : Entity, IFullyAudit
+    public class FullyAuditEntity : Entity, IFullyAudit, ISoftDelete
     {
         public virtual bool IsDeleted { get; protected set; }
         public virtual int? TenantId { get; protected set; }

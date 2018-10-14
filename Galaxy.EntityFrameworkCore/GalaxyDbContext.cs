@@ -14,6 +14,7 @@ using Galaxy.Auditing;
 using Galaxy.Infrastructure;
 using Galaxy.Domain;
 using Galaxy.EFCore.Extensions;
+using Galaxy.EntityFrameworkCore;
 
 namespace Galaxy.EFCore
 {
@@ -62,29 +63,30 @@ namespace Galaxy.EFCore
 
         protected virtual void ConfigureGlobalFilters<TEntity>(IMutableEntityType entityType, ModelBuilder modelBuilder)
            where TEntity : class
-         {
-                if (entityType.BaseType == null && ShouldFilterEntity<TEntity>(entityType))
+        {
+            if (entityType.BaseType == null && ShouldFilterEntity<TEntity>(entityType))
+            {
+                var filterExpression = CreateFilterExpression<TEntity>();
+                if (filterExpression != null)
                 {
-                    bool IsMayHaveTenantFilterEnabled = this._appSession.GetCurrenTenantId() != null;
-
-                    Expression<Func<TEntity, bool>> tenanFilter = e => ((IFullyAudit)e).TenantId == this._appSession.GetCurrenTenantId();
-                    //  || (((IFullyAudit)e).TenantId == appSession.GetCurrenTenantId()) == IsMayHaveTenantFilterEnabled;
-                    if (tenanFilter != null)
-                    {
-                        modelBuilder.Entity<TEntity>().HasQueryFilter(tenanFilter);
-                    }
+                    modelBuilder.Entity<TEntity>().HasQueryFilter(filterExpression);
                 }
-         }
+            }
+        }
 
-        protected virtual Expression<Func<TEntity, bool>> CreateFilterExpression<TEntity>(object entityType)
+        protected virtual Expression<Func<TEntity, bool>> CreateFilterExpression<TEntity>()
           where TEntity : class
         {
             Expression<Func<TEntity, bool>> expression = null;
-
+            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+            {
+                Expression<Func<TEntity, bool>> softDeleteFilter = e => !((ISoftDelete)e).IsDeleted ;
+                expression = expression == null ? softDeleteFilter : CombineExpressions(expression, softDeleteFilter);
+            }
             if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
             {
-                // SoftDelete Filter will come here
                 Expression<Func<TEntity, bool>> tenanFilter = e => ((IFullyAudit)e).TenantId == this._appSession.GetCurrenTenantId();
+                expression = expression == null ? tenanFilter : CombineExpressions(expression, tenanFilter);
             }
             return expression;
         }
@@ -92,12 +94,30 @@ namespace Galaxy.EFCore
 
         protected virtual bool ShouldFilterEntity<TEntity>(object entityType) where TEntity : class
         {
+            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+            {
+                return true;
+            }
             if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
             {
                 return true;
             }
             return false;
         }
+
+        protected virtual Expression<Func<T, bool>> CombineExpressions<T>(Expression<Func<T, bool>> expression1, Expression<Func<T, bool>> expression2)
+        {
+            var parameter = Expression.Parameter(typeof(T));
+
+            var leftVisitor = new GalaxyExpressionVisitor(expression1.Parameters[0], parameter);
+            var left = leftVisitor.Visit(expression1.Body);
+
+            var rightVisitor = new GalaxyExpressionVisitor(expression2.Parameters[0], parameter);
+            var right = rightVisitor.Visit(expression2.Body);
+
+            return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
+        }
+
         
 
         public override int SaveChanges()

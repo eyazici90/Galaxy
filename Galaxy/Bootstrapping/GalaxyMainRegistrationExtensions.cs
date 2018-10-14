@@ -20,11 +20,10 @@ namespace Galaxy.Bootstrapping
             GalaxyMainBootsrapper.Container = builder.Build();
             return GalaxyMainBootsrapper.Container;
         }
+        
 
         public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, params Assembly[] assembliesForInterceptors) 
         {
-            builder.RegisterModule(new MediatrModule());
-
             if (assembliesForInterceptors != null)
                 RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
             
@@ -34,14 +33,10 @@ namespace Galaxy.Bootstrapping
 
         public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, Action<ContainerBuilder> action, params Assembly[] assembliesForInterceptors)
         {
-            builder.RegisterModule(new MediatrModule());
-
             action(builder);
 
             if (assembliesForInterceptors != null)
                 RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
-            
-
             return builder;
         }
 
