@@ -4,6 +4,7 @@ using Galaxy.Application;
 using Galaxy.Bootstrapping.AutoFacModules;
 using Galaxy.Domain;
 using Galaxy.Repositories;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -76,6 +77,13 @@ namespace Galaxy.Bootstrapping
               .AsImplementedInterfaces()
               .InstancePerDependency();
 
+            return builder;
+        }
+
+        public static ContainerBuilder UseConventinalDomainEvents(this ContainerBuilder builder, params Assembly[] assemblies)
+        {
+            builder.RegisterAssemblyTypes(assemblies)
+                 .AsClosedTypesOf(typeof(INotificationHandler<>));
             return builder;
         }
 
