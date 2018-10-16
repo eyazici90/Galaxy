@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Serialization
 {
-    public interface IXmlSerializer
+    public interface ISerializer
     {
     }
 }

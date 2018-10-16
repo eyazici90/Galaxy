@@ -17,12 +17,13 @@ using Galaxy.UnitOfWork;
 
 namespace Galaxy.EFCore
 {
-    public class Repository<TEntity> : IRepositoryAsync<TEntity> where TEntity : class, IAggregateRoot, IObjectState
+    
+    public abstract class Repository<TEntity> : IRepositoryAsync<TEntity> where TEntity : class, IAggregateRoot, IObjectState
     {
         #region Private Fields
-        private readonly IGalaxyContextAsync _context;
-        private readonly DbSet<TEntity> _dbSet;
-        private readonly IUnitOfWorkAsync _unitOfWork;
+        protected readonly IGalaxyContextAsync _context;
+        protected readonly DbSet<TEntity> _dbSet;
+        protected readonly IUnitOfWorkAsync _unitOfWork;
 
         #endregion Private Fields
 
@@ -75,7 +76,7 @@ namespace Galaxy.EFCore
             _context.SyncObjectState(entity);
         }
 
-        public IQueryFluent<TEntity> Query()
+        public virtual IQueryFluent<TEntity> Query()
         {
             return new QueryFluent<TEntity>(this);
         }
@@ -90,28 +91,30 @@ namespace Galaxy.EFCore
             return new QueryFluent<TEntity>(this, query);
         }
 
-        public IQueryable<TEntity> Queryable()
+        public virtual IQueryable<TEntity> Queryable()
         {
             return _dbSet;
         }
 
-        public IQueryable<TEntity> QueryableNoTrack()
+        public virtual IQueryable<TEntity> QueryableNoTrack()
         {
             return _dbSet.AsNoTracking();
         }
 
-        public IQueryable<TEntity> QueryableWithNoFilter()
+        public virtual IQueryable<TEntity> QueryableWithNoFilter()
         {
             return _dbSet.IgnoreQueryFilters();
         }
 
        
-        public IQueryable<TEntity> ExecuteQuery(string sqlQuery) {
-            return _dbSet.FromSql<TEntity>(sqlQuery);
+        public virtual IQueryable<TEntity> ExecuteQuery(string sqlQuery) {
+            // Todo : this method is obsolete
+            //return _dbSet.FromSql<TEntity>(sqlQuery);
+            return this._dbSet;
         }
 
 
-        public IRepository<T> GetRepository<T>() where T : class, IAggregateRoot, IObjectState
+        public virtual IRepository<T> GetRepository<T>() where T : class, IAggregateRoot, IObjectState
         {
             return _unitOfWork.Repository<T>();
         }
@@ -235,9 +238,11 @@ namespace Galaxy.EFCore
             return _dbSet.Find(keyValues);
         }
 
-        public IQueryable<TEntity> SelectQuery(string query, params object[] parameters)
+        public virtual IQueryable<TEntity> SelectQuery(string query, params object[] parameters)
         {
-              return _dbSet.FromSql(query, parameters).AsQueryable();
+            // Todo: This method is absolote
+            //   return _dbSet.FromSql(query, parameters).AsQueryable();
+            return _dbSet;
         }
 
             public virtual void Delete(object id)

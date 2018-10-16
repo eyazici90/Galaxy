@@ -1,24 +1,29 @@
-using System;
-
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using MediatR;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Reflection;
+﻿using Galaxy.Auditing;
 using Galaxy.DataContext;
-using Galaxy.Session;
-using Galaxy.Auditing;
-using Galaxy.Infrastructure;
 using Galaxy.Domain;
+using Galaxy.EFCore;
 using Galaxy.EFCore.Extensions;
 using Galaxy.EntityFrameworkCore;
+using Galaxy.Infrastructure;
+using Galaxy.Session;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Galaxy.EFCore
+namespace Galaxy.Identity
 {
-    public abstract class GalaxyDbContext: DbContext, IGalaxyContextAsync
+    public abstract class GalaxyDbContext<TUser, TRole, TPrimaryKey> : IdentityDbContext<TUser, TRole, TPrimaryKey>, IGalaxyContextAsync
+          where TUser : IdentityUser<TPrimaryKey>
+          where TRole : IdentityRole<TPrimaryKey>
+          where TPrimaryKey : IEquatable<TPrimaryKey>   
     {
         #region Private Fields
         private readonly Guid _instanceId;
@@ -29,9 +34,9 @@ namespace Galaxy.EFCore
         protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyDbContext).GetMethod(nameof(ConfigureGlobalFilters)
             , BindingFlags.Instance | BindingFlags.NonPublic);
 
-     
 
-        public GalaxyDbContext(DbContextOptions options) : base(options)
+
+        public  GalaxyDbContext(DbContextOptions options) : base(options)
         {
             _instanceId = Guid.NewGuid();
         }
@@ -80,7 +85,7 @@ namespace Galaxy.EFCore
             Expression<Func<TEntity, bool>> expression = null;
             if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
             {
-                Expression<Func<TEntity, bool>> softDeleteFilter = e => !((ISoftDelete)e).IsDeleted ;
+                Expression<Func<TEntity, bool>> softDeleteFilter = e => !((ISoftDelete)e).IsDeleted;
                 expression = expression == null ? softDeleteFilter : CombineExpressions(expression, softDeleteFilter);
             }
             if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
@@ -90,7 +95,7 @@ namespace Galaxy.EFCore
             }
             return expression;
         }
-        
+
 
         protected virtual bool ShouldFilterEntity<TEntity>(object entityType) where TEntity : class
         {
@@ -118,7 +123,7 @@ namespace Galaxy.EFCore
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
         }
 
-        
+
 
         public override int SaveChanges()
         {
@@ -130,7 +135,7 @@ namespace Galaxy.EFCore
 
         public virtual bool CheckIfThereIsAvailableTransaction()
         {
-            return !ChangeTracker.Entries().All(e=>e.State == EntityState.Unchanged);
+            return !ChangeTracker.Entries().All(e => e.State == EntityState.Unchanged);
         }
 
         public virtual int SaveChangesByPassed()
@@ -154,12 +159,12 @@ namespace Galaxy.EFCore
             return await this.SaveChangesAsync(CancellationToken.None);
         }
 
-  
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-             this.SyncObjectsStatePreCommit();
-             var changesAsync = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-             this.SyncObjectsStatePostCommit();
+            this.SyncObjectsStatePreCommit();
+            var changesAsync = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            this.SyncObjectsStatePostCommit();
             return changesAsync;
         }
 
@@ -181,22 +186,22 @@ namespace Galaxy.EFCore
             }
         }
 
-        public void SyncObjectsAuditPreCommit (IAppSessionBase session)
+        public void SyncObjectsAuditPreCommit(IAppSessionBase session)
         {
             if (!ChangeTracker.Entries().Any(x => x.Entity is IFullyAudit))
                 return;
             foreach (var dbEntityEntry in ChangeTracker.Entries<IFullyAudit>())
             {
-                    var entity = ((IFullyAudit)dbEntityEntry.Entity);
-                    if (((IObjectState)dbEntityEntry.Entity).ObjectState == ObjectState.Added)
-                    {
-                       entity.SyncAuditState(creatorUserId : session.UserId,tenantId: session.TenantId, creationTime: DateTime.Now);                       
-                    }
-                    else
-                    {
-                       entity.SyncAuditState(lastmodifierUserId: session.UserId,tenantId: session.TenantId, lastModificationTime: DateTime.Now
-                            , creatorUserId : entity.CreatorUserId, creationTime : entity.CreationTime);
-                    }
+                var entity = ((IFullyAudit)dbEntityEntry.Entity);
+                if (((IObjectState)dbEntityEntry.Entity).ObjectState == ObjectState.Added)
+                {
+                    entity.SyncAuditState(creatorUserId: session.UserId, tenantId: session.TenantId, creationTime: DateTime.Now);
+                }
+                else
+                {
+                    entity.SyncAuditState(lastmodifierUserId: session.UserId, tenantId: session.TenantId, lastModificationTime: DateTime.Now
+                         , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+                }
             }
         }
 
@@ -231,13 +236,13 @@ namespace Galaxy.EFCore
 
         }
 
-        protected  void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (!_disposed)
             {
                 if (disposing)
                 {
-                    
+
                     // free other managed objects that implement
                     // IDisposable only
                 }
@@ -251,6 +256,6 @@ namespace Galaxy.EFCore
             Dispose(disposing);
         }
 
-      
+
     }
 }
