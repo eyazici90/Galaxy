@@ -8,9 +8,14 @@ namespace Galaxy.AutoMapper.Bootstrapper
 {
    public static  class GalaxyAutoMapperRegistrationExtensions
     {
-        public static ContainerBuilder UseGalaxyAutoMapper(this ContainerBuilder builder, Action initializeMappings = default)
+        public static ContainerBuilder UseGalaxyAutoMapper(this ContainerBuilder builder)
         {
             builder.RegisterModule(new AutoMapperModule());
+            return builder;
+        }
+        public static ContainerBuilder UseGalaxyAutoMapper(this ContainerBuilder builder, Action initializeMappings = default)
+        {
+            UseGalaxyAutoMapper(builder);
             if (initializeMappings != default)
                 initializeMappings();
             return builder;
