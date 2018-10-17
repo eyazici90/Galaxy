@@ -13,26 +13,35 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
 {
    public static class GalaxyEntityFrameworkCoreRegistrationExtensions
     {
+
+        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext, TAppSession>(
+           this ContainerBuilder builder,
+           DbContextOptionsBuilder<TDbContext> options, TAppSession appSession ) 
+            where TDbContext : GalaxyDbContext
+            where TAppSession : Type
+        {
+            
+            builder.RegisterType(appSession)
+                .As<IAppSessionBase>()
+                .InstancePerLifetimeScope();
+         
+            builder.AddGalaxyDbContext<TDbContext,TAppSession>(options, appSession );
+
+            builder.RegisterModule(new RepositoryModule());
+            builder.RegisterModule(new UnitOfWorkModule());
+
+            return builder;
+        }
+
         public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(
             this ContainerBuilder builder,
-            DbContextOptionsBuilder<TDbContext> options , IAppSessionBase appSession = default) where TDbContext : GalaxyDbContext
+            DbContextOptionsBuilder<TDbContext> options) where TDbContext : GalaxyDbContext
         {
-            if (appSession != default)
-            {
-
-                builder.RegisterInstance(appSession.GetType())
+            builder.RegisterType<SessionBase>()
                 .As<IAppSessionBase>()
                 .InstancePerLifetimeScope();
-            }
-            else
-            {
-             
-                builder.RegisterType<SessionBase>()
-                .As<IAppSessionBase>()
-                .InstancePerLifetimeScope();
-            }
-
-            builder.AddGalaxyDbContext<TDbContext>(options, appSession != default ? appSession : new SessionBase());
+            
+            builder.AddGalaxyDbContext<TDbContext>(options);
 
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new UnitOfWorkModule());
@@ -41,7 +50,16 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
         }
 
         private static void AddGalaxyDbContext<TDbContext>(this ContainerBuilder builder,
-             DbContextOptionsBuilder<TDbContext> options = default, IAppSessionBase appSession = default) where TDbContext : GalaxyDbContext 
+           DbContextOptionsBuilder<TDbContext> options = default)
+          where TDbContext : GalaxyDbContext
+        {
+            builder.AddGalaxyDbContext(options, typeof(SessionBase));
+        }
+
+        private static void AddGalaxyDbContext<TDbContext,TAppSession>(this ContainerBuilder builder,
+             DbContextOptionsBuilder<TDbContext> options = default, TAppSession appSession = default)
+            where TDbContext : GalaxyDbContext
+            where TAppSession : Type
         {
 
             builder.Register(c =>
@@ -57,7 +75,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
             .WithParameters(new[]
             {
                 new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),
-                new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession),  appSession)
+                new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession), Activator.CreateInstance(appSession))
             })
             .InstancePerLifetimeScope();
 
@@ -67,11 +85,12 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
                .WithParameters(new[]
                {
                    new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),
-                   new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession),  appSession)
+                   new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession),Activator.CreateInstance(appSession))
                })
                .InstancePerLifetimeScope();
 
         }
+
 
     }
 }
