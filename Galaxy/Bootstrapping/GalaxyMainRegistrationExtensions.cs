@@ -17,9 +17,9 @@ namespace Galaxy.Bootstrapping
         
         public static IContainer InitializeGalaxy(this ContainerBuilder builder)
         {
-            GalaxyMainBootsrapper.SingleInstanceBuilder = builder;
-            GalaxyMainBootsrapper.Container = builder.Build();
-            return GalaxyMainBootsrapper.Container;
+            GalaxyCoreModule.SingleInstanceBuilder = builder;
+            GalaxyCoreModule.Container = builder.Build();
+            return GalaxyCoreModule.Container;
         }
         
 

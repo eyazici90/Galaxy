@@ -58,8 +58,8 @@ namespace Galaxy.FluentValidation
                 return;
 
             var requestValidatorType = typeof(IValidator<>).MakeGenericType(requestType);
-            if (GalaxyMainBootsrapper.Container == default)
-                throw new GalaxyException($"You should set builded container of {nameof(GalaxyMainBootsrapper)} : {nameof(GalaxyMainBootsrapper.Container)}");
+            if (GalaxyCoreModule.Container == default)
+                throw new GalaxyException($"You should set builded container of {nameof(GalaxyCoreModule)} : {nameof(GalaxyCoreModule.Container)}");
 
             var validator = _resolver.ResolveOptional(requestValidatorType);
 

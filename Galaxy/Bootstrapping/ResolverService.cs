@@ -9,7 +9,7 @@ namespace Galaxy.Bootstrapping
     {
         public T Resolve<T>()
         {
-            using (var scope = GalaxyMainBootsrapper.Container.BeginLifetimeScope())
+            using (var scope = GalaxyCoreModule.Container.BeginLifetimeScope())
             {
                 return scope.Resolve<T>();
             }
@@ -17,7 +17,7 @@ namespace Galaxy.Bootstrapping
 
         public object Resolve(object obj)
         {
-            using (var scope = GalaxyMainBootsrapper.Container.BeginLifetimeScope())
+            using (var scope = GalaxyCoreModule.Container.BeginLifetimeScope())
             {
                 return scope.Resolve(obj.GetType());
             }
@@ -25,7 +25,7 @@ namespace Galaxy.Bootstrapping
 
         public object Resolve(Type type)
         {
-            using (var scope = GalaxyMainBootsrapper.Container.BeginLifetimeScope())
+            using (var scope = GalaxyCoreModule.Container.BeginLifetimeScope())
             {
                 return scope.Resolve(type);
             }
@@ -34,7 +34,7 @@ namespace Galaxy.Bootstrapping
 
         public object ResolveOptional(Type type)
         {
-            using (var scope = GalaxyMainBootsrapper.Container.BeginLifetimeScope())
+            using (var scope = GalaxyCoreModule.Container.BeginLifetimeScope())
             {
                 return scope.ResolveOptional(type);
             }

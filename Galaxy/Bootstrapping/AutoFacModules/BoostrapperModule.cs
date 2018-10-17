@@ -9,16 +9,13 @@ namespace Galaxy.Bootstrapping.AutoFacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<GalaxyMainBootsrapper>()
+            builder.RegisterType<GalaxyCoreModule>()
                             .As<IBootsrapper>()
                             .SingleInstance();
 
             builder.RegisterType<ResolverService>()
                             .As<IResolver>()
                             .SingleInstance();
-            
-
-
         }
     }
 

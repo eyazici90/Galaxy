@@ -1,0 +1,32 @@
+﻿using Autofac;
+using Galaxy.Bootstrapping.AutoFacModules;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Galaxy.Bootstrapping
+{
+    public  class GalaxyCoreModule : GalaxyBaseBootstrapper, IBootsrapper
+    {
+        private static readonly object objlock = new object();
+
+        public static IContainer Container { get; set; }
+
+        public static  ContainerBuilder SingleInstanceBuilder;
+
+
+        private GalaxyCoreModule()
+        {
+            SingleInstanceBuilder = SingleInstanceBuilder ?? base.RegisterContainerBuilder();
+        }
+
+        public static GalaxyCoreModule Create()
+        {
+            lock (objlock)
+            {
+                return new GalaxyCoreModule();
+            }
+        }
+      
+    }
+}

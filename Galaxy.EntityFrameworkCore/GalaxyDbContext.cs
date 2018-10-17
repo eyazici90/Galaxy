@@ -117,9 +117,7 @@ namespace Galaxy.EFCore
 
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
         }
-
         
-
         public override int SaveChanges()
         {
             SyncObjectsStatePreCommit();
@@ -153,7 +151,6 @@ namespace Galaxy.EFCore
         {
             return await this.SaveChangesAsync(CancellationToken.None);
         }
-
   
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
