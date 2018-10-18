@@ -13,6 +13,13 @@ namespace Galaxy.Application
            where TEntityDto : IEntityDto<TKey>
            where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
+
+        IQueryable<TEntityDto> Queryable();
+
+        IQueryable<TEntityDto> QueryableNoTrack();
+
+        IQueryable<TEntityDto> QueryableWithNoFilter();
+
         TEntityDto Find(TKey id);
 
         TEntityDto Get(TKey id);

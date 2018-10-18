@@ -17,7 +17,7 @@ using Galaxy.UnitOfWork;
 
 namespace Galaxy.EFCore
 {
-    public  class Repository<TEntity,TKey> : Repository<TEntity>, IRepositoryAsync<TEntity, TKey> where TEntity : class, IAggregateRoot, IObjectState
+    public  class Repository<TEntity,TKey> : Repository<TEntity> where TEntity : class, IAggregateRoot, IObjectState
     {
       
         public Repository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWork) : base(context,unitOfWork)

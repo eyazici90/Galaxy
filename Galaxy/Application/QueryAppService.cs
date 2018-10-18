@@ -17,11 +17,35 @@ namespace Galaxy.Application
     {
         protected readonly IRepositoryAsync<TEntity,TKey> _repositoryAsync;
         protected readonly IObjectMapper _objectMapper;
+ 
+
         public QueryAppService(IRepositoryAsync<TEntity,TKey> repositoryAsync
             , IObjectMapper objectMapper)
         {
             this._repositoryAsync = repositoryAsync ?? throw new ArgumentNullException(nameof(repositoryAsync));
             this._objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
+        }
+        
+
+        public IQueryable<TEntityDto> Queryable()
+        {
+            return this._objectMapper.MapTo<TEntityDto>(
+                    this._repositoryAsync.Queryable()
+                );
+        }
+
+        public IQueryable<TEntityDto> QueryableNoTrack()
+        {
+            return this._objectMapper.MapTo<TEntityDto>(
+                    this._repositoryAsync.QueryableNoTrack()
+                );
+        }
+
+        public IQueryable<TEntityDto> QueryableWithNoFilter()
+        {
+            return this._objectMapper.MapTo<TEntityDto>(
+                    this._repositoryAsync.QueryableWithNoFilter()
+                );
         }
 
         public TEntityDto Find(TKey id)

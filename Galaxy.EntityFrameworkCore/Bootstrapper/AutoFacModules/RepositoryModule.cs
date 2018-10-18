@@ -22,6 +22,10 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules
             builder.RegisterGeneric(typeof(Repository<>))
                .As(typeof(IRepositoryAsync<>))
                .InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(Repository<,>))
+              .As(typeof(IRepositoryAsync<,>))
+              .InstancePerLifetimeScope();
         }
     }
 }
