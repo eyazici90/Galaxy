@@ -15,7 +15,10 @@ namespace Galaxy.Bootstrapping.AutoFacModules
         {
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+            builder.RegisterAssemblyTypes(Assembly.GetCallingAssembly())
+               .AsClosedTypesOf(typeof(IRequestHandler<,>));
+
+            builder.RegisterAssemblyTypes(Assembly.GetCallingAssembly())
                 .AsClosedTypesOf(typeof(INotificationHandler<>));
 
 

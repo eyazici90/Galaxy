@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Galaxy.Application
 {
-    interface ICrudAppService
+    public interface ICrudAppService
     {
+       
     }
 }

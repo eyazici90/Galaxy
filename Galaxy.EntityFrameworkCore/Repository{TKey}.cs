@@ -17,19 +17,14 @@ using Galaxy.UnitOfWork;
 
 namespace Galaxy.EFCore
 {
-    public  class Repository<TEntity,TKey> : Repository<TEntity>, IRepository where TEntity : class, IAggregateRoot, IObjectState
+    public  class Repository<TEntity,TKey> : Repository<TEntity>, IRepositoryAsync<TEntity, TKey> where TEntity : class, IAggregateRoot, IObjectState
     {
-        public Repository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWork) : base(context, unitOfWork)
+      
+        public Repository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWork) : base(context,unitOfWork)
         {
         }
 
-        public  async Task<bool> DeleteAsync(TKey keyValues)
-        {
-            return await DeleteAsync(CancellationToken.None, keyValues);
-        }
-        
-
-        public  async Task<TEntity> FindAsync(TKey keyValues)
+        public async Task<TEntity> FindAsync(TKey keyValues)
         {
             return await _dbSet.FindAsync(keyValues);
         }

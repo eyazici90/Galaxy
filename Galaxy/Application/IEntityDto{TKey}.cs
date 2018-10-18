@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Galaxy.Application
 {
-    public abstract class CrudAppServiceBase
+    public interface IEntityDto<TKey> : IEntityDto
     {
+        TKey Id { get; set; }
     }
 }

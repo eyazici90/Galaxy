@@ -91,7 +91,7 @@ namespace Galaxy.EFCore
 
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
         {
-            return RepositoryAsync<TEntity>();
+            return RepositoryConcrete<TEntity>();
         }
 
         public async Task<int> SaveChangesAsync()
@@ -106,6 +106,28 @@ namespace Galaxy.EFCore
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
             await  this._dataContext.DispatchNotificationsAsync(this._mediator);
             return await _dataContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public IRepository<TEntity> RepositoryConcrete<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
+        {
+
+            if (_repositories == null)
+            {
+                _repositories = new Dictionary<string, dynamic>();
+            }
+
+            var type = typeof(TEntity).Name;
+
+            if (_repositories.ContainsKey(type))
+            {
+                return (IRepository<TEntity>)_repositories[type];
+            }
+
+            var repositoryType = typeof(Repository<>);
+
+            _repositories.Add(type, Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _dataContext, this));
+
+            return _repositories[type];
         }
 
         public IRepositoryAsync<TEntity> RepositoryAsync<TEntity>() where TEntity : class, IAggregateRoot, IObjectState

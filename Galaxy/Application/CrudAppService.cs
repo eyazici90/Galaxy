@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Application
 {
-    class CrudAppService
+    public  class CrudAppService : CrudAppServiceBase , ICrudAppService, IApplicationService
     {
     }
 }
