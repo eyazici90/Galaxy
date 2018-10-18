@@ -5,12 +5,12 @@ Next generation framework for Domain Driven Design needs. .Net Core 2.x support 
 Autofac 
 
 ## Adopted principles
-SOLID
+SOLID <br/>
 Domain Driven Design
 
 ## Persistance
-EntityFramework Core
-Dapper
+EntityFramework Core<br/>
+Dapper<br/>
 NHibernate
 
 ## Event Bus
@@ -20,11 +20,11 @@ RabbitMQ support
 MongoDB
 
 ## Object Mappers
-Mapster
+Mapster<br/>
 AutoMapper
 
 ## Cache
-Redis
+Redis<br/>
 In-Memory
 
 ## Object Validation
