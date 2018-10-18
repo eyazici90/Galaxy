@@ -27,6 +27,7 @@ namespace Galaxy.Bootstrapping
                 return new GalaxyCoreModule();
             }
         }
-      
+           public static GalaxyCoreModule New => Create();
+        
     }
 }

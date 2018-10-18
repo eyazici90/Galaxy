@@ -2,6 +2,7 @@
 using Galaxy.DataContext;
 using Galaxy.EFCore;
 using Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules;
+using Galaxy.Exceptions;
 using Galaxy.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -20,6 +21,9 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
             where TDbContext : GalaxyDbContext
             where TAppSession : Type
         {
+
+            if (!typeof(IAppSessionBase).IsAssignableFrom(appSession))
+                throw new GalaxyException($"The parameter : {typeof(TAppSession).Name} is not assignable from {nameof(IAppSessionBase)}");
             
             builder.RegisterType(appSession)
                 .As<IAppSessionBase>()

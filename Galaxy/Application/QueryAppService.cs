@@ -27,49 +27,49 @@ namespace Galaxy.Application
         }
         
 
-        public IQueryable<TEntityDto> Queryable()
+        public virtual IQueryable<TEntityDto> Queryable()
         {
             return this._objectMapper.MapTo<TEntityDto>(
                     this._repositoryAsync.Queryable()
                 );
         }
 
-        public IQueryable<TEntityDto> QueryableNoTrack()
+        public virtual IQueryable<TEntityDto> QueryableNoTrack()
         {
             return this._objectMapper.MapTo<TEntityDto>(
                     this._repositoryAsync.QueryableNoTrack()
                 );
         }
 
-        public IQueryable<TEntityDto> QueryableWithNoFilter()
+        public virtual IQueryable<TEntityDto> QueryableWithNoFilter()
         {
             return this._objectMapper.MapTo<TEntityDto>(
                     this._repositoryAsync.QueryableWithNoFilter()
                 );
         }
 
-        public TEntityDto Find(TKey id)
+        public virtual TEntityDto Find(TKey id)
         {
             return this._objectMapper.MapTo<TEntityDto>(
                     this._repositoryAsync.Find(id)
                 );
         }
 
-        public TEntityDto Get(TKey id)
+        public virtual TEntityDto Get(TKey id)
         {
             return this._objectMapper.MapTo<TEntityDto>(
                    this._repositoryAsync.Find(id)
                );
         }
 
-        public IList<TEntityDto> GetAll()
+        public virtual IList<TEntityDto> GetAll()
         {
             return this._objectMapper.MapTo<IList<TEntityDto>>(
                     this._repositoryAsync.Queryable().ToList()
                 );
         }
 
-        public IQueryable<TEntityDto> GetAll(Expression<Func<TEntity, bool>> whereCondition = default)
+        public virtual IQueryable<TEntityDto> GetAll(Expression<Func<TEntity, bool>> whereCondition = default)
         {
             if (whereCondition == default)
             {

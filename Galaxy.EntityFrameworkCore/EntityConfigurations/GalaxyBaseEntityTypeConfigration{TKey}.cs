@@ -7,10 +7,10 @@ using System.Text;
 
 namespace Galaxy.EntityFrameworkCore.EntityConfigurations
 {
-    public abstract class GalaxyBaseEntityTypeConfigration<T, TPrimary>
-       : IEntityTypeConfiguration<T> where T : Entity<TPrimary>
+    public abstract class GalaxyBaseEntityTypeConfigration<TEntity, TPrimary>
+       : IEntityTypeConfiguration<TEntity> where TEntity : Entity<TPrimary>
     {
-        public virtual void Configure(EntityTypeBuilder<T> builder)
+        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             builder.HasKey(x => x.Id);
 
