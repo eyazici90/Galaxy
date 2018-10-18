@@ -52,6 +52,7 @@ Galaxy.Identity
  - Auto object validation support
  - Aspect Oriented Programming
  - Simple Usage
+ - Modularity
  
    
 ## Usages
