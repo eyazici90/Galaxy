@@ -1,3 +1,4 @@
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -63,3 +64,7 @@ Galaxy.Identity
     				 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                          .UseGalaxyMapster()
                          .UseGalaxyFluentValidation();
+                         
+## Samples
+In Samples Repository 
+https://github.com/eyazici90/Samples
