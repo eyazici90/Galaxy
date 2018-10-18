@@ -6,7 +6,7 @@ Next generation framework for Domain Driven Design needs. .Net Core 2.x support 
 ## IoC
 Autofac 
 
-## Adopted principles
+## Principles
 SOLID <br/>
 Domain Driven Design
 
@@ -15,15 +15,15 @@ EntityFramework Core<br/>
 Dapper<br/>
 NHibernate
 
+## Object Mappers
+Mapster<br/>
+AutoMapper
+
 ## Event Bus
 RabbitMQ support
 
 ## Document Databases
 MongoDB
-
-## Object Mappers
-Mapster<br/>
-AutoMapper
 
 ## Cache
 Redis<br/>
@@ -38,8 +38,7 @@ Serilog support
 ## Modules
 Galaxy.Identity
 
-## Advantages
-
+## Benefits
  - Conventinal Dependency Registering
  - Async await first 
  - Multi Tenancy
