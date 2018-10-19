@@ -11,7 +11,7 @@ namespace Galaxy.UnitOfWork
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         IRepositoryAsync<TEntity> RepositoryAsync<TEntity>() where TEntity : class, IAggregateRoot, IObjectState;
-
+        Task<bool> CommitAsync();
         Task<int> SaveChangesByPassAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

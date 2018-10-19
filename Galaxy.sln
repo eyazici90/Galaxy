@@ -59,9 +59,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.NHibernate", "Galaxy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Nhibernate.Tests", "Galaxy.Nhibernate.Tests\Galaxy.Nhibernate.Tests.csproj", "{A438E4AF-4F09-41EE-950D-DBD2AD31DF82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Identity", "Galaxy.Identity\Galaxy.Identity.csproj", "{0E7AB4C9-B8B8-47C2-B5BC-6840684F8DE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Identity", "Galaxy.Identity\Galaxy.Identity.csproj", "{0E7AB4C9-B8B8-47C2-B5BC-6840684F8DE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Identity.Tests", "Galaxy.Identity.Tests\Galaxy.Identity.Tests.csproj", "{F670E684-2D27-40E3-BE9F-24D1168999BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Identity.Tests", "Galaxy.Identity.Tests\Galaxy.Identity.Tests.csproj", "{F670E684-2D27-40E3-BE9F-24D1168999BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

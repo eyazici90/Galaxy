@@ -162,6 +162,15 @@ namespace Galaxy.EFCore
 
         public bool Commit()
         {
+            this.SaveChangesAsync().ConfigureAwait(false)
+                .GetAwaiter().GetResult();
+            _transaction.Commit();
+            return true;
+        }
+
+        public async Task<bool> CommitAsync()
+        {
+            await this.SaveChangesAsync();
             _transaction.Commit();
             return true;
         }

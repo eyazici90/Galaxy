@@ -1,5 +1,6 @@
 ﻿
 using Galaxy.Domain;
+using Galaxy.Domain.Auditing;
 using System;
 using System.Collections.Generic;
 using System.Text;

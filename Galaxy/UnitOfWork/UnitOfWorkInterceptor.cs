@@ -53,13 +53,24 @@ namespace Galaxy.UnitOfWork
 
         private void ProcceedAvailableTransactions(IInvocation invocation )
         {
+            this._unitOfWorkAsync.BeginTransaction();
+            try
+            {
                 invocation.Proceed();
-                _unitOfWorkAsync.SaveChangesAsync().ConfigureAwait(false)
-                .GetAwaiter().GetResult();   
+            }
+            catch (Exception ex)
+            {
+                _unitOfWorkAsync.Dispose();
+                throw ex;
+            }
+            //_unitOfWorkAsync.SaveChangesAsync().ConfigureAwait(false)
+            //.GetAwaiter().GetResult();   
+            this._unitOfWorkAsync.Commit();
         }
 
         private void ProcceedAvailableTransactionsAsync(IInvocation invocation)
         {
+            this._unitOfWorkAsync.BeginTransaction();
             try
             {
                 invocation.Proceed();
@@ -74,7 +85,7 @@ namespace Galaxy.UnitOfWork
             {
                 invocation.ReturnValue = PublicAsyncHelper.AwaitTaskWithPostActionAndFinally(
                     (Task)invocation.ReturnValue,
-                    async () => await _unitOfWorkAsync.SaveChangesAsync(),
+                    async () => await _unitOfWorkAsync.CommitAsync(),
                     exception => _unitOfWorkAsync.Dispose()
                 );
             }
@@ -83,7 +94,7 @@ namespace Galaxy.UnitOfWork
                 invocation.ReturnValue = PublicAsyncHelper.CallAwaitTaskWithPostActionAndFinallyAndGetResult(
                     invocation.Method.ReturnType.GenericTypeArguments[0],
                     invocation.ReturnValue,
-                    async () => await _unitOfWorkAsync.SaveChangesAsync(),
+                    async () => await _unitOfWorkAsync.CommitAsync(),
                     exception => _unitOfWorkAsync.Dispose()
                 );
             }
