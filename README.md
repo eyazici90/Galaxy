@@ -39,7 +39,7 @@ Serilog support
 Galaxy.Identity
 
 ## Benefits
- - Conventinal Dependency Registering
+ - Conventional Dependency Registering
  - Async await first 
  - Multi Tenancy
  - GlobalQuery Filtering
