@@ -39,7 +39,7 @@ Serilog support
 Galaxy.Identity
 
 ## Benefits
- - Conventinal Dependency Registering
+ - Conventional Dependency Registering
  - Async await first 
  - Multi Tenancy
  - GlobalQuery Filtering
@@ -119,24 +119,24 @@ Galaxy.Identity
 
 ***AggregateRoot definations***
 
-    public class Limit : Entity, IAggregateRoot
+    public class Limit : AggregateRootEntity
         {
 	        ...
         }
-    public class Brand : FullyAuditEntity, IAggregateRoot
+    public class Brand : FullyAuditAggregateRootEntity
         {
 	        ...
         }
         
 ***Entity definations***
 
-    public class Merchant : Entity, IEntity
+    public class Merchant : Entity
         {
 	        ...
         }
 ***Fully Audit Entity definations***
 
-    public  class Brand : FullyAuditEntity , ISoftDelete, IEntity
+    public  class Brand : FullyAuditEntity
 	    {
 			...
 	    }
@@ -144,7 +144,7 @@ Galaxy.Identity
 ***Soft Delete definations***
 
     // This interface activate global query filtering on soft delete
-    public  class Limit : Entity, ISoftDelete, IAggregateRoot
+    public  class Limit : Entity, ISoftDelete
             {
             ...
             }
