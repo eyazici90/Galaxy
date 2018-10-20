@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\..\Domain\CustomerSample.Domain\CustomerSample.Domain.csproj" />
+    <ProjectReference Include="..\CustomerSample.Application.Abstractions\CustomerSample.Application.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
