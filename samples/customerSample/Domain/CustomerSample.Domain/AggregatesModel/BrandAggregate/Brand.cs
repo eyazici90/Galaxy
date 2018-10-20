@@ -30,7 +30,6 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
 
         public Brand(string email, string brandName, string gsm = default, string snCode = default) : this()
         {
-            // AR Creation validations
             this.EMail = !string.IsNullOrWhiteSpace(email) ? email
                                                            : throw new ArgumentNullException(nameof(email));
             this.BrandName = !string.IsNullOrWhiteSpace(brandName) ? brandName

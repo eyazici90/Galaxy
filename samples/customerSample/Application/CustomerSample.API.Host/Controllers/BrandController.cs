@@ -23,43 +23,43 @@ namespace CustomerSample.API.Host.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public   Task<IActionResult> GetAllBrandsAsync() =>
-             ResponseOrThrow(async () => await this._customerAppServ.GetAllBrandsAsync());
+               HandleOrThrow(async () => await this._customerAppServ.GetAllBrandsAsync());
 
         [Route("api/Customer/Brand/{id}")]
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public  Task<IActionResult> GetBrandByIdAsync(int id) =>
-               ResponseOrThrow(async () => await this._customerAppServ.GetBrandByIdAsync(id));
+               HandleOrThrow(async () => await this._customerAppServ.GetBrandByIdAsync(id));
 
 
         [Route("api/Customer/Brand/ChangeName")]
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public  Task<IActionResult> ChangeBrandName([FromBody] BrandDto request) =>
-               ResponseOrThrow(request, async (r) => await this._customerAppServ.ChangeBrandName(r));
+               HandleOrThrow(request, async (r) => await this._customerAppServ.ChangeBrandName(r));
 
         [Route("api/Customer/ChangeMerchantVknByBrand")]
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public  Task<IActionResult> ChangeMerchantVknByBrand([FromBody] MerchantDto request) =>
-               ResponseOrThrow(request, async (r) => await this._customerAppServ.ChangeMerchantVknByBrand(r));
+               HandleOrThrow(request, async (r) => await this._customerAppServ.ChangeMerchantVknByBrand(r));
 
 
         [Route("api/Customer/Brand")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public  Task<IActionResult> AddNewBrand([FromBody] BrandDto request) =>
-               ResponseOrThrow(request, async (r) => await this._customerAppServ.AddNewBrand(r));
+               HandleOrThrow(request, async (r) => await this._customerAppServ.AddNewBrand(r));
 
 
         [Route("api/Customer/Merchant")]
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public  Task<IActionResult> AddMerchantToBrand([FromBody] MerchantDto request) =>
-              ResponseOrThrow(request, async (r) => await this._customerAppServ.AddMerchantToBrand(r));
+              HandleOrThrow(request, async (r) => await this._customerAppServ.AddMerchantToBrand(r));
 
 
-        private async Task<IActionResult> ResponseOrThrow<T>(T request, Func<T, Task> handler)
+        private async Task<IActionResult> HandleOrThrow<T>(T request, Func<T, Task> handler)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace CustomerSample.API.Host.Controllers
             }
         }
 
-        private async Task<IActionResult> ResponseOrThrow<T>(Func<Task<T>> handler)
+        private async Task<IActionResult> HandleOrThrow<T>(Func<Task<T>> handler)
         {
             try
             {

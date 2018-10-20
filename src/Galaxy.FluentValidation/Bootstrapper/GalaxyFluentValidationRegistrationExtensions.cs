@@ -11,18 +11,19 @@ namespace Galaxy.FluentValidation.Bootstrapper
 {
    public static class GalaxyFluentValidationRegistrationExtensions
     {
-
-        public static ContainerBuilder UseGalaxyFluentValidation(this ContainerBuilder builder, params Assembly[] assemblies)
+        public static ContainerBuilder UseGalaxyFluentValidation(this ContainerBuilder builder)
         {
             builder.RegisterModule(new FluentValidationModule());
-
-            builder
-               .RegisterAssemblyTypes(assemblies)
-                 .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
-                 .AsImplementedInterfaces();
-
             RegisterFluentInterceptors(builder);
             return builder;
+        }
+        public static ContainerBuilder UseGalaxyFluentValidation(this ContainerBuilder builder, params Assembly[] assemblies)
+        {
+            var b = UseGalaxyFluentValidation(builder);
+            b.RegisterAssemblyTypes(assemblies)
+                 .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
+                 .AsImplementedInterfaces();
+            return b;
         }
 
         private static ContainerBuilder RegisterFluentInterceptors(this ContainerBuilder builder)

@@ -12,7 +12,6 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public int BrandId { get; private set; }
-      //  public Brand MyProperty { get; set; }
         public string Gsm { get; private set; }
         public bool IsActive { get; private set; }
         public string Vkn { get; private set; }

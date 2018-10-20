@@ -9,33 +9,39 @@ using System.Text;
 
 namespace Galaxy.Mapster.Bootstrapper
 {
-   public static  class GalaxyMapsterRegistrationExtensions
+   public static class GalaxyMapsterRegistrationExtensions
     {
+        private static void ConfigureAdepterConfigs(List<Action<TypeAdapterConfig>> listofConfigurations) =>
+           listofConfigurations.ForEach(conf => conf(GetGlobalTypeAdepterConfig));
 
-      
+        private static TypeAdapterConfig GetGlobalTypeAdepterConfig => TypeAdapterConfig.GlobalSettings;
 
-
-        public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Action initializeMappings = default)
+        private static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder)
         {
             builder.RegisterModule(new MapsterModule());
-            if (initializeMappings != default)
-                initializeMappings();
             return builder;
+        }
+
+        public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, List<Action<TypeAdapterConfig>>  configurations = default)
+        {
+            if (configurations != default)
+                ConfigureAdepterConfigs(configurations);
+            return UseGalaxyMapster(builder); 
         }
 
         public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Assembly assembly)
         {
-            builder.RegisterModule(new MapsterModule());
             UseAutoMappedTypesAndRegister(assembly);
-            return builder;
+            return UseGalaxyMapster(builder); 
         }
-        public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Assembly assembly, Action initializeMappings)
+
+        public static ContainerBuilder UseGalaxyMapster(this ContainerBuilder builder, Assembly assembly, List<Action<TypeAdapterConfig>> configurations)
         {
-            builder.RegisterModule(new MapsterModule());
             UseAutoMappedTypesAndRegister(assembly);
-            initializeMappings();
-            return builder;
+            ConfigureAdepterConfigs(configurations);
+            return UseGalaxyMapster(builder);
         }
+        
 
         private static TypeAdapterConfig UseAutoMappedTypesAndRegister(Assembly assembly)
         {
