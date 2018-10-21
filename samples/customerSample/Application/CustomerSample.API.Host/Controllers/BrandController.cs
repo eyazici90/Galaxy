@@ -31,6 +31,12 @@ namespace CustomerSample.API.Host.Controllers
         public  Task<IActionResult> GetBrandByIdAsync(int id) =>
                HandleOrThrow(async () => await this._customerAppServ.GetBrandByIdAsync(id));
 
+        [Route("api/Customer/Brand/Cache")]
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public Task<IActionResult> GetCachedBrand([FromQuery] string brandName) =>
+            HandleOrThrow(async () => await this._customerAppServ.GetCachedBrand(brandName));
+
 
         [Route("api/Customer/Brand/ChangeName")]
         [HttpPut]

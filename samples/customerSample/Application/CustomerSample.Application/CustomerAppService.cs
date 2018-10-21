@@ -3,6 +3,7 @@ using CustomerSample.Application.Abstractions;
 using CustomerSample.Common.Dtos;
 using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
 using Galaxy.Application;
+using Galaxy.Cache;
 using Galaxy.Infrastructure;
 using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
@@ -18,15 +19,23 @@ namespace CustomerSample.Application
 {
    public class CustomerAppService : QueryAppServiceAsync<BrandDto,int,Brand>, ICustomerAppService
     {
+        private readonly ICache _cacheServ;
         private readonly IBrandRepository _brandRepository;
         private readonly IBrandPolicy _brandPolicy;
         public CustomerAppService(IBrandRepository brandRepository
             , IBrandPolicy brandPolicy
             , IObjectMapper objectMapper
-            , IRepositoryAsync<Brand> rep) : base (rep,objectMapper)
+            , IRepositoryAsync<Brand> rep
+            , ICache cacheServ) : base (rep,objectMapper)
         {
             this._brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
             this._brandPolicy = brandPolicy ?? throw new ArgumentNullException(nameof(brandPolicy));
+            this._cacheServ = cacheServ ?? throw new ArgumentNullException(nameof(cacheServ));
+        }
+
+        public async Task<object> GetCachedBrand(string brandName) {
+
+            return await  this._cacheServ.GetAsync(brandName);
         }
 
         public async Task<IList<BrandDto>> GetAllBrandsAsync() => await this.QueryableNoTrack().ToListAsync();

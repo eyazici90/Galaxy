@@ -1,4 +1,5 @@
 ﻿using CustomerSample.Domain.Events;
+using Galaxy.Cache;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,16 @@ namespace CustomerSample.Application.DomainEventHandlers
 {
     public sealed class BrandNameChangedDomainEventHandler : INotificationHandler<BrandNameChangedDomainEvent>
     {
+        private readonly ICache _cacheServ;
+        public BrandNameChangedDomainEventHandler(ICache cacheServ)
+        {
+            _cacheServ = cacheServ;
+        }
         public async Task Handle(BrandNameChangedDomainEvent notification, CancellationToken cancellationToken)
         {
             var newBrandName = notification.Brand.BrandName;
-            
+            await this._cacheServ.SetAsync(newBrandName, notification.Brand);
+            await Task.FromResult(true);
         }
     }
 }

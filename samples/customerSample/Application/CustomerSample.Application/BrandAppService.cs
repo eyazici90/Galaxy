@@ -1,6 +1,7 @@
 ﻿using CustomerSample.Common.Dtos;
 using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
 using Galaxy.Application;
+using Galaxy.Cache;
 using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
 using System;

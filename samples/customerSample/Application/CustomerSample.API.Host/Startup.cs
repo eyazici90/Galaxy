@@ -14,6 +14,7 @@ using CustomerSample.Domain.Events;
 using CustomerSample.Infrastructure;
 using Galaxy.Application;
 using Galaxy.Bootstrapping;
+using Galaxy.Cache.Bootstrapper;
 using Galaxy.EntityFrameworkCore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
@@ -67,7 +68,7 @@ namespace CustomerSample.API.Host
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
-            .AddControllersAsServices(); ;
+            .AddControllersAsServices();
            
             var container = this.ConfigureGalaxy(services);
             
@@ -128,7 +129,8 @@ namespace CustomerSample.API.Host
                                 new DbContextOptionsBuilder<CustomerSampleDbContext>()
                                      .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),typeof(CustomerSampleAppSession))
                      .UseGalaxyMapster()
-                     .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly);
+                     .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)
+                     .UseGalaxyInMemoryCache(services);
 
             containerBuilder.Populate(services);
 
