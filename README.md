@@ -105,7 +105,6 @@ Galaxy.Identity
 	.UseGalaxyAutoMapper()
 
 **InMemory Cache Activation**<br/>
-  // services : IServiceCollection <br/>
 	.UseGalaxyInMemoryCache(services);
 
      public sealed class BrandNameChangedDomainEventHandler : INotificationHandler<BrandNameChangedDomainEvent>
