@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
 {
-   public class Merchant : Entity
+   public class Merchant : Entity , IConcurrencyTest
     {
         
         public string Name { get; private set; }
@@ -16,7 +16,7 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
         public bool IsActive { get; private set; }
         public string Vkn { get; private set; }
         public bool IsFraud { get; private set; }
-
+        public byte[] RowVersion { get; private set; }
         // Important :: Relations between aggragetes only with their uniq Id 's. No navigation property for different aggregates !!!
         // public Limit Limit { get; private set; }
 
@@ -85,7 +85,13 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
             this.Vkn = vkn;
 
         }
+        public void SetRowVersion(byte[] rowVersion)
+        {
+            this.RowVersion = rowVersion;
+        }
 
         public string GetFullName => $"{this.Name} {this.Surname}";
+
+      
     }
 }

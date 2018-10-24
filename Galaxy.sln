@@ -93,9 +93,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerSample.Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerSample.API.Host", "samples\customerSample\Application\CustomerSample.API.Host\CustomerSample.API.Host.csproj", "{5A23477C-3A85-4D19-B1FB-B330C4177456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Cache", "src\Galaxy.Cache\Galaxy.Cache.csproj", "{DEDA1DB3-593E-4A79-B336-8919D9EEDC91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Cache", "src\Galaxy.Cache\Galaxy.Cache.csproj", "{DEDA1DB3-593E-4A79-B336-8919D9EEDC91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Cache.Tests", "test\Galaxy.Cache.Tests\Galaxy.Cache.Tests.csproj", "{AB49FC69-6B43-4A11-845C-0D03B4A24D58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Cache.Tests", "test\Galaxy.Cache.Tests\Galaxy.Cache.Tests.csproj", "{AB49FC69-6B43-4A11-845C-0D03B4A24D58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identitySample", "identitySample", "{7B6B09F8-0956-49E3-A628-2AD9E6ADB036}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -308,6 +310,7 @@ Global
 		{5A23477C-3A85-4D19-B1FB-B330C4177456} = {B53D00C5-97A3-4F61-BA00-92916B04B1B7}
 		{DEDA1DB3-593E-4A79-B336-8919D9EEDC91} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 		{AB49FC69-6B43-4A11-845C-0D03B4A24D58} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{7B6B09F8-0956-49E3-A628-2AD9E6ADB036} = {40D6AC2A-57AD-476D-99B0-AC1B7929C3F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}

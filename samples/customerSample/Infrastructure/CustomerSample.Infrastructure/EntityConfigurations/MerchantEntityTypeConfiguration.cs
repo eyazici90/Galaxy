@@ -1,22 +1,19 @@
 ﻿using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
+using Galaxy.EntityFrameworkCore.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 namespace CustomerSample.Infrastructure.EntityConfigurations
 {
-    public class MerchantEntityTypeConfiguration : IEntityTypeConfiguration<Merchant>
+    public class MerchantEntityTypeConfiguration : GalaxyBaseEntityTypeConfigration<Merchant>
     {
-        public void Configure(EntityTypeBuilder<Merchant> builder)
+        public override void Configure(EntityTypeBuilder<Merchant> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("Merchants");
-            builder.HasKey(x => x.Id);
-
-            builder.Property(e => e.Id)
-                   .ValueGeneratedOnAdd();
-
-            builder.Ignore(e => e.ObjectState);
-
+        
             builder.Property(e => e.Name)
                .HasColumnType("nvarchar(40)")
                .IsRequired(true);

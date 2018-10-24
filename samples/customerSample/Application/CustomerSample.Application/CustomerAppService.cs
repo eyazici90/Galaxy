@@ -60,7 +60,7 @@ namespace CustomerSample.Application
             this._brandRepository.Update(brand);
         }
 
-        public async Task  ChangeBrandName(BrandDto brandDto)
+        public async Task ChangeBrandName(BrandDto brandDto)
         {
             var brand = await this._brandRepository.GetAsync(brandDto.Id);
             brand

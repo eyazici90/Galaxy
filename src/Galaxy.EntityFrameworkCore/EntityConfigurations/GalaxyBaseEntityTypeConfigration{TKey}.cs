@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Galaxy.EntityFrameworkCore.EntityConfigurations
@@ -16,6 +17,14 @@ namespace Galaxy.EntityFrameworkCore.EntityConfigurations
 
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
+
+            if (typeof(IConcurrencyTest).GetTypeInfo().IsAssignableFrom(typeof(TEntity)))
+            {
+                builder
+                 .Property(nameof(IConcurrencyTest.RowVersion))
+                 .IsRowVersion();
+            }
+
 
             builder.Ignore(e => e.ObjectState);
             builder.Ignore(e => e.DomainEvents);

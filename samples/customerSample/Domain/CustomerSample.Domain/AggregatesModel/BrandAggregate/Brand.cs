@@ -123,6 +123,9 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
                 throw new CustomerDomainException($"There is no merchant with this id : {merchantId}");
 
             existingMerchant.ChangeOrAddVkn(vkn);
+
+            //existingMerchant.SetRowVersion(new byte[] { });
+
             return existingMerchant;
         }
 
