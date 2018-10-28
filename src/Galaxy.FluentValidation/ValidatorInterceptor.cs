@@ -22,8 +22,6 @@ namespace Galaxy.FluentValidation
         public ValidatorInterceptor(IResolver resolver) {
             _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
         }
-
-
         public void Intercept(IInvocation invocation)
         {
             AssertRequest(invocation);
