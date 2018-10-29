@@ -2,6 +2,7 @@
 
 
 
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -109,7 +110,14 @@ Galaxy.Identity
 	
     .UseGalaxyInMemoryCache(services);
 
-   ***Interceptors activation***
+***Serilog Activation***
+ 
+
+    .UseGalaxySerilogger( configs => {
+                             ...
+                         });
+
+   ***Interceptors Activation***
 
      .UseGalaxyCore(b =>
                          {
@@ -240,7 +248,7 @@ Galaxy.Identity
 		        ...
             }
         }
-**Cache Service definations**
+***Cache Service definations***
 
      public sealed class BrandNameChangedDomainEventHandler : INotificationHandler<BrandNameChangedDomainEvent>
         {
