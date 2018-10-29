@@ -1,21 +1,19 @@
 ﻿using Galaxy.Log;
-using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace Galaxy.Serilog
 {
     public sealed class GalaxySerilogLogger : ILog
     {
-        private readonly ILogger _logger;
+        private readonly global::Serilog.ILogger _logger;
         private readonly ILogConfigurations _logConfigurations;
-        public GalaxySerilogLogger(ILogger logger)
+        public GalaxySerilogLogger(global::Serilog.ILogger logger)
         {
             _logger = logger;
         }
 
-        public GalaxySerilogLogger(ILogger logger, ILogConfigurations logConfigurations)
+        public GalaxySerilogLogger(global::Serilog.ILogger logger, ILogConfigurations logConfigurations)
         {
             _logger = logger;
             _logConfigurations = logConfigurations; 
