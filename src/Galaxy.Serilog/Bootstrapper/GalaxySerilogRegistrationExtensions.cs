@@ -12,18 +12,30 @@ namespace Galaxy.Serilog.Bootstrapper
         {
             builder.RegisterModule(new SerilogModule());
             builder.RegisterModule(new SerilogDefaultConfigurationsModule());
-            configurations(new LoggerConfiguration());
+            InitializeSeriloggerConfiguration(builder, configurations);
             return builder;
         }
-
-
+        
         public static ContainerBuilder UseGalaxySerilogger<TConfiguration>(this ContainerBuilder builder, Action<LoggerConfiguration> configurations, TConfiguration Tconfigurations )
             where TConfiguration: Log.ILogConfigurations
         {
             builder.RegisterModule(new SerilogModule());
             configurations(new LoggerConfiguration());
+            InitializeSeriloggerConfiguration(builder, configurations);
             InitializeConfigurations(builder, Tconfigurations);
             return builder;
+        }
+
+        private static void InitializeSeriloggerConfiguration(this ContainerBuilder builder, Action<LoggerConfiguration> configurations) {
+      
+            builder.Register(c =>
+            {
+                var seriloggerConfiguration = new LoggerConfiguration();
+                configurations(seriloggerConfiguration);
+                return seriloggerConfiguration.CreateLogger();
+            })
+          .As<global::Serilog.ILogger>()
+          .SingleInstance();
         }
         private static void InitializeConfigurations<TConfiguration>(this ContainerBuilder builder, TConfiguration configurations = default)
             where TConfiguration : Log.ILogConfigurations

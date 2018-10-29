@@ -5,6 +5,7 @@ using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
 using Galaxy.Application;
 using Galaxy.Cache;
 using Galaxy.Infrastructure;
+using Galaxy.Log;
 using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
@@ -19,6 +20,7 @@ namespace CustomerSample.Application
 {
    public class CustomerAppService : QueryAppServiceAsync<BrandDto,int,Brand>, ICustomerAppService
     {
+        private readonly ILog _log;
         private readonly ICache _cacheServ;
         private readonly IBrandRepository _brandRepository;
         private readonly IBrandPolicy _brandPolicy;
@@ -26,15 +28,17 @@ namespace CustomerSample.Application
             , IBrandPolicy brandPolicy
             , IObjectMapper objectMapper
             , IRepositoryAsync<Brand> rep
-            , ICache cacheServ) : base (rep,objectMapper)
+            , ICache cacheServ
+            , ILog log) : base (rep,objectMapper)
         {
             this._brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
             this._brandPolicy = brandPolicy ?? throw new ArgumentNullException(nameof(brandPolicy));
             this._cacheServ = cacheServ ?? throw new ArgumentNullException(nameof(cacheServ));
+            this._log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
         public async Task<object> GetCachedBrand(string brandName) {
-
+            this._log.Warning($"This is a test message for Serilog File!!!");
             return await  this._cacheServ.GetAsync(brandName);
         }
 

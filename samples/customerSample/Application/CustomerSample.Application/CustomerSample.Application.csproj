@@ -14,12 +14,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Galaxy.Cache\Galaxy.Cache.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Galaxy.Serilog\Galaxy.Serilog.csproj" />
     <ProjectReference Include="..\..\Domain\CustomerSample.Domain\CustomerSample.Domain.csproj" />
     <ProjectReference Include="..\CustomerSample.Application.Abstractions\CustomerSample.Application.Abstractions.csproj" />
   </ItemGroup>
