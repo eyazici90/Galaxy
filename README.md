@@ -106,7 +106,7 @@ Galaxy.Identity
 
 	.UseGalaxyAutoMapper()
 
-**InMemory Cache Activation**<br/>
+***InMemory Cache Activation***
 	
     .UseGalaxyInMemoryCache(services);
 
