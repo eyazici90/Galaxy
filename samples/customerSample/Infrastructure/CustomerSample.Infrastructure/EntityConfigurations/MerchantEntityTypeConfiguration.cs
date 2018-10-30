@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CustomerSample.Infrastructure.EntityConfigurations
 {
-    public class MerchantEntityTypeConfiguration : GalaxyBaseEntityTypeConfigration<Merchant>
+    public class MerchantEntityTypeConfiguration : GalaxyBaseEntityTypeConfiguration<Merchant>
     {
         public override void Configure(EntityTypeBuilder<Merchant> builder)
         {

@@ -24,8 +24,8 @@ namespace CustomerSample.Application
         public  BrandDto AddNewBrand(BrandDto brandDto)
         {
            return Add( () => {
-                var brand = Brand.Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
-                return brand;
+               return Brand
+                 .Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
             });
             
         }

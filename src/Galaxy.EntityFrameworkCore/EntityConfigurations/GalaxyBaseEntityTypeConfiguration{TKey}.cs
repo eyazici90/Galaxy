@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Galaxy.EntityFrameworkCore.EntityConfigurations
 {
-    public abstract class GalaxyBaseEntityTypeConfigration<TEntity, TPrimary>
+    public abstract class GalaxyBaseEntityTypeConfiguration<TEntity, TPrimary>
        : IEntityTypeConfiguration<TEntity> where TEntity : Entity<TPrimary>
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)

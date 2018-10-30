@@ -1,42 +1,31 @@
 ﻿using System;
+using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
-using CustomerSample.API.Host.Filter;
-using CustomerSample.API.Host.Session;
-using CustomerSample.Application;
-using CustomerSample.Application.Abstractions;
-using CustomerSample.Application.DomainEventHandlers;
-using CustomerSample.Application.Validators;
-using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
-using CustomerSample.Customer.Domain.EFRepositories.BrandAggregate;
-using CustomerSample.Domain.Events;
-using CustomerSample.Infrastructure;
-using Galaxy.Application;
 using Galaxy.Bootstrapping;
-using Galaxy.Cache.Bootstrapper;
+using Galaxy.Commands;
+using Galaxy.EFCore;
 using Galaxy.EntityFrameworkCore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
-using Galaxy.Serilog.Bootstrapper;
-using Galaxy.UnitOfWork;
-using MediatR;
+using Galaxy.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Serilog;
+using PaymentSample.Application.Commands.Handlers;
+using PaymentSample.Application.Validations;
+using PaymentSample.Domain.AggregatesModel.PaymentAggregate;
+using PaymentSample.Infrastructure;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace CustomerSample.API.Host
+namespace PaymentSample.CommandAPI.Host
 {
     public class Startup
     {
@@ -50,30 +39,30 @@ namespace CustomerSample.API.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CustomerSampleDbContext>(options =>
+            services.AddDbContext<PaymentSampleDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Customer API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Payment API", Version = "v1" });
             });
-            
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddOptions();
 
             services.AddMvc(options =>
             {
-                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+
             })
              .AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                })
+             {
+                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+             })
             .AddControllersAsServices();
-           
+
             var container = this.ConfigureGalaxy(services);
-            
+
             return new AutofacServiceProvider(container);
         }
 
@@ -93,7 +82,7 @@ namespace CustomerSample.API.Host
             app.UseSwagger()
              .UseSwaggerUI(c =>
              {
-                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer API V1");
+                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment API V1");
              });
 
             app.UseMvc(routes =>
@@ -110,37 +99,27 @@ namespace CustomerSample.API.Host
 
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterContainerBuilder()
-                     .UseGalaxyCore(b =>
-                     {
-                         b.UseConventionalCustomRepositories(typeof(BrandRepository).Assembly);
-                         b.UseConventionalPolicies(typeof(BrandPolicy).Assembly);
-                         b.UseConventionalDomainService(typeof(Brand).Assembly);
-                         b.UseConventionalApplicationService(typeof(CustomerAppService).Assembly);
-                         b.UseConventionalDomainEventHandlers(typeof(BrandNameChangedDomainEventHandler).Assembly);
+                     .UseGalaxyCore(b => {
 
-                         b.RegisterAssemblyTypes(typeof(CustomerAppService).Assembly)
-                              .AssignableTo<IApplicationService>()
+
+                       //  b.RegisterType<Repository<PaymentTransaction, Guid>>().As<IRepositoryAsync<PaymentTransaction, Guid>>();
+
+                         b.RegisterAssemblyTypes(typeof(DirectPaymentCommandHandler).Assembly)
+                              .AssignableTo<ICommandHandler>()
                               .AsImplementedInterfaces()
                               .EnableInterfaceInterceptors()
                               .InterceptedBy(typeof(ValidatorInterceptor))
-                              .InterceptedBy(typeof(UnitOfWorkInterceptor))
                               .InstancePerLifetimeScope();
                      })
                      .UseGalaxyEntityFrameworkCore(
-                                new DbContextOptionsBuilder<CustomerSampleDbContext>()
-                                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),typeof(CustomerSampleAppSession))
+                                new DbContextOptionsBuilder<PaymentSampleDbContext>()
+                                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                      .UseGalaxyMapster()
-                     .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)
-                     .UseGalaxyInMemoryCache(services)
-                     .UseGalaxySerilogger(configs => {
-                         configs.WriteTo.File("log.txt",
-                            rollingInterval: RollingInterval.Day,
-                            rollOnFileSizeLimit: true);
-                     });
+                     .UseGalaxyFluentValidation(typeof(PaymentTransactionValidation).Assembly);
 
             containerBuilder.Populate(services);
 
-           return containerBuilder.InitializeGalaxy();
+            return containerBuilder.InitializeGalaxy();
 
         }
     }

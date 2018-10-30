@@ -50,7 +50,7 @@ namespace Galaxy.Bootstrapping
         }
 
 
-        public static ContainerBuilder UseConventinalCustomRepositories(this ContainerBuilder builder, params Assembly[] assemblies)
+        public static ContainerBuilder UseConventionalCustomRepositories(this ContainerBuilder builder, params Assembly[] assemblies)
         {
             builder.RegisterAssemblyTypes(assemblies)
               .AssignableTo<ICustomRepository>()
@@ -60,7 +60,7 @@ namespace Galaxy.Bootstrapping
             return builder;
         }
 
-        public static ContainerBuilder UseConventinalPolicies(this ContainerBuilder builder, params Assembly[] assemblies)
+        public static ContainerBuilder UseConventionalPolicies(this ContainerBuilder builder, params Assembly[] assemblies)
         {
             builder.RegisterAssemblyTypes(assemblies)
               .AssignableTo<IPolicy>()
@@ -70,7 +70,7 @@ namespace Galaxy.Bootstrapping
             return builder;
         }
 
-        public static ContainerBuilder UseConventinalDomainService(this ContainerBuilder builder, params Assembly[] assemblies)
+        public static ContainerBuilder UseConventionalDomainService(this ContainerBuilder builder, params Assembly[] assemblies)
         {
             builder.RegisterAssemblyTypes(assemblies)
               .AssignableTo<IDomainService>()
@@ -80,14 +80,21 @@ namespace Galaxy.Bootstrapping
             return builder;
         }
 
-        public static ContainerBuilder UseConventinalDomainEventHandlers(this ContainerBuilder builder, params Assembly[] assemblies)
+        public static ContainerBuilder UseConventionalDomainEventHandlers(this ContainerBuilder builder, params Assembly[] assemblies)
         {
             builder.RegisterAssemblyTypes(assemblies)
                  .AsClosedTypesOf(typeof(INotificationHandler<>));
             return builder;
         }
 
-        public static ContainerBuilder UseConventinalApplicationService(this ContainerBuilder builder, params Assembly[] assemblies)
+        public static ContainerBuilder UseConventionalCommandHandlers(this ContainerBuilder builder, params Assembly[] assemblies)
+        {
+            builder.RegisterAssemblyTypes(assemblies)
+                 .AsClosedTypesOf(typeof(IRequestHandler<,>));
+            return builder;
+        }
+
+        public static ContainerBuilder UseConventionalApplicationService(this ContainerBuilder builder, params Assembly[] assemblies)
         {
             builder.RegisterAssemblyTypes(assemblies)
               .AssignableTo<IApplicationService>()

@@ -1,5 +1,7 @@
-﻿using CustomerSample.Domain.Events;
+﻿using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
+using CustomerSample.Domain.Events;
 using Galaxy.Cache;
+using Galaxy.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;

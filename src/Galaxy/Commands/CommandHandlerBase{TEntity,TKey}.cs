@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Commands
 {
-   public abstract class CommandHandlerBase<TAggregateRoot, TPrimaryKey> where TAggregateRoot : class, IAggregateRoot, IObjectState
+   public abstract class CommandHandlerBase<TAggregateRoot, TPrimaryKey> : ICommandHandler where TAggregateRoot : class, IAggregateRoot, IObjectState
     {
         protected readonly IUnitOfWorkAsync _unitOfWorkAsync;
         protected readonly IRepositoryAsync<TAggregateRoot, TPrimaryKey> _aggregateRootRepository;

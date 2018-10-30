@@ -6,7 +6,7 @@ using System;
 
 namespace CustomerSample.Infrastructure.EntityConfigurations
 {
-    public class GroupEntityTypeConfiguration : GalaxyBaseEntityTypeConfigration<Group, Guid>
+    public class GroupEntityTypeConfiguration : GalaxyBaseEntityTypeConfiguration<Group, Guid>
     {
         public override void Configure(EntityTypeBuilder<Group> builder)
         {
