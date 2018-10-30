@@ -3,6 +3,7 @@
 
 
 
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -264,9 +265,17 @@ Galaxy.Identity
                 await Task.FromResult(true);
             }
         }
+***Log Service definations***
 
-## Samples
-In Samples Repository 
-https://github.com/eyazici90/Samples
+            private readonly ILog _log;
+            public CustomerAppService(ILog log) 
+            { 
+	             this._log = log
+            }
+    
+            public async Task<object> GetBrandByName(string brandName) {
+                this._log.Warning($"This is a test message!!!");
+                ...
+            }
 
 
