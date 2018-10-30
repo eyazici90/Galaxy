@@ -9,11 +9,13 @@ namespace CustomerSample.Application.Abstractions
 {
     public interface ICustomerAppService : IApplicationService
     {
+        [DisableUnitOfWork]
         Task<object> GetCachedBrand(string brandName);
-
+        [DisableUnitOfWork]
         Task<IList<BrandDto>> GetAllBrandsAsync();
+        [DisableUnitOfWork]
         Task<BrandDto> GetBrandByIdAsync(int brandId);
-     //   [DisableUnitOfWork]
+        
         Task AddNewBrand(BrandDto brandDto);
         Task AddMerchantToBrand(MerchantDto merchant);
         Task ChangeBrandName(BrandDto brandDto);

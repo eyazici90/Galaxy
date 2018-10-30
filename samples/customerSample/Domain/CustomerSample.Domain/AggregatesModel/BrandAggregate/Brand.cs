@@ -34,6 +34,7 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
                                                            : throw new ArgumentNullException(nameof(email));
             this.BrandName = !string.IsNullOrWhiteSpace(brandName) ? brandName
                                                                    : throw new ArgumentNullException(nameof(brandName));
+            AddDomainEvent(new BrandCreatedDomainEvent(this));
         }
 
         public static Brand Create(string email, string brandName, string gsm = default, string snCode = default)
