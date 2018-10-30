@@ -83,7 +83,7 @@ Galaxy.Identity
                              b.UseConventinalPolicies(typeof(BrandPolicy).Assembly);
                              b.UseConventinalDomainService(typeof(Brand).Assembly);
                              b.UseConventinalApplicationService(typeof(CustomerAppService).Assembly);
-                             b.UseConventinalDomainEvents(typeof(BrandNameChangedDomainEventHandler).Assembly);
+                             b.UseConventinalDomainEventHandlers(typeof(BrandNameChangedDomainEventHandler).Assembly);
                              ...
                          })
 
