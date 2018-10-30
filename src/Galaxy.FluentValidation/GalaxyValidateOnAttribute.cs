@@ -13,9 +13,9 @@ using System.Text;
 namespace Galaxy.FluentValidation
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property)]
-    public class GalaxyValidateOnAttribute : Attribute
+    public sealed class GalaxyValidateOnAttribute : Attribute
     {
-        protected GalaxyValidateOnAttribute(object requestObj, Type validatorTargetTypes)
+        public GalaxyValidateOnAttribute(object requestObj, Type validatorTargetTypes)
         {
             if (GalaxyCoreModule.Container == default)
                 throw new GalaxyException($"You should set builded container of {nameof(GalaxyCoreModule)} : {nameof(GalaxyCoreModule.Container)}");
