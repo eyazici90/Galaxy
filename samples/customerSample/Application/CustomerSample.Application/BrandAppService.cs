@@ -4,6 +4,7 @@ using Galaxy.Application;
 using Galaxy.Cache;
 using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
+using Galaxy.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,40 +13,46 @@ using System.Threading.Tasks;
 
 namespace CustomerSample.Application
 {
-    public class BrandAppService : QueryAppServiceAsync<BrandDto, int, Brand>
+    public class BrandAppService : CrudAppServiceAsync<BrandDto, int, Brand>
     {
-        public BrandAppService(IRepositoryAsync<Brand, int> repositoryAsync, IObjectMapper objectMapper) : base(repositoryAsync, objectMapper)
+        public BrandAppService(IRepositoryAsync<Brand, int> repositoryAsync
+            , IObjectMapper objectMapper
+            , IUnitOfWorkAsync unitOfWork) : base(repositoryAsync, objectMapper, unitOfWork)
         {
         }
 
-        public override Task<BrandDto> FindAsync(int id)
+        public  BrandDto AddNewBrand(BrandDto brandDto)
         {
-            return base.FindAsync(id);
+           return Add( () => {
+                var brand = Brand.Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
+                return brand;
+            });
+            
         }
 
-        public override IList<BrandDto> GetAll()
+        public BrandDto ChangeBrandName(BrandDto brandDto)
         {
-            return base.GetAll();
+            return Update(brandDto.Id, brand => {
+                brand
+                   .ChangeBrandName(brandDto.BrandName);
+            });
         }
 
-        public override Task<BrandDto> GetAsync(int id)
+        public async  Task<BrandDto> AddNewBrandAsync(BrandDto brandDto)
         {
-            return base.GetAsync(id);
+            return await AddAsync(async () => {
+                var brand = Brand.Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
+                return brand;
+            });
         }
+ 
 
-        public override IQueryable<BrandDto> Queryable()
+        public async Task<BrandDto> ChangeBrandNameAsync(BrandDto brandDto)
         {
-            return base.Queryable();
-        }
-
-        public override IQueryable<BrandDto> QueryableNoTrack()
-        {
-            return base.QueryableNoTrack();
-        }
-
-        public override IQueryable<BrandDto> QueryableWithNoFilter()
-        {
-            return base.QueryableWithNoFilter();
+            return await UpdateAsync(brandDto.Id, async brand => {
+                brand
+                   .ChangeBrandName(brandDto.BrandName);
+            });
         }
     }
 }
