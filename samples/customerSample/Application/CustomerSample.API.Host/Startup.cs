@@ -19,6 +19,7 @@ using Galaxy.EntityFrameworkCore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
+using Galaxy.Serilog.Bootstrapper;
 using Galaxy.UnitOfWork;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace CustomerSample.API.Host
@@ -108,14 +110,13 @@ namespace CustomerSample.API.Host
 
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterContainerBuilder()
-              
                      .UseGalaxyCore(b =>
                      {
                          b.UseConventinalCustomRepositories(typeof(BrandRepository).Assembly);
                          b.UseConventinalPolicies(typeof(BrandPolicy).Assembly);
                          b.UseConventinalDomainService(typeof(Brand).Assembly);
                          b.UseConventinalApplicationService(typeof(CustomerAppService).Assembly);
-                         b.UseConventinalDomainEvents(typeof(BrandNameChangedDomainEventHandler).Assembly);
+                         b.UseConventinalDomainEventHandlers(typeof(BrandNameChangedDomainEventHandler).Assembly);
 
                          b.RegisterAssemblyTypes(typeof(CustomerAppService).Assembly)
                               .AssignableTo<IApplicationService>()
@@ -130,7 +131,12 @@ namespace CustomerSample.API.Host
                                      .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),typeof(CustomerSampleAppSession))
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)
-                     .UseGalaxyInMemoryCache(services);
+                     .UseGalaxyInMemoryCache(services)
+                     .UseGalaxySerilogger(configs => {
+                         configs.WriteTo.File("log.txt",
+                            rollingInterval: RollingInterval.Day,
+                            rollOnFileSizeLimit: true);
+                     });
 
             containerBuilder.Populate(services);
 

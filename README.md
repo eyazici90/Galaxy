@@ -1,5 +1,8 @@
 
 
+
+
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -103,7 +106,18 @@ Galaxy.Identity
 
 	.UseGalaxyAutoMapper()
 
-   ***Interceptors activation***
+***InMemory Cache Activation***
+	
+    .UseGalaxyInMemoryCache(services);
+
+***Serilog Activation***
+ 
+
+    .UseGalaxySerilogger( configs => {
+                             ...
+                         });
+
+   ***Interceptors Activation***
 
      .UseGalaxyCore(b =>
                          {
@@ -202,6 +216,7 @@ Galaxy.Identity
      {
      }
 
+
 ***EntityFrameworkCore definations***
    
 
@@ -231,6 +246,22 @@ Galaxy.Identity
                 base.Configure(builder);
                 builder.ToTable("Brands");
 		        ...
+            }
+        }
+***Cache Service definations***
+
+     public sealed class BrandNameChangedDomainEventHandler : INotificationHandler<BrandNameChangedDomainEvent>
+        {
+            private readonly ICache _cacheServ;
+            public BrandNameChangedDomainEventHandler(ICache cacheServ)
+            {
+                _cacheServ = cacheServ;
+            }
+            public async Task Handle(BrandNameChangedDomainEvent notification, CancellationToken cancellationToken)
+            {
+                var newBrandName = notification.Brand.BrandName;
+                await this._cacheServ.SetAsync(newBrandName, notification.Brand);
+                await Task.FromResult(true);
             }
         }
 

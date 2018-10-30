@@ -15,6 +15,7 @@ using Galaxy.Infrastructure;
 using Galaxy.Domain;
 using Galaxy.EFCore.Extensions;
 using Galaxy.EntityFrameworkCore;
+using Galaxy.EntityFrameworkCore.Extensions;
 
 namespace Galaxy.EFCore
 {
@@ -29,7 +30,7 @@ namespace Galaxy.EFCore
         protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyDbContext).GetMethod(nameof(ConfigureGlobalFilters)
             , BindingFlags.Instance | BindingFlags.NonPublic);
 
-     
+
 
         public GalaxyDbContext(DbContextOptions options) : base(options)
         {
@@ -48,9 +49,10 @@ namespace Galaxy.EFCore
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyAllConfigurationsFromCurrentAssembly();
-
+            
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
+                
                 ConfigureGlobalFiltersMethodInfo
                   .MakeGenericMethod(entityType.ClrType)
                    .Invoke(this, new object[] { entityType, modelBuilder });
@@ -117,7 +119,10 @@ namespace Galaxy.EFCore
 
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
         }
-        
+
+      
+
+
         public override int SaveChanges()
         {
             SyncObjectsStatePreCommit();
