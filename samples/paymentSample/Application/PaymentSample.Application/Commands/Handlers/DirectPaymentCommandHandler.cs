@@ -24,11 +24,12 @@ namespace PaymentSample.Application.Commands.Handlers
         {
            await AddAsync(async () =>
             {
-                var paymentTransaction = PaymentTransaction
-                .Create(request.Msisdn, request.OrderId, DateTime.Now);
+                var paymentTransaction = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
+
                 paymentTransaction
                     .SetMoney(Convert.ToInt16(request.CurrencyCode), Convert.ToDecimal(request.Amount))
                     .SyncObjectState(ObjectState.Added);
+
                 return paymentTransaction;
             });
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Galaxy.Domain
 {
-   public interface IEntity : IEntity<int> 
+   public interface IEntity 
     {
         IReadOnlyCollection<INotification> DomainEvents { get; }
         void AddDomainEvent(INotification eventItem);

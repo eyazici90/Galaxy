@@ -11,6 +11,7 @@ using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
 using Galaxy.Repositories;
+using Galaxy.Serilog.Bootstrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +21,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PaymentSample.Application.Commands.Handlers;
+using PaymentSample.Application.DomainEventHandlers;
 using PaymentSample.Application.Validations;
 using PaymentSample.Domain.AggregatesModel.PaymentAggregate;
 using PaymentSample.Infrastructure;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PaymentSample.CommandAPI.Host
@@ -101,8 +104,7 @@ namespace PaymentSample.CommandAPI.Host
                  .RegisterContainerBuilder()
                      .UseGalaxyCore(b => {
 
-
-                       //  b.RegisterType<Repository<PaymentTransaction, Guid>>().As<IRepositoryAsync<PaymentTransaction, Guid>>();
+                         b.UseConventionalDomainEventHandlers(typeof(TransactionCreatedDomainEventHandler).Assembly);
 
                          b.RegisterAssemblyTypes(typeof(DirectPaymentCommandHandler).Assembly)
                               .AssignableTo<ICommandHandler>()
@@ -115,7 +117,12 @@ namespace PaymentSample.CommandAPI.Host
                                 new DbContextOptionsBuilder<PaymentSampleDbContext>()
                                      .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                      .UseGalaxyMapster()
-                     .UseGalaxyFluentValidation(typeof(PaymentTransactionValidation).Assembly);
+                     .UseGalaxyFluentValidation(typeof(PaymentTransactionValidation).Assembly)
+                     .UseGalaxySerilogger(configs => {
+                           configs.WriteTo.File("log.txt",
+                              rollingInterval: RollingInterval.Day,
+                              rollOnFileSizeLimit: true);
+                       });
 
             containerBuilder.Populate(services);
 

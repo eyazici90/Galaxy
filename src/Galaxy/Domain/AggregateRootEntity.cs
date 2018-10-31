@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Domain
 {
-    public abstract class AggregateRootEntity : AggregateRootEntity<int>
+    public abstract class AggregateRootEntity : AggregateRootEntity<int> , IAggregateRoot, IEntity
     {
     }
 }
