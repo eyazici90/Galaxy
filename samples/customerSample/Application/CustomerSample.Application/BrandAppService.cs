@@ -5,6 +5,7 @@ using Galaxy.Cache;
 using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,13 @@ namespace CustomerSample.Application
             , IUnitOfWorkAsync unitOfWork) : base(repositoryAsync, objectMapper, unitOfWork)
         {
         }
+        
+        public async Task<BrandDto> GetBrandByIdAsync(int brandId) =>
+             await FindAsync(brandId);
+
+        public async Task<IList<BrandDto>> GetAllBrandsAsync() => 
+             await this.QueryableNoTrack().ToListAsync();
+
 
         public  BrandDto AddNewBrand(BrandDto brandDto)
         {
