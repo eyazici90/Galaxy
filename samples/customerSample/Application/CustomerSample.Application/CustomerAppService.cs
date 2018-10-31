@@ -28,7 +28,7 @@ namespace CustomerSample.Application
         public CustomerAppService(IBrandRepository brandRepository
             , IBrandPolicy brandPolicy
             , IObjectMapper objectMapper
-            , IRepositoryAsync<Brand> rep
+            , IRepositoryAsync<Brand,int> rep
             , ICache cacheServ
             , ILog log
             , IUnitOfWorkAsync unitofWorkAsync) : base (rep,objectMapper, unitofWorkAsync)

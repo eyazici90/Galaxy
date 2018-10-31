@@ -47,6 +47,7 @@ namespace Galaxy.EFCore
 
             return true;
         }
+
         public virtual TEntity Find(TKey keyValues)
         {
             return _dbSet.Find(keyValues);

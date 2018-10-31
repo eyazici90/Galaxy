@@ -13,11 +13,6 @@ namespace PaymentSample.CommandAPI.Host.Controllers
     [ApiController]
     public class HealthCheckController : ControllerBase
     {
-        public HealthCheckController(IRepositoryAsync<PaymentTransaction, Guid> aggregateRootRepository)
-        {
-
-        }
-
         [HttpGet]
         [Route("healthcheck")]
         public IActionResult HealthCheck() => Ok(new { Status = "Healty" });

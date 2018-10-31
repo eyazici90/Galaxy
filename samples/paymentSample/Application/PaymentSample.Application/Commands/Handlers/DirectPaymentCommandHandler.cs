@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace PaymentSample.Application.Commands.Handlers
 {
-    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransaction,Guid>
+    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransaction,int>
         , IRequestHandler<DirectPaymentCommand, bool>
     {
         public DirectPaymentCommandHandler(IUnitOfWorkAsync unitOfWorkAsync
-            , IRepositoryAsync<PaymentTransaction,Guid> aggregateRootRepository) : base(unitOfWorkAsync, aggregateRootRepository)
+            , IRepositoryAsync<PaymentTransaction,int> aggregateRootRepository) : base(unitOfWorkAsync, aggregateRootRepository)
         {
         }
 
