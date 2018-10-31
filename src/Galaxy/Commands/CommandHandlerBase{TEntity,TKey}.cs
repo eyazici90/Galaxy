@@ -19,10 +19,11 @@ namespace Galaxy.Commands
             _unitOfWorkAsync = unitOfWorkAsync ?? throw new ArgumentNullException(nameof(unitOfWorkAsync));
             _aggregateRootRepository = aggregateRootRepository ?? throw new ArgumentNullException(nameof(aggregateRootRepository));
         }
-        
-        public virtual async Task AddAsync(Func<IRepositoryAsync<TAggregateRoot, TPrimaryKey>, Task> when)
+
+        public virtual async Task AddAsync(Func<Task<TAggregateRoot>> when)
         {
-            await when(_aggregateRootRepository);
+            var aggregate = await when();
+            _aggregateRootRepository.Insert(aggregate);
             await this._unitOfWorkAsync.SaveChangesAsync();
         }
 
@@ -30,13 +31,15 @@ namespace Galaxy.Commands
         {
             TAggregateRoot aggregate = _aggregateRootRepository.Find(id);
             await when(aggregate);
+            _aggregateRootRepository.Update(aggregate);
             await this._unitOfWorkAsync.SaveChangesAsync();
         }
 
-        public virtual void Add(Action<IRepositoryAsync<TAggregateRoot, TPrimaryKey>> when)
-        {
-            when(_aggregateRootRepository);
 
+        public virtual void Add(Func<TAggregateRoot> when)
+        {
+            var aggregate = when();
+            _aggregateRootRepository.Insert(aggregate);
             this._unitOfWorkAsync.SaveChangesAsync()
                 .ConfigureAwait(false)
                 .GetAwaiter().GetResult();
@@ -46,10 +49,10 @@ namespace Galaxy.Commands
         {
             TAggregateRoot aggregate = _aggregateRootRepository.Find(id);
             when(aggregate);
+            _aggregateRootRepository.Update(aggregate);
             this._unitOfWorkAsync.SaveChangesAsync()
                  .ConfigureAwait(false)
                  .GetAwaiter().GetResult();
-
         }
 
     }

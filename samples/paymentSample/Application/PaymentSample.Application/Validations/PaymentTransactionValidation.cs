@@ -10,7 +10,7 @@ namespace PaymentSample.Application.Validations
     {
         public PaymentTransactionValidation()
         {
-            RuleFor(t => t.Msisdn).NotEmpty().MinimumLength(5);
+            RuleFor(t => t.Msisdn).NotEmpty().MinimumLength(8);
         }
     }
 }

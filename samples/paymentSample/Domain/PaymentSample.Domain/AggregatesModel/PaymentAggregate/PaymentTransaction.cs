@@ -55,12 +55,21 @@ namespace PaymentSample.Domain.AggregatesModel.PaymentAggregate
             {
                 throw new PaymentDomainException($"Invalid transactionDateTime {transactionDateTime}");
             } 
+
+
             AddDomainEvent(new TransactionCreatedDomainEvent(this));
         }
 
         public static PaymentTransaction Create(string msisdn, string orderId, DateTime transactionDateTime)
         {
             return new PaymentTransaction(msisdn, orderId, transactionDateTime);
+        }
+
+        public Money SetMoney(int currencyCode, decimal amount)
+        {
+            var money = Money.Create(amount,currencyCode);
+            this.Money = money;
+            return this.Money;
         }
     }
 }

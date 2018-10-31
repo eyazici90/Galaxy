@@ -15,10 +15,15 @@ namespace PaymentSample.Domain.AggregatesModel.PaymentAggregate
         {
         }
 
-        public Money(decimal amount = default, int currencyCode = default) : this()
+        private Money(decimal amount = default, int currencyCode = default) : this()
         {
             this.Amount = amount;
             this.CurrencyCode = currencyCode;
+        }
+
+        public static Money Create(decimal amount = default, int currencyCode = default)
+        {
+            return new Money(amount, currencyCode);
         }
 
         public void CalculateAmountForDolar()

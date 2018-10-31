@@ -1,4 +1,5 @@
 ﻿using Galaxy.Commands;
+using Galaxy.Infrastructure;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
 using MediatR;
@@ -21,6 +22,16 @@ namespace PaymentSample.Application.Commands.Handlers
 
         public async Task<bool> Handle(DirectPaymentCommand request, CancellationToken cancellationToken)
         {
+           await AddAsync(async () =>
+            {
+                var paymentTransaction = PaymentTransaction
+                .Create(request.Msisdn, request.OrderId, DateTime.Now);
+                paymentTransaction
+                    .SetMoney(Convert.ToInt16(request.CurrencyCode), Convert.ToDecimal(request.Amount))
+                    .SyncObjectState(ObjectState.Added);
+                return paymentTransaction;
+            });
+
             return await Task.FromResult(true);
         }
     }
