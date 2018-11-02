@@ -54,14 +54,12 @@ namespace Galaxy.EventStore
                 try
                 {
                     await this._connection.AppendToStreamAsync(aggregate.GetType().Name, aggregate.Version, changes);
+                   
                     eventCount = eventCount + changes.Length;
                 }
-                catch (WrongExpectedVersionException)
+                catch (WrongExpectedVersionException ex)
                 {
-                    StreamEventsSlice page = await this._connection.ReadStreamEventsBackwardAsync(aggregate.Identifier, -1, 1, false);
-                    throw new GalaxyException(
-                        $"Failed to append stream {aggregate.Identifier} with expected version {aggregate.Version}. " +
-                        $"{(page.Status == SliceReadStatus.StreamNotFound ? "Stream not found!" : $"Current Version: {page.LastEventNumber}")}");
+                    throw ex;
                 }
             }
             return eventCount;

@@ -40,9 +40,10 @@ namespace EventStoreSample.ConsoleApp
                 {
                     var newUser = User.Create($"Emre - {i}", $"Yazıcı - {i}" );
                     userRepository.Insert(newUser);
-                    unitOfworkAsync.SaveChangesAsync().ConfigureAwait(false)
-                        .GetAwaiter().GetResult();
+                    
                 }
+                unitOfworkAsync.SaveChangesAsync().ConfigureAwait(false)
+                        .GetAwaiter().GetResult();
             }
             Console.ReadLine();
         }

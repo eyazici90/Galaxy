@@ -1,4 +1,5 @@
-﻿using Galaxy.Domain;
+﻿using EventStore.ClientAPI;
+using Galaxy.Domain;
 using Galaxy.Infrastructure;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
@@ -63,12 +64,16 @@ namespace Galaxy.EventStore
 
         public void Insert(TAggregateRoot entity)
         {
-            this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)1, entity));
+            this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
         }
 
         public void InsertGraphRange(IEnumerable<TAggregateRoot> entities)
         {
-            throw new NotImplementedException();
+            foreach (var entity in entities)
+            {
+                this._unitOfworkAsync
+                    .Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
+            }
         }
 
         public void InsertOrUpdateGraph(TAggregateRoot entity)
