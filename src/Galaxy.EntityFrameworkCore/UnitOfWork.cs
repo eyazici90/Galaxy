@@ -24,7 +24,6 @@ namespace Galaxy.EFCore
         private IGalaxyContextAsync _dataContext;
         private IAppSessionBase _session;
         private bool _disposed;
-        
         private IDbContextTransaction _transaction;
         private DbContext _dbContext;
         private Dictionary<string, dynamic> _repositories;
@@ -81,6 +80,11 @@ namespace Galaxy.EFCore
             return this._dataContext.CheckIfThereIsAvailableTransaction();
         }
 
+        public void Attach(object entity)
+        {
+            this._dataContext.Attach(entity);
+        }
+        
         public int SaveChanges()
         {
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
@@ -185,9 +189,7 @@ namespace Galaxy.EFCore
         {
           return await this._dataContext.SaveChangesByPassedAsync(cancellationToken);
         }
-
-      
-
+        
         #endregion
     }
 }

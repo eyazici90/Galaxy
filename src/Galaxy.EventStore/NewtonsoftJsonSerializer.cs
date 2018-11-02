@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Galaxy.Cache
+namespace Galaxy.EventStore
 {
-   public class NewtonsoftJsonSerializer : ISerializer
+    public class NewtonsoftJsonSerializer : ISerializer
     {
         public string Serialize(object obj, bool camelCase = true, bool indented = false)
         {
@@ -21,7 +21,7 @@ namespace Galaxy.Cache
 
         public object Deserialize(string jsonString, bool camelCase = true)
         {
-            return JsonConvert.DeserializeObject(jsonString,CreateSerializerSettings(camelCase));
+            return JsonConvert.DeserializeObject(jsonString, CreateSerializerSettings(camelCase));
         }
 
         public object Deserialize(Type type, string jsonString, bool camelCase = true)
@@ -29,7 +29,7 @@ namespace Galaxy.Cache
             return JsonConvert.DeserializeObject(jsonString, type, CreateSerializerSettings(camelCase));
         }
 
-        private  JsonSerializerSettings CreateSerializerSettings(bool camelCase = true, bool indented = false)
+        private JsonSerializerSettings CreateSerializerSettings(bool camelCase = true, bool indented = false)
         {
             var settings = new JsonSerializerSettings();
             if (indented)

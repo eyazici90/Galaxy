@@ -123,6 +123,10 @@ namespace Galaxy.Identity
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
         }
 
+        public void Attach(object entity)
+        {
+            base.Attach(entity);
+        }
 
 
         public override int SaveChanges()
@@ -255,7 +259,6 @@ namespace Galaxy.Identity
 
             Dispose(disposing);
         }
-
 
     }
 }

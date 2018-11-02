@@ -107,15 +107,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{88996C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D7E6F7E9-2BA4-422E-8C65-2F9A9540B1BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentSample.Domain", "samples\paymentSample\Domain\PaymentSample.Domain\PaymentSample.Domain.csproj", "{690EE300-7204-4401-9470-D233ACAC60A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.Domain", "samples\paymentSample\Domain\PaymentSample.Domain\PaymentSample.Domain.csproj", "{690EE300-7204-4401-9470-D233ACAC60A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentSample.Application", "samples\paymentSample\Application\PaymentSample.Application\PaymentSample.Application.csproj", "{D36ED760-DD6A-49DC-8998-39BE268325EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.Application", "samples\paymentSample\Application\PaymentSample.Application\PaymentSample.Application.csproj", "{D36ED760-DD6A-49DC-8998-39BE268325EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentSample.Infrastructure", "samples\paymentSample\Infrastructure\PaymentSample.Infrastructure\PaymentSample.Infrastructure.csproj", "{9E7688E4-C9B1-4B61-91BC-BB509C305D67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.Infrastructure", "samples\paymentSample\Infrastructure\PaymentSample.Infrastructure\PaymentSample.Infrastructure.csproj", "{9E7688E4-C9B1-4B61-91BC-BB509C305D67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentSample.CommandAPI.Host", "samples\paymentSample\Application\PaymentSample.CommandAPI.Host\PaymentSample.CommandAPI.Host.csproj", "{DD76A5B9-8841-4FC2-896C-CF2461B8C01D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.CommandAPI.Host", "samples\paymentSample\Application\PaymentSample.CommandAPI.Host\PaymentSample.CommandAPI.Host.csproj", "{DD76A5B9-8841-4FC2-896C-CF2461B8C01D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentSample.QueryAPI.Host", "samples\paymentSample\Application\PaymentSample.QueryAPI.Host\PaymentSample.QueryAPI.Host.csproj", "{0F7E0179-5060-44E2-8062-99636A949368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.QueryAPI.Host", "samples\paymentSample\Application\PaymentSample.QueryAPI.Host\PaymentSample.QueryAPI.Host.csproj", "{0F7E0179-5060-44E2-8062-99636A949368}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.EventStore.Tests", "test\Galaxy.EventStore.Tests\Galaxy.EventStore.Tests.csproj", "{E77036F6-59B6-4680-B27E-733D623584E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.EventStore", "src\Galaxy.EventStore\Galaxy.EventStore.csproj", "{B7234700-43AA-47BE-A45E-718FD972BF4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -299,6 +303,14 @@ Global
 		{0F7E0179-5060-44E2-8062-99636A949368}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F7E0179-5060-44E2-8062-99636A949368}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F7E0179-5060-44E2-8062-99636A949368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E77036F6-59B6-4680-B27E-733D623584E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77036F6-59B6-4680-B27E-733D623584E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77036F6-59B6-4680-B27E-733D623584E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E77036F6-59B6-4680-B27E-733D623584E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -358,6 +370,8 @@ Global
 		{9E7688E4-C9B1-4B61-91BC-BB509C305D67} = {D7E6F7E9-2BA4-422E-8C65-2F9A9540B1BE}
 		{DD76A5B9-8841-4FC2-896C-CF2461B8C01D} = {9CD50728-AD3A-4A2C-8992-3504FE983285}
 		{0F7E0179-5060-44E2-8062-99636A949368} = {9CD50728-AD3A-4A2C-8992-3504FE983285}
+		{E77036F6-59B6-4680-B27E-733D623584E1} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{B7234700-43AA-47BE-A45E-718FD972BF4E} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}
