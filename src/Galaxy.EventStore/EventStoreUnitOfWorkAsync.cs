@@ -53,7 +53,7 @@ namespace Galaxy.EventStore
                                                    )).ToArray();
                 try
                 {
-                    await this._connection.AppendToStreamAsync(aggregate.GetType().Name, aggregate.Version, changes);
+                    await this._connection.AppendToStreamAsync($"{aggregate.RootType}-{aggregate.Identifier}", aggregate.Version, changes);
                    
                     eventCount = eventCount + changes.Length;
                 }
