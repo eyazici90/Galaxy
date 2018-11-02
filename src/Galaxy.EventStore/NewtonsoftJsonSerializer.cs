@@ -32,6 +32,7 @@ namespace Galaxy.EventStore
         private JsonSerializerSettings CreateSerializerSettings(bool camelCase = true, bool indented = false)
         {
             var settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             if (indented)
             {
                 settings.Formatting = Formatting.Indented;

@@ -20,7 +20,7 @@ namespace Galaxy.EventStore
     public class EventStoreUnitOfWorkAsync : IUnitOfWorkAsync
     {
         private bool _disposed;
-        private  ConcurrentDictionary<string, Aggregate> _aggregates;
+        private ConcurrentDictionary<string, Aggregate> _aggregates;
         private readonly IEventStoreConnection _connection;
         private readonly ISerializer _serializer;
         public EventStoreUnitOfWorkAsync(IEventStoreConnection connection

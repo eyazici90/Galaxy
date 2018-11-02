@@ -121,6 +121,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.EventStore.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.EventStore", "src\Galaxy.EventStore\Galaxy.EventStore.csproj", "{B7234700-43AA-47BE-A45E-718FD972BF4E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eventStoreSample", "eventStoreSample", "{B4946AB5-2A9B-4978-A722-A4730BA02BB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.ConsoleApp", "samples\eventStoreSample\EventStoreSample.ConsoleApp\EventStoreSample.ConsoleApp.csproj", "{853FA614-C363-430A-BD39-E81B23F8B713}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -311,6 +315,10 @@ Global
 		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{853FA614-C363-430A-BD39-E81B23F8B713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{853FA614-C363-430A-BD39-E81B23F8B713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{853FA614-C363-430A-BD39-E81B23F8B713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{853FA614-C363-430A-BD39-E81B23F8B713}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -372,6 +380,8 @@ Global
 		{0F7E0179-5060-44E2-8062-99636A949368} = {9CD50728-AD3A-4A2C-8992-3504FE983285}
 		{E77036F6-59B6-4680-B27E-733D623584E1} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{B7234700-43AA-47BE-A45E-718FD972BF4E} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{B4946AB5-2A9B-4978-A722-A4730BA02BB0} = {40D6AC2A-57AD-476D-99B0-AC1B7929C3F8}
+		{853FA614-C363-430A-BD39-E81B23F8B713} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}

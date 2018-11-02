@@ -12,31 +12,45 @@ namespace Galaxy.EventStore.Bootstrapper
    public static  class GalaxyEventStoreRegistrationExtensions
     {
 
-        public static ContainerBuilder UseGalaxyEventStore(this ContainerBuilder builder, Func<IGalaxyEventStoreConfigurations> configurationsAction)
+        public static ContainerBuilder UseGalaxyEventStore(this ContainerBuilder builder, Func<GalaxyEventStoreConfigurations> configurationsAction)
         {
-          var b =  RegisterGalaxyEventStoreCoreModules(builder);
-            ConnectToEventStore(configurationsAction).ConfigureAwait(false)
+            var b =  RegisterGalaxyEventStoreCoreModules(builder, configurationsAction);
+            return  ConnectToEventStore(b, configurationsAction).ConfigureAwait(false)
                 .GetAwaiter().GetResult();
-            return b;
         }
 
-        private static ContainerBuilder RegisterGalaxyEventStoreCoreModules(this ContainerBuilder builder)
+        private static ContainerBuilder RegisterGalaxyEventStoreCoreModules(this ContainerBuilder builder, Func<GalaxyEventStoreConfigurations> configurationsAction)
         {
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new UnitOfWorkModule());
             builder.RegisterModule(new NewtonSoftSerializerModule());
+
+            builder.Register(c => {
+                return configurationsAction();
+            })
+            .As<IGalaxyEventStoreConfigurations>()
+            .SingleInstance();
+
             return builder;
         }
 
-        private static async Task ConnectToEventStore(Func<IGalaxyEventStoreConfigurations> configurationsAction)
+        private static async Task<ContainerBuilder> ConnectToEventStore(this ContainerBuilder builder, Func<IGalaxyEventStoreConfigurations> configurationsAction)
         {
             var configs = configurationsAction();
 
             ConnectionSettings settings = ConnectionSettings.Create()
                                                             .SetDefaultUserCredentials(new UserCredentials(configs.username, configs.password)).Build();
 
-            IEventStoreConnection connection = EventStoreConnection.Create(settings, new Uri(configs.uri));
-            await connection.ConnectAsync();
+            builder.Register(c => {
+                IEventStoreConnection connection = EventStoreConnection.Create(settings, new Uri(configs.uri));
+                 connection.ConnectAsync().ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+                return connection;
+            })
+            .As<IEventStoreConnection>()
+            .SingleInstance();
+            return builder;
         }
     }
 }
