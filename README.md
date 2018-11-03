@@ -4,6 +4,7 @@
 
 
 
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -210,6 +211,63 @@ Galaxy.Identity
                 return base.GetAll();
             }
         }
+    // CRUD methods all comes from base class. You can override if you want!
+     public class BrandAppService : CrudAppServiceAsync<BrandDto, int, Brand>
+        {
+            public BrandAppService(IRepositoryAsync<Brand, int> repositoryAsync
+                , IObjectMapper objectMapper
+                , IUnitOfWorkAsync unitOfWork) : base(repositoryAsync, objectMapper, unitOfWork)
+            {
+            }
+            
+            public async Task<BrandDto> GetBrandByIdAsync(int brandId) =>
+                 await FindAsync(brandId);
+    
+            public async Task<IList<BrandDto>> GetAllBrandsAsync() => 
+                 await this.QueryableNoTrack().ToListAsync();
+    
+            public async Task<BrandDto> AddNewBrandAsync(BrandDto brandDto)
+            {
+                return await AddAsync(async () => {
+                    var brand = Brand.Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
+                    return brand;
+                });
+            }
+    
+            public async Task<BrandDto> ChangeBrandNameAsync(BrandDto brandDto)
+            {
+                return await UpdateAsync(brandDto.Id, async brand => {
+                    brand
+                       .ChangeBrandName(brandDto.BrandName);
+                });
+            }
+       }
+***CommandHandlers definations***
+
+    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransaction,int>
+            , IRequestHandler<DirectPaymentCommand, bool>
+        {
+            public DirectPaymentCommandHandler(IUnitOfWorkAsync unitOfWorkAsync
+                , IRepositoryAsync<PaymentTransaction,int> aggregateRootRepository) : base(unitOfWorkAsync, aggregateRootRepository)
+            {
+            }
+    
+            public async Task<bool> Handle(DirectPaymentCommand request, CancellationToken cancellationToken)
+            {
+               await AddAsync(async () =>
+                {
+                    var paymentTransaction = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
+    
+                    paymentTransaction
+                        .SetMoney(request.CurrencyCode.Value, request.Amount.Value);
+    
+                    return paymentTransaction;
+                });
+    
+                return await Task.FromResult(true);
+            }
+        }
+
 ***Custom Repository definations***
  
 
@@ -279,3 +337,7 @@ Galaxy.Identity
             }
 
 
+## Samples
+**customerSample** : DDD implementations<br/>
+**paymentSample** : DDD, CQRS implementations<br/>
+**eventStoreSample** : DDD, CQRS, Event Sourcing implementations<br/>
