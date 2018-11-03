@@ -11,20 +11,20 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterGeneric(typeof(Repository<>))
+            builder.RegisterGeneric(typeof(EFRepository<>))
                .As(typeof(IRepository<>))
                .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(Repository<>))
+            builder.RegisterGeneric(typeof(EFRepository<>))
                .As(typeof(IRepositoryAsync<>))
                .InstancePerLifetimeScope();
 
 
-            builder.RegisterGeneric(typeof(Repository<,>))
+            builder.RegisterGeneric(typeof(EFRepository<,>))
              .As(typeof(IRepository<,>))
              .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(Repository<,>))
+            builder.RegisterGeneric(typeof(EFRepository<,>))
               .As(typeof(IRepositoryAsync<,>))
               .InstancePerLifetimeScope();
 

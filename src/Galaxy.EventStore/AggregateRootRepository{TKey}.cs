@@ -2,6 +2,7 @@
 using Galaxy.Domain;
 using Galaxy.Infrastructure;
 using Galaxy.Repositories;
+using Galaxy.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace Galaxy.EventStore
     public class AggregateRootRepository<TAggregateRoot, TKey> : IRepositoryAsync<TAggregateRoot, TKey>, IRepository<TAggregateRoot, TKey>
         where TAggregateRoot : class, IAggregateRoot, IObjectState
     {
+
+        private readonly IUnitOfWorkAsync _unitOfworkAsync;
+        public AggregateRootRepository(IUnitOfWorkAsync unitOfworkAsync)
+        {
+            _unitOfworkAsync = unitOfworkAsync ?? throw new ArgumentNullException(nameof(unitOfworkAsync));
+        }
+
         public void Delete(object id)
         {
             throw new NotImplementedException();
@@ -23,7 +31,7 @@ namespace Galaxy.EventStore
 
         public void Delete(TAggregateRoot entity)
         {
-            throw new NotImplementedException();
+            _unitOfworkAsync.Attach(entity);
         }
 
         public Task<bool> DeleteAsync(params object[] keyValues)
@@ -58,12 +66,16 @@ namespace Galaxy.EventStore
 
         public void Insert(TAggregateRoot entity)
         {
-            throw new NotImplementedException();
+            this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
         }
 
         public void InsertGraphRange(IEnumerable<TAggregateRoot> entities)
         {
-            throw new NotImplementedException();
+            foreach (var entity in entities)
+            {
+                this._unitOfworkAsync
+                    .Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
+            }
         }
 
         public void InsertOrUpdateGraph(TAggregateRoot entity)

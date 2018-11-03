@@ -80,8 +80,9 @@ namespace CustomerSample.Application
         public async Task ChangeMerchantVknByBrand (MerchantDto merchant)
         {
             await UpdateAsync(merchant.BrandId, async brand => {
-                brand.ChangeOrAddVknToMerchant(merchant.Id, merchant.Vkn)
-                .SyncObjectState(ObjectState.Modified);
+                brand
+                    .ChangeOrAddVknToMerchant(merchant.Id, merchant.Vkn)
+                    .SyncObjectState(ObjectState.Modified);
             });
         }
         

@@ -17,7 +17,7 @@ using Galaxy.Repositories;
 
 namespace Galaxy.EFCore
 {
-    public class UnitOfWork : IUnitOfWorkAsync
+    public class EFUnitOfWork : IUnitOfWorkAsync
     {
         #region Private Fields
         private readonly IMediator _mediator;
@@ -33,7 +33,7 @@ namespace Galaxy.EFCore
 
         #region Constuctor/Dispose
 
-        public UnitOfWork(IGalaxyContextAsync dataContext
+        public EFUnitOfWork(IGalaxyContextAsync dataContext
             , IAppSessionBase session
             , IMediator mediator)
         {
@@ -127,7 +127,7 @@ namespace Galaxy.EFCore
                 return (IRepository<TEntity>)_repositories[type];
             }
 
-            var repositoryType = typeof(Repository<>);
+            var repositoryType = typeof(EFRepository<>);
 
             _repositories.Add(type, Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _dataContext, this));
 
@@ -149,7 +149,7 @@ namespace Galaxy.EFCore
                 return (IRepositoryAsync<TEntity>)_repositories[type];
             }
 
-            var repositoryType = typeof(Repository<>);
+            var repositoryType = typeof(EFRepository<>);
 
             _repositories.Add(type, Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _dataContext, this));
 

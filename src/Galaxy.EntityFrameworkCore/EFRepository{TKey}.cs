@@ -17,10 +17,10 @@ using Galaxy.UnitOfWork;
 
 namespace Galaxy.EFCore
 {
-    public  class Repository<TEntity,TKey> : Repository<TEntity> , IRepositoryAsync<TEntity, TKey>, IRepository<TEntity, TKey> where TEntity : class, IAggregateRoot, IObjectState
+    public  class EFRepository<TEntity,TKey> : EFRepository<TEntity> , IRepositoryAsync<TEntity, TKey>, IRepository<TEntity, TKey> where TEntity : class, IAggregateRoot, IObjectState
     {
       
-        public Repository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWork) : base(context,unitOfWork)
+        public EFRepository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWork) : base(context,unitOfWork)
         {
         }
 

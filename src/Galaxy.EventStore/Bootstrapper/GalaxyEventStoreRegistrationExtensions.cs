@@ -12,21 +12,23 @@ namespace Galaxy.EventStore.Bootstrapper
    public static  class GalaxyEventStoreRegistrationExtensions
     {
 
-        public static ContainerBuilder UseGalaxyEventStore(this ContainerBuilder builder, Func<GalaxyEventStoreConfigurations> configurationsAction)
+        public static ContainerBuilder UseGalaxyEventStore(this ContainerBuilder builder, Action<IGalaxyEventStoreConfigurations> configurationsAction)
         {
             var b =  RegisterGalaxyEventStoreCoreModules(builder, configurationsAction);
             return  ConnectToEventStore(b, configurationsAction).ConfigureAwait(false)
                 .GetAwaiter().GetResult();
         }
 
-        private static ContainerBuilder RegisterGalaxyEventStoreCoreModules(this ContainerBuilder builder, Func<GalaxyEventStoreConfigurations> configurationsAction)
+        private static ContainerBuilder RegisterGalaxyEventStoreCoreModules(this ContainerBuilder builder, Action<IGalaxyEventStoreConfigurations> configurationsAction)
         {
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new UnitOfWorkModule());
             builder.RegisterModule(new NewtonSoftSerializerModule());
 
             builder.Register(c => {
-                return configurationsAction();
+                var configs = new GalaxyEventStoreConfigurations();
+                configurationsAction(configs);
+                return configs;
             })
             .As<IGalaxyEventStoreConfigurations>()
             .SingleInstance();
@@ -34,9 +36,10 @@ namespace Galaxy.EventStore.Bootstrapper
             return builder;
         }
 
-        private static async Task<ContainerBuilder> ConnectToEventStore(this ContainerBuilder builder, Func<IGalaxyEventStoreConfigurations> configurationsAction)
+        private static async Task<ContainerBuilder> ConnectToEventStore(this ContainerBuilder builder, Action<IGalaxyEventStoreConfigurations> configurationsAction)
         {
-            var configs = configurationsAction();
+            var configs = new GalaxyEventStoreConfigurations();
+            configurationsAction(configs);
 
             ConnectionSettings settings = ConnectionSettings.Create()
                                                             .SetDefaultUserCredentials(new UserCredentials(configs.username, configs.password)).Build();

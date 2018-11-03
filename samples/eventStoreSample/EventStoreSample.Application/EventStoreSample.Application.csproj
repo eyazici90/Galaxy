@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DomainEventHandlers\" />
+    <Folder Include="IntegrationEvents\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Galaxy.EventStore\Galaxy.EventStore.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\EventStoreSample.Domain\EventStoreSample.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

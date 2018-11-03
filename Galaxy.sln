@@ -117,13 +117,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.CommandAPI.Ho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentSample.QueryAPI.Host", "samples\paymentSample\Application\PaymentSample.QueryAPI.Host\PaymentSample.QueryAPI.Host.csproj", "{0F7E0179-5060-44E2-8062-99636A949368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.EventStore.Tests", "test\Galaxy.EventStore.Tests\Galaxy.EventStore.Tests.csproj", "{E77036F6-59B6-4680-B27E-733D623584E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.EventStore.Tests", "test\Galaxy.EventStore.Tests\Galaxy.EventStore.Tests.csproj", "{E77036F6-59B6-4680-B27E-733D623584E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.EventStore", "src\Galaxy.EventStore\Galaxy.EventStore.csproj", "{B7234700-43AA-47BE-A45E-718FD972BF4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.EventStore", "src\Galaxy.EventStore\Galaxy.EventStore.csproj", "{B7234700-43AA-47BE-A45E-718FD972BF4E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eventStoreSample", "eventStoreSample", "{B4946AB5-2A9B-4978-A722-A4730BA02BB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.ConsoleApp", "samples\eventStoreSample\EventStoreSample.ConsoleApp\EventStoreSample.ConsoleApp.csproj", "{853FA614-C363-430A-BD39-E81B23F8B713}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.CommandAPI.Host", "samples\eventStoreSample\EventStoreSample.CommandAPI.Host\EventStoreSample.CommandAPI.Host.csproj", "{8C3AC20A-7529-4A12-9910-C44B910062EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.Application", "samples\eventStoreSample\EventStoreSample.Application\EventStoreSample.Application.csproj", "{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.Domain", "samples\eventStoreSample\EventStoreSample.Domain\EventStoreSample.Domain.csproj", "{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -315,10 +319,18 @@ Global
 		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7234700-43AA-47BE-A45E-718FD972BF4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{853FA614-C363-430A-BD39-E81B23F8B713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{853FA614-C363-430A-BD39-E81B23F8B713}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{853FA614-C363-430A-BD39-E81B23F8B713}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{853FA614-C363-430A-BD39-E81B23F8B713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C3AC20A-7529-4A12-9910-C44B910062EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C3AC20A-7529-4A12-9910-C44B910062EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C3AC20A-7529-4A12-9910-C44B910062EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C3AC20A-7529-4A12-9910-C44B910062EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -381,7 +393,9 @@ Global
 		{E77036F6-59B6-4680-B27E-733D623584E1} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{B7234700-43AA-47BE-A45E-718FD972BF4E} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 		{B4946AB5-2A9B-4978-A722-A4730BA02BB0} = {40D6AC2A-57AD-476D-99B0-AC1B7929C3F8}
-		{853FA614-C363-430A-BD39-E81B23F8B713} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
+		{8C3AC20A-7529-4A12-9910-C44B910062EF} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
+		{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
+		{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}
