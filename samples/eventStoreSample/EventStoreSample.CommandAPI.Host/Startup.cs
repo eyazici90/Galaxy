@@ -8,7 +8,9 @@ using Autofac.Extras.DynamicProxy;
 using EventStoreSample.Application.Commands.Handlers;
 using EventStoreSample.Application.Validations;
 using Galaxy.Bootstrapping;
+using Galaxy.Commands;
 using Galaxy.EventStore.Bootstrapper;
+using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
 using Microsoft.AspNetCore.Builder;
@@ -91,6 +93,13 @@ namespace EventStoreSample.CommandAPI.Host
                  .RegisterContainerBuilder()
                      .UseGalaxyCore(b=> {
                          b.UseConventionalCommandHandlers(typeof(DirectPaymentCommandHandler).Assembly);
+
+                         b.RegisterAssemblyTypes(typeof(DirectPaymentCommandHandler).Assembly)
+                            .AssignableTo<ICommandHandler>()
+                            .AsImplementedInterfaces()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof(ValidatorInterceptor))
+                            .InstancePerLifetimeScope();
                      })
                      .UseGalaxyEventStore((configs) =>
                       {

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventStoreSample.CommandAPI.Host.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class PaymentCommandsController : ControllerBase
     {

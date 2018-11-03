@@ -28,6 +28,21 @@ namespace CustomerSample.Application
         public async Task<IList<BrandDto>> GetAllBrandsAsync() => 
              await this.QueryableNoTrack().ToListAsync();
 
+        public async Task<BrandDto> AddNewBrandAsync(BrandDto brandDto)
+        {
+            return await AddAsync(async () => {
+                var brand = Brand.Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
+                return brand;
+            });
+        }
+
+        public async Task<BrandDto> ChangeBrandNameAsync(BrandDto brandDto)
+        {
+            return await UpdateAsync(brandDto.Id, async brand => {
+                brand
+                   .ChangeBrandName(brandDto.BrandName);
+            });
+        }
 
         public  BrandDto AddNewBrand(BrandDto brandDto)
         {
@@ -46,21 +61,6 @@ namespace CustomerSample.Application
             });
         }
 
-        public async  Task<BrandDto> AddNewBrandAsync(BrandDto brandDto)
-        {
-            return await AddAsync(async () => {
-                var brand = Brand.Create(brandDto.EMail, brandDto.BrandName, brandDto.Gsm, brandDto.SNCode);
-                return brand;
-            });
-        }
- 
-
-        public async Task<BrandDto> ChangeBrandNameAsync(BrandDto brandDto)
-        {
-            return await UpdateAsync(brandDto.Id, async brand => {
-                brand
-                   .ChangeBrandName(brandDto.BrandName);
-            });
-        }
+     
     }
 }

@@ -65,6 +65,12 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             return new PaymentTransaction(msisdn, orderId, transactionDateTime);
         }
 
+        public PaymentTransaction RefundPaymentTyped()
+        {
+            this.TransactionTypeId = PaymentTransactionType.RefundPaymentType.Id;
+            return this;
+        }
+
         public Money SetMoney(int currencyCode, decimal amount)
         {
             var money = Money.Create(amount, currencyCode);
