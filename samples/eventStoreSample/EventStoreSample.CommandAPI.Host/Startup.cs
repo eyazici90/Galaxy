@@ -88,7 +88,6 @@ namespace EventStoreSample.CommandAPI.Host
 
         private IContainer ConfigureGalaxy(IServiceCollection services)
         {
-
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterContainerBuilder()
                      .UseGalaxyCore(b=> {

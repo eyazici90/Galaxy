@@ -77,5 +77,30 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             this.Money = money;
             return this.Money;
         }
+
+        public void ChangeOrSetAmountTo(Money money)
+        {
+            // Max Daily Amount. Could get from environment!
+            if (money.Amount > 1000)
+            {
+                throw new PaymentDomainException($"Max daily amount exceed for this transaction {this.Id}");
+            }
+            this.Money = money;
+            // AggregateRoot leads all owned domain events !!!
+            AddDomainEvent(new TransactionAmountChangedDomainEvent(this));
+        }
+
+        public void PaymentStatusSucceded()
+        {
+            this.TransactionStatusId = PaymenTransactionStatus.SuccessStatus.Id;
+            AddDomainEvent(new TransactionStatusChangedDomainEvent(this));
+
+        }
+
+        public void PaymentStatusFailed()
+        {
+            this.TransactionStatusId = PaymenTransactionStatus.FailStatus.Id;
+            AddDomainEvent(new TransactionStatusChangedDomainEvent(this));
+        }
     }
 }

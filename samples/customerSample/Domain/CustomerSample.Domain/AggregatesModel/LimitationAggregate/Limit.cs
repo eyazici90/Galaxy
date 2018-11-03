@@ -21,7 +21,7 @@ namespace CustomerSample.Domain.AggregatesModel.LimitationAggregate
         private Limit(){}
 
 
-        public Limit(string name,decimal value, int typeId ) : this()
+        private  Limit(string name,decimal value, int typeId ) : this()
         {
             this.LimitName = !string.IsNullOrWhiteSpace(name) ? name
                                                               : throw new ArgumentNullException(nameof(name));
@@ -29,6 +29,11 @@ namespace CustomerSample.Domain.AggregatesModel.LimitationAggregate
             this.LimitTypeId = typeId ;
 
         }
+        public static Limit Create(string name, decimal value, int typeId)
+        {
+            return new Limit(name, value, typeId);
+        }
+
         public void ActivateLimit()
         {
             this.IsActive = true;

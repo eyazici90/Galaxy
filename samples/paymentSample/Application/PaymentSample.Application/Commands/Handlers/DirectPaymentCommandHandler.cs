@@ -27,7 +27,7 @@ namespace PaymentSample.Application.Commands.Handlers
                 var paymentTransaction = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
 
                 paymentTransaction
-                    .SetMoney(Convert.ToInt16(request.CurrencyCode), Convert.ToDecimal(request.Amount))
+                    .SetMoney(request.CurrencyCode.Value, request.Amount.Value)
                     .SyncObjectState(ObjectState.Added);
 
                 return paymentTransaction;

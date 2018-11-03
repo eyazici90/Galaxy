@@ -28,7 +28,7 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
             _merchants = new List<Merchant>();
         }
 
-        public Brand(string email, string brandName, string gsm = default, string snCode = default) : this()
+        private Brand(string email, string brandName, string gsm = default, string snCode = default) : this()
         {
             this.EMail = !string.IsNullOrWhiteSpace(email) ? email
                                                            : throw new ArgumentNullException(nameof(email));

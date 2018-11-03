@@ -23,7 +23,7 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
         public int LimitId { get; private set; }
 
         private Merchant(){ }
-        public Merchant(string name, string surname , int brandId, int limitId, string gsm = default)
+        private Merchant(string name, string surname , int brandId, int limitId, string gsm = default)
         {
             this.Name = !string.IsNullOrWhiteSpace(name) ? name
                                                          : throw new ArgumentNullException(nameof(name));
