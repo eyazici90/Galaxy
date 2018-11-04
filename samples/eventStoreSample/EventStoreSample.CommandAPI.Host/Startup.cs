@@ -6,6 +6,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using EventStoreSample.Application.Commands.Handlers;
+using EventStoreSample.Application.DomainEventHandlers;
 using EventStoreSample.Application.Validations;
 using Galaxy.Bootstrapping;
 using Galaxy.Commands;
@@ -91,6 +92,7 @@ namespace EventStoreSample.CommandAPI.Host
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterContainerBuilder()
                      .UseGalaxyCore(b=> {
+                         b.UseConventionalDomainEventHandlers(typeof(TransactionCreatedDomainEventHandler).Assembly);
                          b.UseConventionalCommandHandlers(typeof(DirectPaymentCommandHandler).Assembly);
 
                          b.RegisterAssemblyTypes(typeof(DirectPaymentCommandHandler).Assembly)

@@ -2,7 +2,9 @@
 using Galaxy.Domain;
 using Galaxy.Infrastructure;
 using Galaxy.Repositories;
+using Galaxy.Serialization;
 using Galaxy.UnitOfWork;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +21,32 @@ namespace Galaxy.EventStore
     {
 
         private readonly IUnitOfWorkAsync _unitOfworkAsync;
-        public AggregateRootRepository(IUnitOfWorkAsync unitOfworkAsync)
+        private readonly IEventStoreConnection _connection;
+        private readonly ISerializer _serializer;
+        public AggregateRootRepository(IUnitOfWorkAsync unitOfworkAsync
+            , IEventStoreConnection connection
+            , ISerializer serializer)
         {
             _unitOfworkAsync = unitOfworkAsync ?? throw new ArgumentNullException(nameof(unitOfworkAsync));
+            _connection = connection ?? throw new ArgumentNullException(nameof(connection));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+        }
+
+        private async Task<List<object>> GetEvents(string streamName)
+        {
+            var sliceStart = StreamPosition.Start;
+            var deserializedEvents = new List<object>();
+            StreamEventsSlice slice;
+
+            do
+            {
+                slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
+                deserializedEvents.AddRange(slice.Events.Select(e => this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data))));
+                sliceStart = Convert.ToInt32(slice.NextEventNumber);
+
+            } while (!slice.IsEndOfStream);
+
+            return deserializedEvents;
         }
 
         public void Delete(object id)
@@ -49,19 +74,38 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public TAggregateRoot Find(params object[] keyValues)
+        public  TAggregateRoot Find(params object[] keyValues)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TAggregateRoot> FindAsync(params object[] keyValues)
+        public async Task<TAggregateRoot> FindAsync(params object[] keyValues)
         {
-            throw new NotImplementedException();
-        }
+            string streamName = StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString());
+            StreamEventsSlice slice =
+                await
+                    _connection.ReadStreamEventsForwardAsync(streamName, StreamPosition.Start, 20,
+                        false);
+            if (slice.Status == SliceReadStatus.StreamDeleted || slice.Status == SliceReadStatus.StreamNotFound)
+            {
+                return null;
+            } 
+            var aggregateRoot = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
+            var events = await GetEvents(streamName);
 
-        public Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
+            events.ForEach(e => {
+                var localEvent = e as INotification;
+                (aggregateRoot as IEntity).AddDomainEvent(localEvent);
+            });
+
+            this._unitOfworkAsync.Attach(aggregateRoot);
+
+            return aggregateRoot;
+        }
+        
+        public async Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
-            throw new NotImplementedException();
+            return await this.FindAsync(keyValues);
         }
 
         public void Insert(TAggregateRoot entity)

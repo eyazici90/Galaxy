@@ -25,6 +25,13 @@ namespace EventStoreSample.CommandAPI.Host.Controllers
         public Task<IActionResult> DirectPayment([FromBody] DirectPaymentCommand request) =>
             HandleOrThrow(request, async (r) => await this._mediatr.Send(r));
 
+        [Route("api/Payment/Transaction/Amount")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [HttpPut]
+        public Task<IActionResult> ChangeAmount([FromBody] ChangeOrSetAmountCommand request) =>
+          HandleOrThrow(request, async (r) => await this._mediatr.Send(r));
+
+
 
         [Route("api/Payment/Transaction/Refund")]
         [ProducesResponseType((int)HttpStatusCode.OK)]

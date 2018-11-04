@@ -6,6 +6,7 @@ using Galaxy.Infrastructure;
 using Galaxy.Repositories;
 using Galaxy.Serialization;
 using Galaxy.UnitOfWork;
+using MediatR;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -23,13 +24,36 @@ namespace Galaxy.EventStore
         private ConcurrentDictionary<string, Aggregate> _aggregates;
         private readonly IEventStoreConnection _connection;
         private readonly ISerializer _serializer;
+        private readonly IMediator _mediatR;
         public EventStoreUnitOfWorkAsync(IEventStoreConnection connection
             , IGalaxyEventStoreConfigurations eventStoreConfigurations
-            , ISerializer serializer)
+            , ISerializer serializer
+            , IMediator mediatR)
         {
             _aggregates = new ConcurrentDictionary<string, Aggregate>();
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _mediatR = mediatR ?? throw new ArgumentNullException(nameof(mediatR));
+        }
+
+        public async Task DispatchNotificationsAsync(IMediator mediator)
+        {
+            var notifications = this._aggregates.Values.Select(a=>(a.Root as IEntity)) ;
+
+            var domainEvents = notifications
+                .SelectMany(x => x.DomainEvents)
+                .ToList();
+
+            notifications.ToList()
+                .ForEach(entity => entity.ClearDomainEvents());
+
+            var tasks = domainEvents
+                .Select(async (domainEvent) =>
+                {
+                    await mediator.Publish(domainEvent);
+                });
+
+            await Task.WhenAll(tasks);
         }
 
         private async Task<int> SendToStreamAsync()
@@ -53,7 +77,7 @@ namespace Galaxy.EventStore
                                                    )).ToArray();
                 try
                 {
-                    await this._connection.AppendToStreamAsync($"{aggregate.RootType}-{aggregate.Identifier}", aggregate.Version, changes);
+                    await this._connection.AppendToStreamAsync(StreamExtensions.GetStreamName(aggregate), aggregate.Version, changes);
                    
                     eventCount = eventCount + changes.Length;
                 }
@@ -78,12 +102,16 @@ namespace Galaxy.EventStore
             SendToStreamAsync().ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
+            DispatchNotificationsAsync(this._mediatR).ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
             return true;
         }
 
         public async Task<bool> CommitAsync()
         {
             await SendToStreamAsync();
+            await DispatchNotificationsAsync(this._mediatR);
             return await Task.FromResult(true);
         }
         
@@ -94,14 +122,20 @@ namespace Galaxy.EventStore
 
         public int SaveChanges()
         {
-           return SendToStreamAsync().ConfigureAwait(false)
+            var result = SendToStreamAsync().ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
+            DispatchNotificationsAsync(this._mediatR).ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+            return result;
         }
 
         public async Task<int> SaveChangesAsync()
         {
-            return await SendToStreamAsync();
+            var result = await SendToStreamAsync();
+            await DispatchNotificationsAsync(this._mediatR);
+            return result;
         }
 
         public async  Task<int> SaveChangesAsync(CancellationToken cancellationToken) =>
@@ -109,7 +143,7 @@ namespace Galaxy.EventStore
         
 
         public async Task<int> SaveChangesByPassAsync(CancellationToken cancellationToken = default(CancellationToken)) =>
-            await SaveChangesAsync();
+            await this.SaveChangesAsync();
 
         public IRepository<TEntity> Repository<TEntity>()  where TEntity : class, IAggregateRoot, IObjectState
         {

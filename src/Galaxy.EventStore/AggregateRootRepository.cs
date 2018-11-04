@@ -17,9 +17,12 @@ namespace Galaxy.EventStore
        where TAggregateRoot : class, IAggregateRoot, IObjectState
     {
         private readonly IUnitOfWorkAsync _unitOfworkAsync;
-        public AggregateRootRepository(IUnitOfWorkAsync unitOfworkAsync)
+        private readonly IEventStoreConnection _connection;
+        public AggregateRootRepository(IUnitOfWorkAsync unitOfworkAsync
+            , IEventStoreConnection connection)
         {
             _unitOfworkAsync = unitOfworkAsync ?? throw new ArgumentNullException(nameof(unitOfworkAsync));
+            _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
         public void Delete(object id)
@@ -52,12 +55,12 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public Task<TAggregateRoot> FindAsync(params object[] keyValues)
+        public async Task<TAggregateRoot> FindAsync(params object[] keyValues)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
+        public async Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
             throw new NotImplementedException();
         }

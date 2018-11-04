@@ -55,8 +55,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             {
                 throw new PaymentDomainException($"Invalid transactionDateTime {transactionDateTime}");
             }
-
-
+            
             AddDomainEvent(new TransactionCreatedDomainEvent(this));
         }
 

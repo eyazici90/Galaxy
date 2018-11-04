@@ -29,7 +29,7 @@ namespace Galaxy.Commands
 
         public virtual async Task UpdateAsync(TPrimaryKey id, Func<TAggregateRoot, Task> when)
         {
-            TAggregateRoot aggregate = _aggregateRootRepository.Find(id);
+            TAggregateRoot aggregate = await _aggregateRootRepository.FindAsync(id);
             await when(aggregate);
             _aggregateRootRepository.Update(aggregate);
             await this._unitOfWorkAsync.SaveChangesAsync();
