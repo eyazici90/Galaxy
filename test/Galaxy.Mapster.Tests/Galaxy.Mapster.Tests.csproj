@@ -14,4 +14,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\Galaxy.TestBase\Galaxy.TestBase.csproj" />
+  </ItemGroup>
+
 </Project>
