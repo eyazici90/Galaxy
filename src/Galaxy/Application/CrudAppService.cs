@@ -49,7 +49,15 @@ namespace Galaxy.Application
              aggregate
              );
         }
-        
+
+        public virtual void Delete(TKey id)
+        {
+            _repositoryAsync.Delete(id);
+            this._unitOfWorkAsync.SaveChangesAsync()
+                 .ConfigureAwait(false)
+                 .GetAwaiter().GetResult();
+        }
+
 
     }
 }

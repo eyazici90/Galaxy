@@ -128,7 +128,7 @@ namespace CustomerSample.API.Host
                      })
                      .UseGalaxyEntityFrameworkCore(
                                 new DbContextOptionsBuilder<CustomerSampleDbContext>()
-                                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),typeof(CustomerSampleAppSession))
+                                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), typeof(CustomerSampleAppSession))
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)
                      .UseGalaxyInMemoryCache(services)
