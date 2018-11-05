@@ -44,7 +44,7 @@ namespace CustomerSample.Application
             return await  this._cacheServ.GetAsync(brandName);
         }
 
-        public async Task<IList<BrandDto>> GetAllBrandsAsync() => await this.QueryableNoTrack().ToListAsync();
+        public async Task<IList<BrandDto>> GetAllBrandsAsync() => await base.QueryableNoTrack().ToListAsync();
         
 
         public async Task AddNewBrand(BrandDto brandDto)
