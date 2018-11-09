@@ -129,7 +129,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStoreSample.Applicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStoreSample.Domain", "samples\eventStoreSample\EventStoreSample.Domain\EventStoreSample.Domain.csproj", "{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.TestBase", "test\Galaxy.TestBase\Galaxy.TestBase.csproj", "{08546A1D-1F6E-4484-946E-2953EBD07C6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.TestBase", "test\Galaxy.TestBase\Galaxy.TestBase.csproj", "{08546A1D-1F6E-4484-946E-2953EBD07C6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Ocelot.Tests", "test\Galaxy.Ocelot.Tests\Galaxy.Ocelot.Tests.csproj", "{9E15D3D5-457D-4362-9662-332D66E8E88B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Ocelot", "src\Galaxy.Ocelot\Galaxy.Ocelot.csproj", "{CDF14C55-6264-4C99-BA48-6CEDAA156458}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -337,6 +341,14 @@ Global
 		{08546A1D-1F6E-4484-946E-2953EBD07C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08546A1D-1F6E-4484-946E-2953EBD07C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08546A1D-1F6E-4484-946E-2953EBD07C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E15D3D5-457D-4362-9662-332D66E8E88B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E15D3D5-457D-4362-9662-332D66E8E88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E15D3D5-457D-4362-9662-332D66E8E88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E15D3D5-457D-4362-9662-332D66E8E88B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF14C55-6264-4C99-BA48-6CEDAA156458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF14C55-6264-4C99-BA48-6CEDAA156458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF14C55-6264-4C99-BA48-6CEDAA156458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF14C55-6264-4C99-BA48-6CEDAA156458}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -403,6 +415,8 @@ Global
 		{FE3AF7CC-245D-4BA5-9DB0-D73B8BF62BC6} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
 		{6BFA46B5-3AD6-4CAC-807D-D5FEF9C44493} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
 		{08546A1D-1F6E-4484-946E-2953EBD07C6F} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{9E15D3D5-457D-4362-9662-332D66E8E88B} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{CDF14C55-6264-4C99-BA48-6CEDAA156458} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}
