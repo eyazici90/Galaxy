@@ -2,9 +2,9 @@
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false, 
-    "anonymousAuthentication": true,
+    "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:5001",
+      "applicationUrl": "http://localhost:1453",
       "sslPort": 0
     }
   },
@@ -12,16 +12,16 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "/swagger",
+      "launchUrl": "/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CustomerSample.API.Host": {
+    "Galaxy.Ocelot": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "/swagger",
-      "applicationUrl": "http://localhost:5001",
+      "launchBrowser": false,
+      "launchUrl": "/",
+      "applicationUrl": "http://localhost:1453",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
