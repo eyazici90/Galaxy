@@ -9,14 +9,26 @@ namespace Galaxy.Ocelot.Extensions
 {
     public static class MiddlewareExtensions
     {
+        public static IApplicationBuilder UseResponseConsistentMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ResponseConsistentMiddleware>();
+        }
+
+        public static IApplicationBuilder UseIdempotencyMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<IdempotencyMiddleware>();
+        }
+
         public static IApplicationBuilder UseLogMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<LogMiddleware>();
         }
+
         public static IApplicationBuilder UseCorrelationIdMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<CorrelationIdMiddleware>();
         }
+
         public static IApplicationBuilder UseCircuitBreakerMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<CircuitBreakerMiddleware>();

@@ -6,6 +6,8 @@ using Autofac.Extensions.DependencyInjection;
 using Galaxy.Bootstrapping;
 using Galaxy.Ocelot.Extensions;
 using Galaxy.Ocelot.Middlewares;
+using Galaxy.Ocelot.Serialization;
+using Galaxy.Serialization;
 using Galaxy.Serilog.Bootstrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +54,8 @@ namespace Galaxy.Ocelot
             });
 
             // app.UseCircuitBreakerMiddleware();
+            app.UseResponseConsistentMiddleware();
+            app.UseIdempotencyMiddleware();
             app.UseLogMiddleware();
             app.UseCorrelationIdMiddleware();
 
@@ -74,7 +78,11 @@ namespace Galaxy.Ocelot
         {
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterContainerBuilder()
-                     .UseGalaxyCore()
+                     .UseGalaxyCore( builder => {
+                         builder.RegisterType<NewtonsoftJsonSerializer>()
+                           .As<ISerializer>()
+                           .SingleInstance();
+                     })
                      .UseGalaxySerilogger(configs => {
                          configs.WriteTo.File("log.txt",
                             rollingInterval: RollingInterval.Day,

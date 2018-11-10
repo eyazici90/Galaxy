@@ -6,21 +6,17 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Ocelot.Middlewares
 {
-    public class CorrelationIdMiddleware
+    public class IdempotencyMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public CorrelationIdMiddleware(RequestDelegate next)
+        public IdempotencyMiddleware(RequestDelegate next)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
         }
 
         public async Task Invoke(HttpContext context)
         {
-            var correlationId = Guid.NewGuid().ToString();
-            
-            context.Response.Headers.Add("CorrelationId", correlationId);
-     
             await _next(context);
         }
     }
