@@ -14,6 +14,11 @@ namespace Galaxy.Ocelot.Extensions
             return builder.UseMiddleware<ResponseConsistentMiddleware>();
         }
 
+        public static IApplicationBuilder UseJwtBearerMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<JwtBearerMiddleware>();
+        }
+
         public static IApplicationBuilder UseIdempotencyMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<IdempotencyMiddleware>();
