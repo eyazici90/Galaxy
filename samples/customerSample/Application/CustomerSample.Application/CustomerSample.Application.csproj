@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\..\..\src\Galaxy.Cache\Galaxy.Cache.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Galaxy.RabbitMQ\Galaxy.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.Serilog\Galaxy.Serilog.csproj" />
     <ProjectReference Include="..\..\Domain\CustomerSample.Domain\CustomerSample.Domain.csproj" />
     <ProjectReference Include="..\CustomerSample.Application.Abstractions\CustomerSample.Application.Abstractions.csproj" />

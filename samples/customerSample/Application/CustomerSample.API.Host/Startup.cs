@@ -19,8 +19,10 @@ using Galaxy.EntityFrameworkCore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
+using Galaxy.RabbitMQ.Bootstrapper;
 using Galaxy.Serilog.Bootstrapper;
 using Galaxy.UnitOfWork;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -73,7 +75,8 @@ namespace CustomerSample.API.Host
             .AddControllersAsServices();
            
             var container = this.ConfigureGalaxy(services);
-            
+          
+
             return new AutofacServiceProvider(container);
         }
 
@@ -136,8 +139,14 @@ namespace CustomerSample.API.Host
                          configs.WriteTo.File("log.txt",
                             rollingInterval: RollingInterval.Day,
                             rollOnFileSizeLimit: true);
+                     })
+                     .UseGalaxyRabbitMQ(conf => {
+                         conf.Username = "guest";
+                         conf.Password = "guest";
+                         conf.HostAddress = "rabbitmq://localhost/";
+                         conf.QueueName = "Test";
                      });
-
+         
             containerBuilder.Populate(services);
 
            return containerBuilder.InitializeGalaxy();

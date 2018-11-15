@@ -24,22 +24,22 @@ namespace Galaxy.RabbitMQ.Bootstrapper.AutoFacModules
                         h.Password(configuration.Password);
                     });
 
-                    cfg.ReceiveEndpoint(host, configuration.QueueName, ec=> {
-                        ec.PrefetchCount = Convert.ToUInt16(configuration.PrefetchCount);
-                    });
+                    cfg.ReceiveEndpoint(host, configuration.QueueName, ec => { ec.LoadFrom(ctx); });
 
                     if (configuration.UseRetryMechanism) cfg.UseRetry(rtryConf => { rtryConf.Immediate(configuration.MaxRetryCount); });
 
                     if (configuration.PrefetchCount.HasValue) cfg.PrefetchCount = (ushort)configuration.PrefetchCount;
 
                     if (configuration.ConcurrencyLimit.HasValue) cfg.UseConcurrencyLimit(configuration.ConcurrencyLimit.Value);
-
+                    
                 });
 
                 return busControl;
+
             }).SingleInstance()
                 .As<IBusControl>()
                 .As<IBus>();
+
         }
     }
 }

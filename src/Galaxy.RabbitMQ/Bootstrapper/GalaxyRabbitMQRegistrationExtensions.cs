@@ -8,12 +8,23 @@ namespace Galaxy.RabbitMQ.Bootstrapper
 {
    public static class GalaxyRabbitMQRegistrationExtensions
     {
-        public static ContainerBuilder UseGalaxyRabbitMQ(this ContainerBuilder builder, Func<IGalaxyRabbitMQConfiguration , IGalaxyRabbitMQConfiguration> galaxyRabbitMQConfiguration)
+        public static ContainerBuilder UseGalaxyRabbitMQ(this ContainerBuilder builder, Action<IGalaxyRabbitMQConfiguration> galaxyRabbitMQConfiguration)
         {
-            builder.Register(ctx => galaxyRabbitMQConfiguration)
-                .AsSelf();
-            builder.RegisterModule(new ConfigurationModule());
+            
+            builder.Register(c =>
+            {
+                var configs = new GalaxyRabbitMQConfiguration();
+                galaxyRabbitMQConfiguration(configs);
+                return configs;
+            })
+            .As<IGalaxyRabbitMQConfiguration>()
+            .SingleInstance();
+
+       
             builder.RegisterModule(new MassTransitModule());
+            builder.RegisterModule(new BusModules());
+
+
             return builder;
         }
         
