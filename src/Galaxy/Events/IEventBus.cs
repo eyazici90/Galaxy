@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Galaxy.Events
 {
     public interface IEventBus
     {
-        void Subscribe<T, TH>()
-            where T : IntegrationEvent
-            where TH : IIntegrationEventHandler<T>;
-        void SubscribeDynamic<TH>(string eventName)
-            where TH : IDynamicIntegrationEventHandler;
+        Task Publish(IntegrationEvent @event);
 
-        void UnsubscribeDynamic<TH>(string eventName)
-            where TH : IDynamicIntegrationEventHandler;
+        Task Publish<TEvent>(TEvent @event) where TEvent : IntegrationEvent;
 
-        void Unsubscribe<T, TH>()
-            where TH : IIntegrationEventHandler<T>
-            where T : IntegrationEvent;
-
-        void Publish(IntegrationEvent @event);
-
+        Task Publish<TEvent>(object @event) where TEvent : IntegrationEvent;
     }
 }

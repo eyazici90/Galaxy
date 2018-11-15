@@ -41,7 +41,7 @@ namespace Galaxy.FluentValidation
                  if (validationResult != null && validationResult.Errors.Any())
                      throw new GalaxyException(string.Join(",", validationResult.Errors.Select(x => x.ErrorMessage)));
 
-                 }
+            }
         }
         private static ValidationResult ValidateTyped<T>(IValidator<T> validator, T request, string[] ruleset, IValidatorSelector selector = null)
         {
