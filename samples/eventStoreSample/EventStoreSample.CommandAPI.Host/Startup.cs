@@ -14,6 +14,8 @@ using Galaxy.EventStore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
+using Galaxy.RabbitMQ.Bootstrapper;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +57,11 @@ namespace EventStoreSample.CommandAPI.Host
             .AddControllersAsServices();
 
             var container = this.ConfigureGalaxy(services);
+
+            var busControl = container.Resolve<IBusControl>();
+            busControl.StartAsync()
+                .ConfigureAwait(false)
+                .GetAwaiter().GetResult();
 
             return new AutofacServiceProvider(container);
         }
@@ -110,6 +117,12 @@ namespace EventStoreSample.CommandAPI.Host
                           configs.uri = "tcp://admin:changeit@localhost:1113";
 
                       })
+                     .UseGalaxyRabbitMQ(conf => {
+                           conf.Username = "guest";
+                           conf.Password = "guest";
+                           conf.HostAddress = "rabbitmq://localhost/";
+                           conf.QueueName = "eventStoreSample";
+                       })
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(DirectPaymentCommandValidation).Assembly);
 

@@ -23,5 +23,7 @@ namespace Galaxy.RabbitMQ
         public int? PrefetchCount { get; set; }
 
         public int? ConcurrencyLimit { get; set; }
+
+        public bool AutoDeleted { get; set; }
     }
 }

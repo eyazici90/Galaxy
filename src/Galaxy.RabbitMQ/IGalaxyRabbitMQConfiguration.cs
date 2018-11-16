@@ -14,6 +14,8 @@ namespace Galaxy.RabbitMQ
 
         string QueueName { get; set; }
 
+        bool AutoDeleted { get; set; }
+
         bool UseRetryMechanism { get; set; }
 
         int MaxRetryCount { get; set; }

@@ -26,6 +26,8 @@ namespace Galaxy.RabbitMQ.Bootstrapper.AutoFacModules
 
                     cfg.ReceiveEndpoint(host, configuration.QueueName, ec => { ec.LoadFrom(ctx); });
 
+                    cfg.AutoDelete = configuration.AutoDeleted;  
+
                     if (configuration.UseRetryMechanism) cfg.UseRetry(rtryConf => { rtryConf.Immediate(configuration.MaxRetryCount); });
 
                     if (configuration.PrefetchCount.HasValue) cfg.PrefetchCount = (ushort)configuration.PrefetchCount;

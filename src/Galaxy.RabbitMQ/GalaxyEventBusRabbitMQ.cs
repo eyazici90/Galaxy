@@ -18,19 +18,16 @@ namespace Galaxy.RabbitMQ
             _galaxyRabbitMqConfiguration = galaxyRabbitMqConfiguration ?? throw new ArgumentNullException(nameof(galaxyRabbitMqConfiguration));
         }
 
-        public async Task Publish(IntegrationEvent @event)
+        public async Task Publish(object @event)
         {
             await _bus.Publish(@event);
         }
 
-        public async Task Publish<TEvent>(TEvent @event) where TEvent : IntegrationEvent
+        public async Task Publish<TEvent>(object @event) where TEvent : class
         {
             await _bus.Publish<TEvent>(@event);
         }
 
-        public async Task Publish<TEvent>(object @event) where TEvent : IntegrationEvent
-        {
-            await _bus.Publish(@event);
-        }
+    
     }
 }
