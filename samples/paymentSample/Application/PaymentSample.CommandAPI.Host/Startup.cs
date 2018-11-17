@@ -101,7 +101,7 @@ namespace PaymentSample.CommandAPI.Host
         {
 
             var containerBuilder = GalaxyCoreModule.New
-                 .RegisterContainerBuilder()
+                 .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore(b => {
 
                          b.UseConventionalDomainEventHandlers(typeof(TransactionCreatedDomainEventHandler).Assembly);

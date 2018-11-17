@@ -6,7 +6,7 @@ using System.Text;
 namespace Galaxy.EntityFrameworkCore.EntityConfigurations
 {
     public abstract class GalaxyBaseAuditEntityTypeConfiguration<TEntity> : GalaxyBaseAuditEntityTypeConfiguration<TEntity, int>
-        where TEntity : AggregateRootEntity<int>
+        where TEntity :  AggregateRootEntity<int>
     {
 
     }

@@ -8,9 +8,9 @@ namespace Galaxy.Bootstrapping
 {
     public abstract class GalaxyBaseBootstrapper : IBootstrapContainer<IContainer>
     {
-        public virtual IContainer RegisterContainer() => this.SharedBuilder().Build();
+        public virtual IContainer RegisterGalaxyContainer() => this.SharedBuilder().Build();
 
-        public virtual ContainerBuilder RegisterContainerBuilder() => this.SharedBuilder();
+        public virtual ContainerBuilder RegisterGalaxyContainerBuilder() => this.SharedBuilder();
 
         private  ContainerBuilder SharedBuilder()
         {

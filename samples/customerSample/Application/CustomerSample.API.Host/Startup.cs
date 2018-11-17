@@ -112,7 +112,7 @@ namespace CustomerSample.API.Host
         {
 
             var containerBuilder = GalaxyCoreModule.New
-                 .RegisterContainerBuilder()
+                 .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore(b =>
                      {
                          b.UseConventionalCustomRepositories(typeof(BrandRepository).Assembly);

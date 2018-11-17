@@ -97,7 +97,7 @@ namespace EventStoreSample.CommandAPI.Host
         private IContainer ConfigureGalaxy(IServiceCollection services)
         {
             var containerBuilder = GalaxyCoreModule.New
-                 .RegisterContainerBuilder()
+                 .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore(b=> {
                          b.UseConventionalDomainEventHandlers(typeof(TransactionCreatedDomainEventHandler).Assembly);
                          b.UseConventionalCommandHandlers(typeof(DirectPaymentCommandHandler).Assembly);

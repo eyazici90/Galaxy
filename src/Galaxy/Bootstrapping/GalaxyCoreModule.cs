@@ -17,7 +17,7 @@ namespace Galaxy.Bootstrapping
 
         private GalaxyCoreModule()
         {
-            SingleInstanceBuilder = SingleInstanceBuilder ?? base.RegisterContainerBuilder();
+            SingleInstanceBuilder = SingleInstanceBuilder ?? base.RegisterGalaxyContainerBuilder();
         }
 
         public static GalaxyCoreModule Create()

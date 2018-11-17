@@ -13,7 +13,7 @@ namespace Galaxy.TestBase
         protected LocalTestBaseResolver()
         {
             ContainerBuilder = GalaxyCoreModule.New
-                .RegisterContainerBuilder();
+                .RegisterGalaxyContainerBuilder();
         }
 
         protected LocalTestBaseResolver Build(Action<ContainerBuilder> buildAction)

@@ -6,7 +6,6 @@ namespace Galaxy.Bootstrapping
 {
     public interface IBootstrapContainer<TContainer> where TContainer : class
     {
-        TContainer RegisterContainer();
-  
+        TContainer RegisterGalaxyContainer();
     }
 }

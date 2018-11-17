@@ -75,7 +75,7 @@ namespace Galaxy.Ocelot
         private IContainer ConfigureGalaxy(IServiceCollection services)
         {
             var containerBuilder = GalaxyCoreModule.New
-                 .RegisterContainerBuilder()
+                 .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore( builder => {
                          builder.RegisterType<NewtonsoftJsonSerializer>()
                            .As<ISerializer>()

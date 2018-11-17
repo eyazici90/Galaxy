@@ -114,6 +114,11 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
+        public IQueryable<TAggregateRoot> QueryableWithNoFilter()
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<TAggregateRoot> SelectQuery(string query, params object[] parameters)
         {
             throw new NotImplementedException();

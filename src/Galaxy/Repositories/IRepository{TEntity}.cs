@@ -24,6 +24,7 @@ namespace Galaxy.Repositories
         IQueryFluent<TEntity> Query();
         IQueryable<TEntity> Queryable();
         IQueryable<TEntity> QueryableNoTrack();
+        IQueryable<TEntity> QueryableWithNoFilter();
         IQueryable<TEntity> ExecuteQuery(string sqlQuery);
         IRepository<T> GetRepository<T>() where T : class, IAggregateRoot, IObjectState;
     }
