@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Galaxy.Ocelot.Middlewares
+namespace Galaxy.Gateway.Middlewares
 {
    
     public class LogMiddleware

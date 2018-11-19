@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Galaxy.Bootstrapping;
-using Galaxy.Ocelot.Extensions;
-using Galaxy.Ocelot.Serialization;
+using Galaxy.Gateway.Extensions;
+using Galaxy.Gateway.Serialization;
 using Galaxy.Serialization;
 using Galaxy.Serilog.Bootstrapper;
 using Microsoft.AspNetCore.Builder;
@@ -16,7 +16,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Serilog;
 
-namespace Galaxy.Ocelot
+namespace Galaxy.Gateway
 {
     public class Startup
     {

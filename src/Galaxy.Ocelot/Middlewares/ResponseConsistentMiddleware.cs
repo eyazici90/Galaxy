@@ -1,4 +1,4 @@
-﻿using Galaxy.Ocelot.Infrastructure;
+﻿using Galaxy.Gateway.Infrastructure;
 using Galaxy.Serialization;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Galaxy.Ocelot.Middlewares
+namespace Galaxy.Gateway.Middlewares
 {
     public class ResponseConsistentMiddleware
     {

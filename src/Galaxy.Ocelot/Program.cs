@@ -6,7 +6,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.WindowsServices;
 
-namespace Galaxy.Ocelot
+namespace Galaxy.Gateway
 {
     public class Program
     {

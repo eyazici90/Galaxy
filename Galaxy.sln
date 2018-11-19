@@ -131,7 +131,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.TestBase", "test\Gal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Ocelot.Tests", "test\Galaxy.Ocelot.Tests\Galaxy.Ocelot.Tests.csproj", "{9E15D3D5-457D-4362-9662-332D66E8E88B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Ocelot", "src\Galaxy.Ocelot\Galaxy.Ocelot.csproj", "{949C413D-EB07-47D3-975F-8D3A5D910E2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Gateway", "src\Galaxy.Ocelot\Galaxy.Gateway.csproj", "{949C413D-EB07-47D3-975F-8D3A5D910E2C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.RabbitMQ", "src\Galaxy.RabbitMQ\Galaxy.RabbitMQ.csproj", "{ABE2AA76-F606-474E-AFC8-67A536BA63FA}"
 EndProject

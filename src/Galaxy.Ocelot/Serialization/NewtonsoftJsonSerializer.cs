@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Galaxy.Ocelot.Serialization
+namespace Galaxy.Gateway.Serialization
 {
     public class NewtonsoftJsonSerializer : ISerializer
     {

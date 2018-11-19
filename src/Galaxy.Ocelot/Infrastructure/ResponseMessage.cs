@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Galaxy.Ocelot.Infrastructure
+namespace Galaxy.Gateway.Infrastructure
 {
     public class ResponseMessage
     {
