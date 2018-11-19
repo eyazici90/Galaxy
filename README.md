@@ -65,7 +65,7 @@ Galaxy.Identity
 ***Basic Usage***
 
      GalaxyCoreModule.New
-                 .RegisterContainerBuilder()
+                 .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore()
                      .UseGalaxyEntityFrameworkCore(
                                 new DbContextOptionsBuilder<YourDbContext>()
