@@ -121,7 +121,7 @@ namespace EventStoreSample.CommandAPI.Host
                            conf.Username = "guest";
                            conf.Password = "guest";
                            conf.HostAddress = "rabbitmq://localhost/";
-                           conf.QueueName = "eventStoreSample";
+                           conf.QueueName = "eventStoreSamplePub";
                        })
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(DirectPaymentCommandValidation).Assembly);

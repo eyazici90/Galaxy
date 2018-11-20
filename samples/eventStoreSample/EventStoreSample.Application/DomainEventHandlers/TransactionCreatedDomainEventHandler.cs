@@ -1,5 +1,6 @@
-﻿using EventStoreSample.Application.IntegrationEvents;
+﻿
 using EventStoreSample.Domain.Events;
+using EventStoreSample.IntegrationEvents;
 using Galaxy.Events;
 using MediatR;
 using System;

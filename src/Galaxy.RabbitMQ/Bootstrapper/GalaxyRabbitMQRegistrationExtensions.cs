@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Galaxy.RabbitMQ.Bootstrapper.AutoFacModules;
+using MassTransit;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Galaxy.RabbitMQ.Bootstrapper
@@ -27,6 +29,14 @@ namespace Galaxy.RabbitMQ.Bootstrapper
 
             return builder;
         }
-        
+
+        public static ContainerBuilder UseGalaxyRabbitMQ(this ContainerBuilder builder, Action<IGalaxyRabbitMQConfiguration> galaxyRabbitMQConfiguration
+            , params Assembly[] consumersAssembly)
+        {
+            UseGalaxyRabbitMQ(builder, galaxyRabbitMQConfiguration);
+            builder.RegisterConsumers(consumersAssembly);
+            return builder;
+        }
+
     }
 }

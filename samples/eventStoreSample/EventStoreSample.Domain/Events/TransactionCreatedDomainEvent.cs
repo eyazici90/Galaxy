@@ -9,8 +9,6 @@ namespace EventStoreSample.Domain.Events
     public class TransactionCreatedDomainEvent: INotification
     {
         public PaymentTransaction paymentTransaction { get; private set; }
-
-
         public TransactionCreatedDomainEvent(PaymentTransaction transaction)
         {
             this.paymentTransaction = transaction;
