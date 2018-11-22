@@ -9,5 +9,6 @@ namespace Galaxy.Domain
     {
         TPrimaryKey Id { get;  }
         bool IsTransient();
+
     }
 }

@@ -38,6 +38,8 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private PaymentTransaction()
         {
+            Register<TransactionAmountChangedDomainEvent>(When);
+            Register<TransactionStatusChangedDomainEvent>(When);
         }
 
         private PaymentTransaction(string msisdn, string orderId, DateTime transactionDateTime) : this()
@@ -64,6 +66,16 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             return new PaymentTransaction(msisdn, orderId, transactionDateTime);
         }
 
+        private void When(TransactionAmountChangedDomainEvent @event)
+        {
+            this.Money = @event.PaymentTransaction.Money;
+        }
+
+        private void When(TransactionStatusChangedDomainEvent @event)
+        {
+            this.TransactionStatusId = @event.PaymentTransaction.TransactionStatusId;
+        }
+        
         public PaymentTransaction RefundPaymentTyped()
         {
             this.TransactionTypeId = PaymentTransactionType.RefundPaymentType.Id;

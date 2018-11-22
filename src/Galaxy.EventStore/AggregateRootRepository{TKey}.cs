@@ -95,7 +95,7 @@ namespace Galaxy.EventStore
 
             events.ForEach(e => {
                 var localEvent = e as INotification;
-                (aggregateRoot as IEntity).AddDomainEvent(localEvent);
+                (aggregateRoot as IEntity).ApplyEvent(localEvent);
             });
 
             this._unitOfworkAsync.Attach(aggregateRoot);

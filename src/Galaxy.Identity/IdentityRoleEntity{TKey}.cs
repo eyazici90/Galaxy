@@ -58,5 +58,20 @@ namespace Galaxy.Identity
             }
             return false;
         }
+
+        public void Register<TEvent>(Action<TEvent> handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ApplyEvent(INotification @event)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ApplyAllChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
