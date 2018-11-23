@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,8 +42,9 @@ namespace Galaxy.EventStore
             do
             {
                 slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
+         
                 deserializedEvents
-                    .AddRange(slice.Events.Select(e => this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data))));
+                    .AddRange(slice.Events.Select(e => this._serializer.Deserialize(Type.GetType(e.Event.EventType, true), Encoding.UTF8.GetString(e.Event.Data))));
                 sliceStart = Convert.ToInt32(slice.NextEventNumber);
 
             } while (!slice.IsEndOfStream);
@@ -92,6 +94,7 @@ namespace Galaxy.EventStore
             {
                 return null;
             } 
+
             var aggregateRoot = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
             var events = await GetEvents(streamName);
 

@@ -64,7 +64,7 @@ namespace Galaxy.EventStore
                 EventData[] changes = (aggregate.Root as IEntity).DomainEvents
                                                .Select(@event => new EventData(
                                                    Guid.NewGuid(),
-                                                   @event.GetType().Name,
+                                                   @event.GetType().FullName,
                                                    true,
                                                    Encoding.UTF8.GetBytes(this._serializer.Serialize(@event)),
                                                    Encoding.UTF8.GetBytes(this._serializer.Serialize(new EventMetadata
