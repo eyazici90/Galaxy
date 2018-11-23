@@ -33,7 +33,8 @@ namespace Galaxy.EventStore
         {
             var settings = new JsonSerializerSettings();
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            settings.TypeNameHandling = TypeNameHandling.Objects;
+            settings.TypeNameHandling = TypeNameHandling.None;
+            settings.NullValueHandling = NullValueHandling.Ignore;
 
             if (indented)
             {
@@ -42,9 +43,8 @@ namespace Galaxy.EventStore
 
             if (camelCase)
             {
-                settings.ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
+                settings.ContractResolver = new CamelCasePropertyNamesContractResolver
+                { 
                 };
             }
             return settings;

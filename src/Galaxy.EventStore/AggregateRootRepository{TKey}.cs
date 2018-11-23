@@ -41,7 +41,8 @@ namespace Galaxy.EventStore
             do
             {
                 slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
-                deserializedEvents.AddRange(slice.Events.Select(e => this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data))));
+                deserializedEvents
+                    .AddRange(slice.Events.Select(e => this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data))));
                 sliceStart = Convert.ToInt32(slice.NextEventNumber);
 
             } while (!slice.IsEndOfStream);
@@ -86,6 +87,7 @@ namespace Galaxy.EventStore
                 await
                     _connection.ReadStreamEventsForwardAsync(streamName, StreamPosition.Start, 20,
                         false);
+
             if (slice.Status == SliceReadStatus.StreamDeleted || slice.Status == SliceReadStatus.StreamNotFound)
             {
                 return null;
@@ -93,9 +95,9 @@ namespace Galaxy.EventStore
             var aggregateRoot = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
             var events = await GetEvents(streamName);
 
-            events.ForEach(e => {
-                var localEvent = e as INotification;
-                (aggregateRoot as IEntity).ApplyEvent(localEvent);
+            events.ForEach(e => 
+            {
+                (aggregateRoot as IEntity).ApplyEvent(e);
             });
 
             this._unitOfworkAsync.Attach(aggregateRoot);

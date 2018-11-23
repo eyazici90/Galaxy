@@ -64,7 +64,7 @@ namespace Galaxy.Identity
             throw new NotImplementedException();
         }
 
-        public void ApplyEvent(INotification @event)
+        public void ApplyEvent(object @event)
         {
             throw new NotImplementedException();
         }

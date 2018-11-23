@@ -58,10 +58,10 @@ namespace EventStoreSample.CommandAPI.Host
 
             var container = this.ConfigureGalaxy(services);
 
-            var busControl = container.Resolve<IBusControl>();
-            busControl.StartAsync()
-                .ConfigureAwait(false)
-                .GetAwaiter().GetResult();
+            //var busControl = container.Resolve<IBusControl>();
+            //busControl.StartAsync()
+            //    .ConfigureAwait(false)
+            //    .GetAwaiter().GetResult();
 
             return new AutofacServiceProvider(container);
         }
