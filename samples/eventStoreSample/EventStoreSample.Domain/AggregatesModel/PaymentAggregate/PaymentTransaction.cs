@@ -38,27 +38,14 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private PaymentTransaction()
         {
+            Register<TransactionCreatedDomainEvent>(When);
             Register<TransactionAmountChangedDomainEvent>(When);
             Register<TransactionStatusChangedDomainEvent>(When);
         }
 
         private PaymentTransaction(string msisdn, string orderId, DateTime transactionDateTime) : this()
         {
-            this.Msisdn = !string.IsNullOrWhiteSpace(msisdn) ? msisdn
-                                                      : throw new ArgumentNullException(nameof(msisdn));
-            this.OrderId = !string.IsNullOrWhiteSpace(orderId) ? orderId
-                                                     : throw new ArgumentNullException(nameof(orderId));
-
-            this.TransactionDateTime = transactionDateTime;
-
-            this.TransactionTypeId = PaymentTransactionType.DirectPaymentType.Id;
-
-            if (DateTime.Now.AddDays(-1) > transactionDateTime)
-            {
-                throw new PaymentDomainException($"Invalid transactionDateTime {transactionDateTime}");
-            }
-            
-            AddDomainEvent(new TransactionCreatedDomainEvent(this));
+            ApplyDomainEvent(new TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
         }
 
         public static PaymentTransaction Create(string msisdn, string orderId, DateTime transactionDateTime)
@@ -66,14 +53,31 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             return new PaymentTransaction(msisdn, orderId, transactionDateTime);
         }
 
+        private void When(TransactionCreatedDomainEvent @event)
+        {
+            this.Msisdn = !string.IsNullOrWhiteSpace(@event.Msisdn) ? @event.Msisdn
+                                                      : throw new ArgumentNullException(nameof(@event.Msisdn));
+            this.OrderId = !string.IsNullOrWhiteSpace(@event.OrderId) ? @event.OrderId
+                                                     : throw new ArgumentNullException(nameof(@event.OrderId));
+
+            this.TransactionDateTime = @event.TransactionDateTime;
+
+            this.TransactionTypeId = PaymentTransactionType.DirectPaymentType.Id;
+
+            if (DateTime.Now.AddDays(-1) > @event.TransactionDateTime)
+            {
+                throw new PaymentDomainException($"Invalid transactionDateTime {@event.TransactionDateTime}");
+            }
+        }
+
         private void When(TransactionAmountChangedDomainEvent @event)
         {
-            this.Money = @event.PaymentTransaction.Money;
+            this.Money = @event.Money;
         }
 
         private void When(TransactionStatusChangedDomainEvent @event)
         {
-            this.TransactionStatusId = @event.PaymentTransaction.TransactionStatusId;
+            this.TransactionStatusId = @event.TransactionStatusId;
         }
         
         public PaymentTransaction RefundPaymentTyped()
@@ -96,22 +100,18 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             {
                 throw new PaymentDomainException($"Max daily amount exceed for this transaction {this.Id}");
             }
-            this.Money = money;
             // AggregateRoot leads all owned domain events !!!
-            AddDomainEvent(new TransactionAmountChangedDomainEvent(this));
+            ApplyDomainEvent(new TransactionAmountChangedDomainEvent(money));
         }
 
         public void PaymentStatusSucceded()
         {
-            this.TransactionStatusId = PaymenTransactionStatus.SuccessStatus.Id;
-            AddDomainEvent(new TransactionStatusChangedDomainEvent(this));
-
+            ApplyDomainEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.SuccessStatus.Id));
         }
 
         public void PaymentStatusFailed()
         {
-            this.TransactionStatusId = PaymenTransactionStatus.FailStatus.Id;
-            AddDomainEvent(new TransactionStatusChangedDomainEvent(this));
+            ApplyDomainEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.FailStatus.Id));
         }
     }
 }

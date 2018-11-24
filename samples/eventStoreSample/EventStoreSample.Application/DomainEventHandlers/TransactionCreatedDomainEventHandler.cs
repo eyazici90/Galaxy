@@ -20,8 +20,9 @@ namespace EventStoreSample.Application.DomainEventHandlers
         }
         public async Task Handle(TransactionCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            var aggregateRoot = notification.paymentTransaction;
-            await _eventBus.Publish(new TransactionCreatedIntegrationEvent(aggregateRoot));
+            var msiSdn = notification.Msisdn;
+            //var aggregateRoot = notification.Msisdn;
+            //await _eventBus.Publish(new TransactionCreatedIntegrationEvent(aggregateRoot));
         }
     }
 }

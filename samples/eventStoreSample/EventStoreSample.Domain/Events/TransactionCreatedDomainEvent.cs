@@ -8,10 +8,17 @@ namespace EventStoreSample.Domain.Events
 {
     public class TransactionCreatedDomainEvent: INotification
     {
-        public PaymentTransaction paymentTransaction { get; private set; }
-        public TransactionCreatedDomainEvent(PaymentTransaction transaction)
+        public DateTime TransactionDateTime { get; private set; }
+
+        public string Msisdn { get; private set; }
+        
+        public string OrderId { get; private set; }
+
+        public TransactionCreatedDomainEvent(string msisdn, string orderId, DateTime transactionDateTime)
         {
-            this.paymentTransaction = transaction;
+            this.Msisdn = msisdn;
+            this.OrderId = orderId;
+            this.TransactionDateTime = transactionDateTime;
         }
     }
 }

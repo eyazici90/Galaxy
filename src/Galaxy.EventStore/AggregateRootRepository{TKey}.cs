@@ -42,9 +42,8 @@ namespace Galaxy.EventStore
             do
             {
                 slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
-         
                 deserializedEvents
-                    .AddRange(slice.Events.Select(e => this._serializer.Deserialize(Type.GetType(e.Event.EventType, true), Encoding.UTF8.GetString(e.Event.Data))));
+                    .AddRange(slice.Events.Select(e => this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data))));
                 sliceStart = Convert.ToInt32(slice.NextEventNumber);
 
             } while (!slice.IsEndOfStream);
@@ -100,10 +99,13 @@ namespace Galaxy.EventStore
 
             events.ForEach(e => 
             {
-                (aggregateRoot as IEntity).ApplyEvent(e);
+                (aggregateRoot as IEntity).ApplyDomainEvent(e);
             });
 
-            this._unitOfworkAsync.Attach(aggregateRoot);
+            (aggregateRoot as IEntity).ClearDomainEvents();
+
+            var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
+            this._unitOfworkAsync.Attach(aggregate);
 
             return aggregateRoot;
         }
@@ -174,7 +176,7 @@ namespace Galaxy.EventStore
 
         public void Update(TAggregateRoot entity)
         {
-            throw new NotImplementedException();
+          //
         }
 
         IRepository<T> IRepository<TAggregateRoot, TKey>.GetRepository<T>()

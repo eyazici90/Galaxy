@@ -8,13 +8,12 @@ namespace EventStoreSample.Domain.Events
 {
     public class TransactionStatusChangedDomainEvent
      : INotification
-    {
-        public PaymentTransaction PaymentTransaction { get; private set; }
+    { 
+        public int TransactionStatusId { get; private set; }
 
-
-        public TransactionStatusChangedDomainEvent(PaymentTransaction transaction)
+        public TransactionStatusChangedDomainEvent(int transactionStatusId)
         {
-            this.PaymentTransaction = transaction;
+            this.TransactionStatusId = transactionStatusId;
         }
     }
 }

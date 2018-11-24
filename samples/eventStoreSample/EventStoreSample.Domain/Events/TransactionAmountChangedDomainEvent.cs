@@ -9,12 +9,11 @@ namespace EventStoreSample.Domain.Events
     public class TransactionAmountChangedDomainEvent
      : INotification
     {
-        public PaymentTransaction PaymentTransaction { get; private set; }
+        public Money Money { get; private set; }
 
-
-        public TransactionAmountChangedDomainEvent(PaymentTransaction paymentTransaction)
+        public TransactionAmountChangedDomainEvent(Money money)
         {
-            this.PaymentTransaction = paymentTransaction;
+            this.Money = money;
         }
     }
 }

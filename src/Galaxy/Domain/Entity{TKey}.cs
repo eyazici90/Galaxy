@@ -41,14 +41,14 @@ namespace Galaxy.Domain
             _eventRouter.Register<TEvent>(handler);
         }
 
-        public virtual void ApplyEvent(object @event)
+        public virtual void ApplyDomainEvent(object @event)
         {
             if (@event == null)
             {
                 throw new ArgumentNullException(nameof(@event));
             }
-            AddDomainEvent(@event as INotification);
             _eventRouter.Route(@event);
+            AddDomainEvent(@event as INotification);
         }
 
         public virtual void ApplyAllChanges()
