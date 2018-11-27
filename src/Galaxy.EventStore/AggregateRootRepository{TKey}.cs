@@ -99,7 +99,7 @@ namespace Galaxy.EventStore
 
             events.ForEach(e => 
             {
-                (aggregateRoot as IEntity).ApplyDomainEvent(e);
+                (aggregateRoot as IEntity).ApplyEvent(e);
             });
 
             (aggregateRoot as IEntity).ClearDomainEvents();
@@ -180,6 +180,11 @@ namespace Galaxy.EventStore
         }
 
         IRepository<T> IRepository<TAggregateRoot, TKey>.GetRepository<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task InsertAsync(TAggregateRoot entity)
         {
             throw new NotImplementedException();
         }

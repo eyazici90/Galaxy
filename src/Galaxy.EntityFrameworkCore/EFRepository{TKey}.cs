@@ -44,7 +44,7 @@ namespace Galaxy.EFCore
             }
             entity.SyncObjectState(ObjectState.Deleted);
             _dbSet.Attach(entity);
-
+            _context.SyncObjectState(entity);
             return true;
         }
 

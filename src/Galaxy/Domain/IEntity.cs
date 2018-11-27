@@ -12,7 +12,7 @@ namespace Galaxy.Domain
         void RemoveDomainEvent(INotification eventItem);
         void ClearDomainEvents();
         void Register<TEvent>(Action<TEvent> handler);
-        void ApplyDomainEvent(object @event);
+        void ApplyEvent(object @event);
         void ApplyAllChanges();
     }
 }

@@ -70,6 +70,11 @@ namespace Galaxy.EventStore
             this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
         }
 
+        public Task InsertAsync(TAggregateRoot entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public void InsertGraphRange(IEnumerable<TAggregateRoot> entities)
         {
             foreach (var entity in entities)

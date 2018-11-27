@@ -64,8 +64,7 @@ namespace CustomerSample.Application
         {
             await UpdateAsync(merchant.BrandId ,async brand => {
                 brand
-                   .AddMerchant(merchant.Name, merchant.Surname, merchant.BrandId, merchant.LimitId, _brandPolicy, merchant.Gsm)
-                   .SyncObjectState(ObjectState.Added);
+                   .AddMerchant(merchant.Name, merchant.Surname, merchant.BrandId, merchant.LimitId, _brandPolicy, merchant.Gsm);
             }); 
         }
 
@@ -81,8 +80,7 @@ namespace CustomerSample.Application
         {
             await UpdateAsync(merchant.BrandId, async brand => {
                 brand
-                    .ChangeOrAddVknToMerchant(merchant.Id, merchant.Vkn)
-                    .SyncObjectState(ObjectState.Modified);
+                    .ChangeOrAddVknToMerchant(merchant.Id, merchant.Vkn);
             });
         }
         

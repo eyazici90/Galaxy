@@ -23,7 +23,7 @@ namespace Galaxy.Commands
         public virtual async Task AddAsync(Func<Task<TAggregateRoot>> when)
         {
             var aggregate = await when();
-            _aggregateRootRepository.Insert(aggregate);
+            await _aggregateRootRepository.InsertAsync(aggregate);
             await this._unitOfWorkAsync.SaveChangesAsync();
         }
 

@@ -17,7 +17,7 @@ using Galaxy.UnitOfWork;
 
 namespace Galaxy.EFCore
 {
-    
+
     public  class EFRepository<TEntity> : IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class, IAggregateRoot, IObjectState
     {
         #region Private Fields
@@ -40,6 +40,13 @@ namespace Galaxy.EFCore
         {
             entity.SyncObjectState(ObjectState.Added);
              _dbSet.Attach(entity);
+            _context.SyncObjectState(entity);
+        }
+
+        public virtual async Task InsertAsync(TEntity entity)
+        {
+            entity.SyncObjectState(ObjectState.Added);
+            _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
         }
 

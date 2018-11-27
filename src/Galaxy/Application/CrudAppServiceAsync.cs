@@ -25,7 +25,7 @@ namespace Galaxy.Application
         public virtual async Task<TEntityDto> AddAsync(Func<Task<TEntity>> when)
         {
             var aggregate = await when();
-            _repositoryAsync.Insert(aggregate);
+            await _repositoryAsync.InsertAsync(aggregate);
             await this._unitOfWorkAsync.SaveChangesAsync();
             return base._objectMapper.MapTo<TEntityDto>(
                 aggregate
