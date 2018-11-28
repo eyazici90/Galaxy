@@ -5,6 +5,7 @@
 
 
 
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -338,6 +339,10 @@ Galaxy.Identity
 
 
 ## Samples
-**customerSample** : DDD implementations<br/>
-**paymentSample** : DDD, CQRS implementations<br/>
-**eventStoreSample** : DDD, CQRS, Event Sourcing implementations<br/>
+
+|Sample Name| Implementations |
+|--|--|
+|customerSample | DDD |
+|paymentSample| DDD, CQRS |
+|eventStoreSample | DDD, CQRS, Event Sourcing|
+
