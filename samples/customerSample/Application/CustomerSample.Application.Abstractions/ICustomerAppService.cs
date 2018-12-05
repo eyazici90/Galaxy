@@ -16,7 +16,6 @@ namespace CustomerSample.Application.Abstractions
         [DisableUnitOfWork]
         Task<BrandDto> GetBrandByIdAsync(int brandId);
         
-
         Task AddNewBrand(BrandDto brandDto);
         Task AddMerchantToBrand(MerchantDto merchant);
         Task ChangeBrandName(BrandDto brandDto);
