@@ -41,7 +41,7 @@ namespace Galaxy.Domain
             _eventRouter.Register<TEvent>(handler);
         }
 
-        public virtual void ApplyEvent(object @event)
+        public virtual void ApplyDomainEvent(object @event)
         {
             if (@event == null)
             {

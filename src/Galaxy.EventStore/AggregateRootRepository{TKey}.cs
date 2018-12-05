@@ -99,7 +99,7 @@ namespace Galaxy.EventStore
 
             events.ForEach(e => 
             {
-                (aggregateRoot as IEntity).ApplyEvent(e);
+                (aggregateRoot as IEntity).ApplyDomainEvent(e);
             });
 
             (aggregateRoot as IEntity).ClearDomainEvents();

@@ -45,7 +45,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private PaymentTransaction(string msisdn, string orderId, DateTime transactionDateTime) : this()
         {
-            ApplyEvent(new TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
+            ApplyDomainEvent(new TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
         }
 
         public static PaymentTransaction Create(string msisdn, string orderId, DateTime transactionDateTime)
@@ -101,17 +101,17 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
                 throw new PaymentDomainException($"Max daily amount exceed for this transaction {this.Id}");
             }
             // AggregateRoot leads all owned domain events !!!
-            ApplyEvent(new TransactionAmountChangedDomainEvent(money));
+            ApplyDomainEvent(new TransactionAmountChangedDomainEvent(money));
         }
 
         public void PaymentStatusSucceded()
         {
-            ApplyEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.SuccessStatus.Id));
+            ApplyDomainEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.SuccessStatus.Id));
         }
 
         public void PaymentStatusFailed()
         {
-            ApplyEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.FailStatus.Id));
+            ApplyDomainEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.FailStatus.Id));
         }
     }
 }
