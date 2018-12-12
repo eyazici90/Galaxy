@@ -1,5 +1,6 @@
 ﻿using Galaxy.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System; 
 
 namespace Galaxy.Redis
