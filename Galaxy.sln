@@ -155,9 +155,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Gateway", "src\Galax
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Ocelot.Tests", "test\Galaxy.Gateway.Tests\Galaxy.Ocelot.Tests.csproj", "{55A6F533-E38F-48B0-92AF-01AA42D0245A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.Listener", "samples\eventStoreSample\EventStoreSample.Listener\EventStoreSample.Listener.csproj", "{58AC6B92-87ED-457A-8929-747C3CA2F1C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStoreSample.Listener", "samples\eventStoreSample\EventStoreSample.Listener\EventStoreSample.Listener.csproj", "{58AC6B92-87ED-457A-8929-747C3CA2F1C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.IntegrationEvents", "samples\eventStoreSample\EventStoreSample.IntegrationEvents\EventStoreSample.IntegrationEvents.csproj", "{E3560840-0A24-4B4D-80BA-EB8B201D8EB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStoreSample.IntegrationEvents", "samples\eventStoreSample\EventStoreSample.IntegrationEvents\EventStoreSample.IntegrationEvents.csproj", "{E3560840-0A24-4B4D-80BA-EB8B201D8EB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.ElasticSearch.Tests", "test\Galaxy.ElasticSearch.Tests\Galaxy.ElasticSearch.Tests.csproj", "{BC725A82-B6BC-40F6-AE0A-5F7CCA375B2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.ElasticSearch", "src\Galaxy.ElasticSearch\Galaxy.ElasticSearch.csproj", "{D9552540-86F0-402F-BE4D-3CE41BC584F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -405,6 +409,14 @@ Global
 		{E3560840-0A24-4B4D-80BA-EB8B201D8EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3560840-0A24-4B4D-80BA-EB8B201D8EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3560840-0A24-4B4D-80BA-EB8B201D8EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC725A82-B6BC-40F6-AE0A-5F7CCA375B2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC725A82-B6BC-40F6-AE0A-5F7CCA375B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC725A82-B6BC-40F6-AE0A-5F7CCA375B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC725A82-B6BC-40F6-AE0A-5F7CCA375B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9552540-86F0-402F-BE4D-3CE41BC584F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9552540-86F0-402F-BE4D-3CE41BC584F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9552540-86F0-402F-BE4D-3CE41BC584F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9552540-86F0-402F-BE4D-3CE41BC584F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -485,6 +497,8 @@ Global
 		{55A6F533-E38F-48B0-92AF-01AA42D0245A} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{58AC6B92-87ED-457A-8929-747C3CA2F1C4} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
 		{E3560840-0A24-4B4D-80BA-EB8B201D8EB4} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
+		{BC725A82-B6BC-40F6-AE0A-5F7CCA375B2E} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{D9552540-86F0-402F-BE4D-3CE41BC584F4} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}
