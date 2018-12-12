@@ -1,4 +1,5 @@
-﻿using Galaxy.Serialization;
+﻿using Galaxy.Exceptions;
+using Galaxy.Serialization;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -63,6 +64,11 @@ namespace Galaxy.Cache
 
         public void Set(string key, object value, TimeSpan? slidingExpireTime = null, TimeSpan? absoluteExpireTime = null)
         {
+            if (value == null)
+            { 
+                throw new GalaxyException($"Can not insert null values to the cache!");
+            }
+
             this._memoryCache.Set(
               NormalizeKey(key),
               this._objectSerializer.Serialize(value),
@@ -94,7 +100,7 @@ namespace Galaxy.Cache
         
         public void Dispose()
         {
-            
+            //Disposing
         }
     }
 }
