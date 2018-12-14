@@ -7,7 +7,7 @@ namespace Galaxy.Utf8Json.Bootstrapper.AutoFacModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Utf8JsonSerializerModule>()
+            builder.RegisterType<Utf8JsonSerializer>()
                 .As<ISerializer>()
                 .SingleInstance();
         }
