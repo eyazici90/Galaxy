@@ -14,7 +14,6 @@ namespace Galaxy.Redis.Bootstrapper
             RegisterRedisCache(builder, configurationOpts);
 
             builder.RegisterModule(new RedisGlobalSettingsModule());
-            builder.RegisterModule(new NewtonSoftSerializerModule());
             builder.RegisterModule(new RedisCacheModule());
             
             return builder;

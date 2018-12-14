@@ -1,7 +1,10 @@
 ﻿using Autofac;
 using Galaxy.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Galaxy.EventStore.Bootstrapper.AutoFacModules
+namespace Galaxy.NewtonSoftJson.Bootstrapper.AutoFacModules
 {
     public class NewtonSoftSerializerModule : Module
     {

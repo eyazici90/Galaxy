@@ -23,7 +23,6 @@ namespace Galaxy.EventStore.Bootstrapper
         {
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new UnitOfWorkModule());
-            builder.RegisterModule(new NewtonSoftSerializerModule());
 
             builder.Register(c => {
                 var configs = new GalaxyEventStoreConfigurations();

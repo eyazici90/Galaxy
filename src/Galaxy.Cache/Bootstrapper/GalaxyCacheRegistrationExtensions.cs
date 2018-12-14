@@ -3,9 +3,6 @@ using Autofac.Extensions.DependencyInjection;
 using Galaxy.Cache.Bootstrapper.AutoFacModules;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Galaxy.Cache.Bootstrapper
 {
@@ -15,7 +12,6 @@ namespace Galaxy.Cache.Bootstrapper
         {
             RegisterInMemoryCacheFromSericeProvider(services);
             builder.RegisterModule(new InMemoryGlobalSettingsModule());
-            builder.RegisterModule(new NewtonSoftSerializerModule());
             builder.RegisterModule(new InMemoryCacheModule());
             return builder;
         }

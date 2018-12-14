@@ -22,6 +22,7 @@ using Galaxy.Mapster.Bootstrapper;
 using Galaxy.RabbitMQ.Bootstrapper;
 using Galaxy.Serilog.Bootstrapper;
 using Galaxy.UnitOfWork;
+using Galaxy.Utf8Json.Bootstrapper;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -129,6 +130,7 @@ namespace CustomerSample.API.Host
                               .InterceptedBy(typeof(UnitOfWorkInterceptor))
                               .InstancePerLifetimeScope();
                      })
+                     .UseGalaxyUtf8JsonSerialization()
                      .UseGalaxyEntityFrameworkCore(
                                 new DbContextOptionsBuilder<CustomerSampleDbContext>()
                                      .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), typeof(CustomerSampleAppSession))

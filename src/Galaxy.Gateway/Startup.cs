@@ -5,7 +5,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Galaxy.Bootstrapping;
 using Galaxy.Gateway.Extensions;
-using Galaxy.Gateway.Serialization;
 using Galaxy.Serialization;
 using Galaxy.Serilog.Bootstrapper;
 using Microsoft.AspNetCore.Builder;
@@ -77,9 +76,7 @@ namespace Galaxy.Gateway
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore( builder => {
-                         builder.RegisterType<NewtonsoftJsonSerializer>()
-                           .As<ISerializer>()
-                           .SingleInstance();
+
                      })
                      .UseGalaxySerilogger(configs => {
                          configs.WriteTo.File("log.txt",

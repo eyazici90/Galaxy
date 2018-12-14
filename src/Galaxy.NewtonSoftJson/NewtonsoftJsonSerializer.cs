@@ -1,9 +1,11 @@
 ﻿using Galaxy.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System; 
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Galaxy.Redis
+namespace Galaxy.NewtonSoftJson
 {
     public class NewtonsoftJsonSerializer : ISerializer
     {
