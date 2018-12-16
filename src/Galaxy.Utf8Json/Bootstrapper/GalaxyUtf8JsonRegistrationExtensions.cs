@@ -7,8 +7,7 @@ using System.Text;
 namespace Galaxy.Utf8Json.Bootstrapper
 {
     public static class GalaxyUtf8JsonRegistrationExtensions
-    {
-
+    { 
         public static ContainerBuilder UseGalaxyUtf8JsonSerialization(this ContainerBuilder builder)
         {
             RegisterUtf8JsonModule(builder);
