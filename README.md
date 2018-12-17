@@ -72,12 +72,12 @@ Galaxy.Identity
 
      GalaxyCoreModule.New
                  .RegisterGalaxyContainerBuilder()
-                     .UseGalaxyCore()
-		     .UseGalaxyEntityFrameworkCore<YourDbContext>(conf=> 
-                     {
-                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                     })
-                     .InitializeGalaxy();
+                 .UseGalaxyCore()
+		   .UseGalaxyEntityFrameworkCore<YourDbContext>(conf=> 
+                   {
+                       conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                   })
+                  .InitializeGalaxy();
                          
 ***MultiTenancy Activation***
 
