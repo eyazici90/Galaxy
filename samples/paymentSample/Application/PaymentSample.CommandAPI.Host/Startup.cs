@@ -113,9 +113,10 @@ namespace PaymentSample.CommandAPI.Host
                               .InterceptedBy(typeof(ValidatorInterceptor))
                               .InstancePerLifetimeScope();
                      })
-                     .UseGalaxyEntityFrameworkCore(
-                                new DbContextOptionsBuilder<PaymentSampleDbContext>()
-                                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
+                     .UseGalaxyEntityFrameworkCore<PaymentSampleDbContext>(conf => 
+                     {
+                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                     })
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(PaymentTransactionValidation).Assembly)
                      .UseGalaxySerilogger(configs => {

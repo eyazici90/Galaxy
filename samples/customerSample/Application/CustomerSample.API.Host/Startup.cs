@@ -131,18 +131,21 @@ namespace CustomerSample.API.Host
                               .InstancePerLifetimeScope();
                      })
                      .UseGalaxyUtf8JsonSerialization()
-                     .UseGalaxyEntityFrameworkCore(
-                                new DbContextOptionsBuilder<CustomerSampleDbContext>()
-                                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), typeof(CustomerSampleAppSession))
+                     .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf=> 
+                     {
+                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                     }, typeof(CustomerSampleAppSession)) 
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)
                      .UseGalaxyInMemoryCache(services)
-                     .UseGalaxySerilogger(configs => {
-                         configs.WriteTo.File("log.txt",
+                     .UseGalaxySerilogger(conf => 
+                     {
+                         conf.WriteTo.File("log.txt",
                             rollingInterval: RollingInterval.Day,
                             rollOnFileSizeLimit: true);
                      })
-                     .UseGalaxyRabbitMQ(conf => {
+                     .UseGalaxyRabbitMQ (conf => 
+                     {
                          conf.Username = "guest";
                          conf.Password = "guest";
                          conf.HostAddress = "rabbitmq://localhost/";

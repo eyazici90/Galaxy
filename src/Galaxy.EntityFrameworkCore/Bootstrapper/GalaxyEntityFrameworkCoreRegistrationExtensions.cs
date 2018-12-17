@@ -15,21 +15,20 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
    public static class GalaxyEntityFrameworkCoreRegistrationExtensions
     {
 
-        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext, TAppSession>(
+        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(
            this ContainerBuilder builder,
-           DbContextOptionsBuilder<TDbContext> options, TAppSession appSession ) 
+           Action<DbContextOptionsBuilder<TDbContext>> optionsAction, Type appSession ) 
             where TDbContext : GalaxyDbContext
-            where TAppSession : Type
         {
 
             if (!typeof(IAppSessionBase).IsAssignableFrom(appSession))
-                throw new GalaxyException($"The parameter : {typeof(TAppSession).Name} is not assignable from {nameof(IAppSessionBase)}");
+                throw new GalaxyException($"The parameter : {appSession.Name} is not assignable from {nameof(IAppSessionBase)}");
             
             builder.RegisterType(appSession)
                 .As<IAppSessionBase>()
                 .InstancePerLifetimeScope();
          
-            builder.AddGalaxyDbContext<TDbContext,TAppSession>(options, appSession );
+            builder.AddGalaxyDbContext<TDbContext>(optionsAction, appSession );
 
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new UnitOfWorkModule());
@@ -39,13 +38,13 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
 
         public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(
             this ContainerBuilder builder,
-            DbContextOptionsBuilder<TDbContext> options) where TDbContext : GalaxyDbContext
+            Action<DbContextOptionsBuilder<TDbContext>> optionsAction) where TDbContext : GalaxyDbContext
         {
             builder.RegisterType<SessionBase>()
                 .As<IAppSessionBase>()
                 .InstancePerLifetimeScope();
             
-            builder.AddGalaxyDbContext<TDbContext>(options);
+            builder.AddGalaxyDbContext<TDbContext>(optionsAction);
 
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new UnitOfWorkModule());
@@ -54,17 +53,18 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
         }
 
         private static void AddGalaxyDbContext<TDbContext>(this ContainerBuilder builder,
-           DbContextOptionsBuilder<TDbContext> options = default)
+          Action<DbContextOptionsBuilder<TDbContext>> optionsAction = default)
           where TDbContext : GalaxyDbContext
         {
-            builder.AddGalaxyDbContext(options, typeof(SessionBase));
+            builder.AddGalaxyDbContext(optionsAction, typeof(SessionBase));
         }
 
-        private static void AddGalaxyDbContext<TDbContext,TAppSession>(this ContainerBuilder builder,
-             DbContextOptionsBuilder<TDbContext> options = default, TAppSession appSession = default)
+        private static void AddGalaxyDbContext<TDbContext>(this ContainerBuilder builder,
+            Action<DbContextOptionsBuilder<TDbContext>>   optionsAction = default, Type appSession = default)
             where TDbContext : GalaxyDbContext
-            where TAppSession : Type
         {
+            var options = new DbContextOptionsBuilder<TDbContext>();
+            optionsAction(options);
 
             builder.Register(c =>
             {
