@@ -6,6 +6,7 @@
 
 
 
+
 ## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.x support !
 
@@ -24,6 +25,10 @@ NHibernate
 ## Object Mappers
 Mapster<br/>
 AutoMapper
+
+## Json Serialization
+NewtonSoftJson <br/>
+Utf8Json 
 
 ## Event Bus
 RabbitMQ support
@@ -68,15 +73,18 @@ Galaxy.Identity
      GalaxyCoreModule.New
                  .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore()
-                     .UseGalaxyEntityFrameworkCore(
-                                new DbContextOptionsBuilder<YourDbContext>()
-    				 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
+				     .UseGalaxyEntityFrameworkCore<YourDbContext>(conf=> 
+                     {
+                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                     })
                      .InitializeGalaxy();
                          
 ***MultiTenancy Activation***
 
-    .UseGalaxyEntityFrameworkCore(new DbContextOptionsBuilder<CustomerSampleDbContext>()
-	 	.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),typeof(CustomerSampleAppSession))
+		 .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf=> 
+                     {
+                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                     }, typeof(CustomerSampleAppSession))
 ***Conventional Registration***	 	
 
      .UseGalaxyCore(b =>
