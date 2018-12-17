@@ -73,7 +73,7 @@ Galaxy.Identity
      GalaxyCoreModule.New
                  .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore()
-				     .UseGalaxyEntityFrameworkCore<YourDbContext>(conf=> 
+		     .UseGalaxyEntityFrameworkCore<YourDbContext>(conf=> 
                      {
                          conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                      })
@@ -81,7 +81,7 @@ Galaxy.Identity
                          
 ***MultiTenancy Activation***
 
-		 .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf=> 
+     .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf=> 
                      {
                          conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                      }, typeof(CustomerSampleAppSession))
