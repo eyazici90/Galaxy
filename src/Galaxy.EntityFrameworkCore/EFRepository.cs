@@ -114,7 +114,8 @@ namespace Galaxy.EFCore
         }
 
        
-        public virtual IQueryable<TEntity> ExecuteQuery(string sqlQuery) {
+        public virtual IQueryable<TEntity> ExecuteQuery(string sqlQuery)
+        {
             // Todo : this method is obsolete
             //return _dbSet.FromSql<TEntity>(sqlQuery);
             return this._dbSet;

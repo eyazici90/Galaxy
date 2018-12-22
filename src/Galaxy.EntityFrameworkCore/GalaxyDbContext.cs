@@ -21,26 +21,20 @@ namespace Galaxy.EFCore
 {
     public abstract class GalaxyDbContext: DbContext, IGalaxyContextAsync
     {
-        #region Private Fields
-        private readonly Guid _instanceId;
+        #region Private Fields 
         protected readonly IAppSessionBase _appSession;
         bool _disposed;
         #endregion Private Fields
 
         protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyDbContext).GetMethod(nameof(ConfigureGlobalFilters)
             , BindingFlags.Instance | BindingFlags.NonPublic);
-
-
-
+ 
         public GalaxyDbContext(DbContextOptions options) : base(options)
-        {
-            _instanceId = Guid.NewGuid();
+        { 
         }
 
-        public GalaxyDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options)
-        {
-            _instanceId = Guid.NewGuid();
-
+        public GalaxyDbContext(DbContextOptions options, IAppSessionBase appSession) : this(options)
+        { 
             this._appSession = appSession ?? throw new ArgumentNullException(nameof(appSession));
         }
 
@@ -58,10 +52,7 @@ namespace Galaxy.EFCore
                    .Invoke(this, new object[] { entityType, modelBuilder });
             }
         }
-
-
-        public Guid InstanceId { get { return _instanceId; } }
-
+         
 
         protected virtual void ConfigureGlobalFilters<TEntity>(IMutableEntityType entityType, ModelBuilder modelBuilder)
            where TEntity : class
@@ -119,7 +110,8 @@ namespace Galaxy.EFCore
 
             return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(left, right), parameter);
         }
-        public void Attach(object entity)
+
+        public  void Attach(object entity)
         {
             base.Attach(entity);
         }

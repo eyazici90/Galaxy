@@ -43,15 +43,15 @@ namespace Galaxy.UnitOfWork
         {
             if (AsyncHelper.IsAsyncMethod(invocation.Method))
             {
-                ProcceedAvailableTransactionsAsync(invocation);
+                ProcceesAvailableTransactionsAsync(invocation);
             }
             else
             {
-                ProcceedAvailableTransactions(invocation);
+                ProcceesAvailableTransactions(invocation);
             }
         }
 
-        private void ProcceedAvailableTransactions(IInvocation invocation )
+        private void ProcceesAvailableTransactions(IInvocation invocation )
         {
             this._unitOfWorkAsync.BeginTransaction();
             try
@@ -62,13 +62,11 @@ namespace Galaxy.UnitOfWork
             {
                 _unitOfWorkAsync.Dispose();
                 throw ex;
-            }
-            //_unitOfWorkAsync.SaveChangesAsync().ConfigureAwait(false)
-            //.GetAwaiter().GetResult();   
+            } 
             this._unitOfWorkAsync.Commit();
         }
 
-        private void ProcceedAvailableTransactionsAsync(IInvocation invocation)
+        private void ProcceesAvailableTransactionsAsync(IInvocation invocation)
         {
             this._unitOfWorkAsync.BeginTransaction();
             try

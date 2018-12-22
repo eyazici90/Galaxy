@@ -5,7 +5,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage; 
 using MediatR;
 using Galaxy.UnitOfWork;
 using Galaxy.Domain;
@@ -158,10 +158,16 @@ namespace Galaxy.EFCore
 
         #region Unit of Work Transactions
 
-        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
               _dbContext = (DbContext)_dataContext;
-            _transaction = _dbContext.Database.BeginTransaction();
+            _transaction = _dbContext.Database.BeginTransaction(isolationLevel);
+        }
+
+        public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+        {
+            _dbContext = (DbContext)_dataContext;
+            _transaction = await _dbContext.Database.BeginTransactionAsync(isolationLevel);
         }
 
         public bool Commit()
