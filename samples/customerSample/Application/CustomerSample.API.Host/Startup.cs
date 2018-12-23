@@ -133,7 +133,7 @@ namespace CustomerSample.API.Host
                      .UseGalaxyUtf8JsonSerialization()
                      .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf=> 
                      {
-                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));  
                      }, typeof(CustomerSampleAppSession)) 
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)

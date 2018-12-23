@@ -12,7 +12,7 @@ namespace Galaxy.UnitOfWork
         int SaveChanges();
         void Dispose(bool disposing);
         IRepository<TEntity> Repository<TEntity>() where TEntity : class, IAggregateRoot, IObjectState;
-        void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified);
+        void BeginTransaction(IUnitOfWorkOptions unitOfWorkOptions = default);
         bool Commit();
         void Rollback();
         bool CheckIfThereIsAvailableTransaction();

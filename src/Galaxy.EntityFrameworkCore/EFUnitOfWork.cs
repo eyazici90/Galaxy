@@ -1,7 +1,7 @@
 ﻿#region
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Transactions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -158,16 +158,41 @@ namespace Galaxy.EFCore
 
         #region Unit of Work Transactions
 
-        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+        public void BeginTransaction(IUnitOfWorkOptions unitOfWorkOptions = default)
         {
               _dbContext = (DbContext)_dataContext;
-            _transaction = _dbContext.Database.BeginTransaction(isolationLevel);
+            if (unitOfWorkOptions == default)
+            { 
+                _transaction = _dbContext.Database.BeginTransaction();
+            }
+            else
+            {
+                if (unitOfWorkOptions.Timeout.HasValue)
+                {
+                    _dbContext.Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
+                }
+                
+                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? _dbContext.Database.BeginTransaction(unitOfWorkOptions.IsolationLevel.Value) 
+                                                                         : _dbContext.Database.BeginTransaction();              
+            }
         }
 
-        public async Task BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+        public async Task BeginTransactionAsync(IUnitOfWorkOptions unitOfWorkOptions = default)
         {
             _dbContext = (DbContext)_dataContext;
-            _transaction = await _dbContext.Database.BeginTransactionAsync(isolationLevel);
+            if (unitOfWorkOptions == default)
+            {
+                _transaction = await _dbContext.Database.BeginTransactionAsync();
+            }
+            else
+            { 
+                if (unitOfWorkOptions.Timeout.HasValue)
+                {
+                    _dbContext.Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
+                }
+                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? await _dbContext.Database.BeginTransactionAsync(unitOfWorkOptions.IsolationLevel.Value)
+                                                                         : await _dbContext.Database.BeginTransactionAsync();
+            } 
         }
 
         public bool Commit()

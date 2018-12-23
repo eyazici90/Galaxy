@@ -2,6 +2,7 @@
 using Galaxy.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,32 +29,43 @@ namespace Galaxy.UnitOfWork
             {
                 method = invocation.GetConcreteMethod();
             }
-            var disableValidationAttribute = invocation.Method.GetCustomAttribute(typeof(DisableUnitOfWorkAttribute));
 
-            if (disableValidationAttribute != null)
+            var disableUnitOfWorkAttribute = invocation.Method.GetCustomAttribute(typeof(DisableUnitOfWorkAttribute));
+
+            if (disableUnitOfWorkAttribute != null)
             {
                 invocation.Proceed();
                 return;
             }
 
-            ProccessUnitOfWork(invocation);
-        }
+            var enableUnitofWorkAttribute = this.GetEnableUnitOfWorkAttributeOrNull(invocation.Method);
 
-        private void ProccessUnitOfWork(IInvocation invocation )
-        {
-            if (AsyncHelper.IsAsyncMethod(invocation.Method))
+            if (enableUnitofWorkAttribute != null)
             {
-                ProcceesAvailableTransactionsAsync(invocation);
+                ProccessUnitOfWork(invocation, enableUnitofWorkAttribute.UnitOfWorkOptions);
             }
             else
             {
-                ProcceesAvailableTransactions(invocation);
+                invocation.Proceed();
+                return;
+            } 
+        }
+
+        private void ProccessUnitOfWork(IInvocation invocation, IUnitOfWorkOptions unitOfWorkOptions)
+        {
+            if (AsyncHelper.IsAsyncMethod(invocation.Method))
+            {
+                ProcceesAvailableTransactionsAsync(invocation, unitOfWorkOptions);
+            }
+            else
+            {
+                ProcceesAvailableTransactions(invocation, unitOfWorkOptions);
             }
         }
 
-        private void ProcceesAvailableTransactions(IInvocation invocation )
+        private void ProcceesAvailableTransactions(IInvocation invocation, IUnitOfWorkOptions unitOfWorkOptions)
         {
-            this._unitOfWorkAsync.BeginTransaction();
+            this._unitOfWorkAsync.BeginTransaction(unitOfWorkOptions);
             try
             {
                 invocation.Proceed();
@@ -66,9 +78,9 @@ namespace Galaxy.UnitOfWork
             this._unitOfWorkAsync.Commit();
         }
 
-        private void ProcceesAvailableTransactionsAsync(IInvocation invocation)
+        private void ProcceesAvailableTransactionsAsync(IInvocation invocation, IUnitOfWorkOptions unitOfWorkOptions)
         {
-            this._unitOfWorkAsync.BeginTransaction();
+            this._unitOfWorkAsync.BeginTransaction(unitOfWorkOptions);
             try
             {
                 invocation.Proceed();
@@ -98,8 +110,25 @@ namespace Galaxy.UnitOfWork
             }
         }
 
-    
-        private  bool CheckIfThereIsAvailableTransaction()
+        private EnableUnitOfWorkAttribute GetEnableUnitOfWorkAttributeOrNull(MethodInfo methodInfo)
+        {
+            var attrs = methodInfo.GetCustomAttributes(true).OfType<EnableUnitOfWorkAttribute>().ToArray();
+            if (attrs.Length > 0)
+            {
+                return attrs[0];
+            }
+
+            attrs = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(true).OfType<EnableUnitOfWorkAttribute>().ToArray();
+            if (attrs.Length > 0)
+            {
+                return attrs[0];
+            }
+             
+
+            return null;
+        }
+
+        private bool CheckIfThereIsAvailableTransaction()
         {
             return this._unitOfWorkAsync.CheckIfThereIsAvailableTransaction();
         }
