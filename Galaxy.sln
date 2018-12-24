@@ -163,6 +163,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Utf8Json.Tests", "te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.NewtonSoftJson.Tests", "test\Galaxy.NewtonSoftJson.Tests\Galaxy.NewtonSoftJson.Tests.csproj", "{0A40E64C-36B9-4D8A-9BDB-A116F4A3953A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.NLog", "src\Galaxy.NLog\Galaxy.NLog.csproj", "{5C392808-F473-47C9-97C8-CA75A69A8AB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.NLog.Tests", "test\Galaxy.NLog.Tests\Galaxy.NLog.Tests.csproj", "{742D2112-A2A9-4E53-B05E-1C4016FB4C70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -417,6 +421,14 @@ Global
 		{0A40E64C-36B9-4D8A-9BDB-A116F4A3953A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A40E64C-36B9-4D8A-9BDB-A116F4A3953A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A40E64C-36B9-4D8A-9BDB-A116F4A3953A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C392808-F473-47C9-97C8-CA75A69A8AB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C392808-F473-47C9-97C8-CA75A69A8AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C392808-F473-47C9-97C8-CA75A69A8AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C392808-F473-47C9-97C8-CA75A69A8AB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742D2112-A2A9-4E53-B05E-1C4016FB4C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742D2112-A2A9-4E53-B05E-1C4016FB4C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742D2112-A2A9-4E53-B05E-1C4016FB4C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742D2112-A2A9-4E53-B05E-1C4016FB4C70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -499,6 +511,8 @@ Global
 		{A7FA3AF9-FB0E-4607-9C07-3428ED6A5D9D} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 		{67A84B55-9924-4706-812A-C0EE45AE5951} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{0A40E64C-36B9-4D8A-9BDB-A116F4A3953A} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{5C392808-F473-47C9-97C8-CA75A69A8AB1} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{742D2112-A2A9-4E53-B05E-1C4016FB4C70} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}

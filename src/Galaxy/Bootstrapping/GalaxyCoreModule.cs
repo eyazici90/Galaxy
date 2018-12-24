@@ -20,14 +20,15 @@ namespace Galaxy.Bootstrapping
             SingleInstanceBuilder = SingleInstanceBuilder ?? base.RegisterGalaxyContainerBuilder();
         }
 
-        public static GalaxyCoreModule Create()
+        private static GalaxyCoreModule Create()
         {
             lock (objlock)
             {
                 return new GalaxyCoreModule();
             }
         }
-           public static GalaxyCoreModule New => Create();
+
+        public static GalaxyCoreModule New => Create();
         
     }
 }

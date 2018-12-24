@@ -111,16 +111,15 @@ namespace Galaxy.EFCore
         public virtual IQueryable<TEntity> QueryableWithNoFilter()
         {
             return _dbSet.IgnoreQueryFilters();
-        }
+        } 
 
-       
         public virtual IQueryable<TEntity> ExecuteQuery(string sqlQuery)
         {
+            //(_context as DbContext).Database.ExecuteSqlCommand(sqlQuery);
             // Todo : this method is obsolete
             //return _dbSet.FromSql<TEntity>(sqlQuery);
             return this._dbSet;
-        }
-
+        } 
 
         public virtual IRepository<T> GetRepository<T>() where T : class, IAggregateRoot, IObjectState
         {
