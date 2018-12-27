@@ -18,6 +18,13 @@ namespace Galaxy.Identity
 
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 
+        private IEventRouter _eventRouter;
+
+        public IdentityUserRoleEntity()
+        {
+            _eventRouter = new InstanceEventRouter();
+        }
+
         public void AddDomainEvent(INotification eventItem)
         {
             _domainEvents = _domainEvents ?? new List<INotification>();
@@ -34,10 +41,31 @@ namespace Galaxy.Identity
             _domainEvents?.Clear();
         }
 
-        [NotMapped]
+        public virtual void Register<TEvent>(Action<TEvent> handler)
+        {
+            _eventRouter.Register<TEvent>(handler);
+        }
+
+        public virtual void ApplyDomainEvent(object @event)
+        {
+            if (@event == null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+            _eventRouter.Route(@event);
+            AddDomainEvent(@event as INotification);
+        }
+
+        public virtual void ApplyAllChanges()
+        {
+            foreach (var @event in DomainEvents)
+            {
+                _eventRouter.Route(@event);
+            }
+        }
+
         public virtual ObjectState ObjectState { get; private set; }
-
-
+         
         public virtual void SyncObjectState(ObjectState objectState)
         {
             this.ObjectState = objectState;
@@ -58,21 +86,6 @@ namespace Galaxy.Identity
                 return Convert.ToInt64(Id) <= 0;
             }
             return false;
-        }
-
-        public void Register<TEvent>(Action<TEvent> handler)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ApplyDomainEvent(object @event)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ApplyAllChanges()
-        {
-            throw new NotImplementedException();
-        }
+        } 
     }
 }

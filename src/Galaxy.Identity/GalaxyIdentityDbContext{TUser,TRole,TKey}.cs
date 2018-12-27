@@ -20,31 +20,26 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Identity
 {
-    public abstract class GalaxyDbContext<TUser, TRole, TPrimaryKey> : IdentityDbContext<TUser, TRole, TPrimaryKey>, IGalaxyContextAsync
+    public abstract class GalaxyIdentityDbContext<TUser, TRole, TPrimaryKey> : IdentityDbContext<TUser, TRole, TPrimaryKey>, IGalaxyContextAsync
           where TUser : IdentityUser<TPrimaryKey>
           where TRole : IdentityRole<TPrimaryKey>
           where TPrimaryKey : IEquatable<TPrimaryKey>   
     {
-        #region Private Fields
-        private readonly Guid _instanceId;
+        #region Private Fields 
         private readonly IAppSessionBase _appSession;
         bool _disposed;
         #endregion Private Fields
 
         protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyDbContext).GetMethod(nameof(ConfigureGlobalFilters)
             , BindingFlags.Instance | BindingFlags.NonPublic);
+         
 
-
-
-        public  GalaxyDbContext(DbContextOptions options) : base(options)
-        {
-            _instanceId = Guid.NewGuid();
+        public GalaxyIdentityDbContext(DbContextOptions options) : base(options)
+        { 
         }
 
-        public GalaxyDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options)
-        {
-            _instanceId = Guid.NewGuid();
-
+        public GalaxyIdentityDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options)
+        {  
             this._appSession = appSession ?? throw new ArgumentNullException(nameof(appSession));
         }
 
@@ -61,11 +56,7 @@ namespace Galaxy.Identity
                    .Invoke(this, new object[] { entityType, modelBuilder });
             }
         }
-
-
-        public Guid InstanceId { get { return _instanceId; } }
-
-
+         
         protected virtual void ConfigureGlobalFilters<TEntity>(IMutableEntityType entityType, ModelBuilder modelBuilder)
            where TEntity : class
         {

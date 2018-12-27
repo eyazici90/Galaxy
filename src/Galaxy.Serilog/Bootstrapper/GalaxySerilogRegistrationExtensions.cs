@@ -37,6 +37,8 @@ namespace Galaxy.Serilog.Bootstrapper
           .As<global::Serilog.ILogger>()
           .SingleInstance();
         }
+
+
         private static void InitializeConfigurations<TConfiguration>(this ContainerBuilder builder, TConfiguration configurations = default)
             where TConfiguration : Log.ILogConfigurations
         {

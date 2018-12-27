@@ -11,7 +11,7 @@ using System.Text;
 namespace Galaxy.Identity
 {
     
-    public abstract class FullyAuditIdentityUserEntity<TPrimaryKey> : IdentityUser<TPrimaryKey>, IFullyAudit<TPrimaryKey>, IObjectState where TPrimaryKey : struct, IEquatable<TPrimaryKey>
+    public abstract class FullyAuditIdentityUserEntity<TPrimaryKey> : IdentityUser<TPrimaryKey>, IFullyAudit<TPrimaryKey>, IEntity<TPrimaryKey>, IObjectState where TPrimaryKey : struct, IEquatable<TPrimaryKey>
     {
         public virtual TPrimaryKey Id { get; protected set; }
         public virtual bool IsDeleted { get; protected set; }
@@ -20,8 +20,12 @@ namespace Galaxy.Identity
         public virtual DateTime? LastModificationTime { get; protected set; }
         public virtual int? LastModifierUserId { get; protected set; }
         public virtual DateTime? CreationTime { get; protected set; }
+        private IEventRouter _eventRouter;
 
-      
+        public FullyAuditIdentityUserEntity()
+        {
+            _eventRouter = new InstanceEventRouter();
+        }
     
         private List<INotification> _domainEvents;
 
@@ -43,7 +47,29 @@ namespace Galaxy.Identity
             _domainEvents?.Clear();
         }
 
-        [NotMapped]
+        public virtual void Register<TEvent>(Action<TEvent> handler)
+        {
+            _eventRouter.Register<TEvent>(handler);
+        }
+
+        public virtual void ApplyDomainEvent(object @event)
+        {
+            if (@event == null)
+            {
+                throw new ArgumentNullException(nameof(@event));
+            }
+            _eventRouter.Route(@event);
+            AddDomainEvent(@event as INotification);
+        }
+
+        public virtual void ApplyAllChanges()
+        {
+            foreach (var @event in DomainEvents)
+            {
+                _eventRouter.Route(@event);
+            }
+        }
+        
         public virtual ObjectState ObjectState { get; private set; }
 
 

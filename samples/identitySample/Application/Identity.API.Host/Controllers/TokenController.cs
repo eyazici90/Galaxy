@@ -82,7 +82,7 @@ namespace Identity.API.Host.Controllers
                 new JwtHeader(new SigningCredentials(SecurityKeyExtension.GetSigningKey("IdentityAPIseckey2017!.#")
                                             , SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
-
+             
             return new GetTokenResponse
             {
                 ExpiredDate = dtExpired,

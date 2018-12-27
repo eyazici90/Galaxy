@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Identity.Infrastructure
 {
-    public sealed class IdentityContext : GalaxyDbContext<User, Role, int>, IGalaxyContextAsync
+    public sealed class IdentityContext : GalaxyIdentityDbContext<User, Role, int>, IGalaxyContextAsync
     {
         public const string DEFAULT_SCHEMA = "identity";
 
