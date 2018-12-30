@@ -20,11 +20,12 @@ namespace EventStoreSample.Listener
             var containerBuilder = GalaxyCoreModule.New
                  .RegisterGalaxyContainerBuilder()
                      .UseGalaxyCore()
-                     .UseGalaxyRabbitMQ(conf => {
+                     .UseGalaxyRabbitMQ(conf => 
+                     {
                          conf.Username = "guest";
                          conf.Password = "guest";
                          conf.HostAddress = "rabbitmq://localhost/";
-                         conf.QueueName = "eventStoreSampleSub";
+                         conf.QueueName = "eventStoreSample";
                      }, typeof(TransactionCreatedConsumer).Assembly);
 
           

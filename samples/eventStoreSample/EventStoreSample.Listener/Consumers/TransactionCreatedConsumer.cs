@@ -14,7 +14,6 @@ namespace EventStoreSample.Listener.Consumers
         public async Task Consume(ConsumeContext<TransactionCreatedIntegrationEvent> context)
         {
             var message = context.Message;
-
         }
     }
 }

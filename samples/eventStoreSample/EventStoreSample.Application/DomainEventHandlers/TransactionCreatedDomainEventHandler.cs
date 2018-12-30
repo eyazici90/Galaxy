@@ -21,8 +21,8 @@ namespace EventStoreSample.Application.DomainEventHandlers
         public async Task Handle(TransactionCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
             var msiSdn = notification.Msisdn;
-            //var aggregateRoot = notification.Msisdn;
-            //await _eventBus.Publish(new TransactionCreatedIntegrationEvent(aggregateRoot));
+            var aggregateRoot = notification.Msisdn;
+            await _eventBus.Publish(new TransactionCreatedIntegrationEvent(notification.TransactionDateTime, notification.Msisdn, notification.OrderId));
         }
     }
 }

@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
     <ProjectReference Include="..\..\..\src\Galaxy.RabbitMQ\Galaxy.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.Utf8Json\Galaxy.Utf8Json.csproj" />
     <ProjectReference Include="..\EventStoreSample.Domain\EventStoreSample.Domain.csproj" />
     <ProjectReference Include="..\EventStoreSample.IntegrationEvents\EventStoreSample.IntegrationEvents.csproj" />
   </ItemGroup>

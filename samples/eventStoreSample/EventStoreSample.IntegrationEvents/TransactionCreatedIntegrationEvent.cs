@@ -8,11 +8,17 @@ namespace EventStoreSample.IntegrationEvents
 
     public class TransactionCreatedIntegrationEvent
     {
-        public PaymentTransaction paymentTransaction { get; private set; }
-        
-        public TransactionCreatedIntegrationEvent(PaymentTransaction transaction)
+        public DateTime TransactionDateTime { get; private set; }
+
+        public string Msisdn { get; private set; }
+
+        public string OrderId { get; private set; }
+
+        public TransactionCreatedIntegrationEvent(DateTime transactionDateTime, string msiSdn, string orderId)
         {
-            this.paymentTransaction = transaction;
+            this.TransactionDateTime = transactionDateTime;
+            this.Msisdn = msiSdn;
+            this.OrderId = orderId;
         }
     }
 }
