@@ -19,7 +19,7 @@ namespace Galaxy.Tests.Domain.AggregatesModel.CustomerAggregate
             if (string.IsNullOrWhiteSpace(name))
                 throw new GalaxyException($"Invalid name");
             this.Name = name;
-            AddDomainEvent(new CustomerCreatedDomainEvent(this));
+            AddEvent(new CustomerCreatedDomainEvent(this));
         }
         public static Customer Create(string name)
         {

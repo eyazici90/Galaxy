@@ -20,35 +20,35 @@ namespace Galaxy.Domain
             _eventRouter = new InstanceEventRouter();
         }
 
-        public void AddDomainEvent(INotification eventItem)
+        public void AddEvent(INotification eventItem)
         {
             _domainEvents = _domainEvents ?? new List<INotification>();
             _domainEvents.Add(eventItem);
         }
 
-        public virtual void RemoveDomainEvent(INotification eventItem)
+        public virtual void RemoveEvent(INotification eventItem)
         {
             _domainEvents?.Remove(eventItem);
         }
 
-        public virtual void ClearDomainEvents()
+        public virtual void ClearEvents()
         {
             _domainEvents?.Clear();
         }
 
-        public virtual void Register<TEvent>(Action<TEvent> handler)
+        public virtual void RegisterEvent<TEvent>(Action<TEvent> handler)
         {
             _eventRouter.Register<TEvent>(handler);
         }
 
-        public virtual void ApplyDomainEvent(object @event)
+        public virtual void ApplyEvent(object @event)
         {
             if (@event == null)
             {
                 throw new ArgumentNullException(nameof(@event));
             }
             _eventRouter.Route(@event);
-            AddDomainEvent(@event as INotification);
+            AddEvent(@event as INotification);
         }
 
         public virtual void ApplyAllChanges()

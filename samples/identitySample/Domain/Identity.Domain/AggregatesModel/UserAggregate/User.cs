@@ -46,7 +46,7 @@ namespace Identity.Domain.AggregatesModel.UserAggregate
                 throw new IdentityDomainException($"Invalid RoleId : {roleId}");
             var userRole = UserAssignedToRole.Create(this.Id, roleId);
             this._userRoles.Add(userRole);
-            AddDomainEvent(new PermissionAssignedToUserDomainEvent(this));
+            AddEvent(new PermissionAssignedToUserDomainEvent(this));
             return userRole;
         }
 
@@ -56,7 +56,7 @@ namespace Identity.Domain.AggregatesModel.UserAggregate
                 throw new IdentityDomainException($"Invalid PermissionId : {permissionId}");
             var userPermission = UserAssignedToPermission.Create(this.Id, permissionId);
             this._userPermissions.Add(userPermission);
-            AddDomainEvent(new PermissionAssignedToUserDomainEvent(this));
+            AddEvent(new PermissionAssignedToUserDomainEvent(this));
             return userPermission;
         }
 

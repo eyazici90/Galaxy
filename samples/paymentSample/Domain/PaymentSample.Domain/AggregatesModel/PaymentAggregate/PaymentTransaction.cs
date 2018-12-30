@@ -56,7 +56,7 @@ namespace PaymentSample.Domain.AggregatesModel.PaymentAggregate
                 throw new PaymentDomainException($"Invalid transactionDateTime {transactionDateTime}");
             } 
 
-            AddDomainEvent(new TransactionCreatedDomainEvent(this));
+            AddEvent(new TransactionCreatedDomainEvent(this));
         }
 
         public static PaymentTransaction Create(string msisdn, string orderId, DateTime transactionDateTime)
@@ -80,20 +80,20 @@ namespace PaymentSample.Domain.AggregatesModel.PaymentAggregate
             }
             this.Money = money;
             // AggregateRoot leads all owned domain events !!!
-            AddDomainEvent(new TransactionAmountChangedDomainEvent(this));
+            AddEvent(new TransactionAmountChangedDomainEvent(this));
         }
 
         public void PaymentStatusSucceded()
         {
             this.TransactionStatusId = PaymenTransactionStatus.SuccessStatus.Id;
-            AddDomainEvent(new TransactionStatusChangedDomainEvent(this));
+            AddEvent(new TransactionStatusChangedDomainEvent(this));
 
         }
 
         public void PaymentStatusFailed()
         {
             this.TransactionStatusId = PaymenTransactionStatus.FailStatus.Id;
-            AddDomainEvent(new TransactionStatusChangedDomainEvent(this));
+            AddEvent(new TransactionStatusChangedDomainEvent(this));
         }
 
     }

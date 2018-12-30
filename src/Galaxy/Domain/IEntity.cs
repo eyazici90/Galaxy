@@ -8,11 +8,11 @@ namespace Galaxy.Domain
    public interface IEntity 
     {
         IReadOnlyCollection<INotification> DomainEvents { get; }
-        void AddDomainEvent(INotification eventItem);
-        void RemoveDomainEvent(INotification eventItem);
-        void ClearDomainEvents();
-        void Register<TEvent>(Action<TEvent> handler);
-        void ApplyDomainEvent(object @event);
+        void AddEvent(INotification eventItem);
+        void RemoveEvent(INotification eventItem);
+        void ClearEvents();
+        void RegisterEvent<TEvent>(Action<TEvent> handler);
+        void ApplyEvent(object @event);
         void ApplyAllChanges();
     }
 }

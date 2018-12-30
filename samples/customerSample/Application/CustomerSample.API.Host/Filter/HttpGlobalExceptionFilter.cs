@@ -28,8 +28,6 @@ namespace CustomerSample.API.Host.Filter
             }
             else
             {
-
-
                 context.Result = new OkObjectResult(context.Exception.Message);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }

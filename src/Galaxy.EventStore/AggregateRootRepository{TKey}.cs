@@ -99,10 +99,10 @@ namespace Galaxy.EventStore
 
             events.ForEach(e => 
             {
-                (aggregateRoot as IEntity).ApplyDomainEvent(e);
+                (aggregateRoot as IEntity).ApplyEvent(e);
             });
 
-            (aggregateRoot as IEntity).ClearDomainEvents();
+            (aggregateRoot as IEntity).ClearEvents();
 
             var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
             this._unitOfworkAsync.Attach(aggregate);

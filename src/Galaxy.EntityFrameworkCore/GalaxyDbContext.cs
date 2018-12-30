@@ -215,7 +215,7 @@ namespace Galaxy.EFCore
                 .ToList();
 
             notifications.ToList()
-                .ForEach(entity => entity.Entity.ClearDomainEvents());
+                .ForEach(entity => entity.Entity.ClearEvents());
 
             var tasks = domainEvents
                 .Select(async (domainEvent) =>

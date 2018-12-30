@@ -45,7 +45,7 @@ namespace Galaxy.EventStore
                 .ToList();
 
             notifications.ToList()
-                .ForEach(entity => entity.ClearDomainEvents());
+                .ForEach(entity => entity.ClearEvents());
 
             var tasks = domainEvents
                 .Select(async (domainEvent) =>
