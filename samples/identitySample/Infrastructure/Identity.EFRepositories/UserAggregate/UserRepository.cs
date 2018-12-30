@@ -52,8 +52,7 @@ namespace Identity.EFRepositories.UserAggregate
 
 
         public async Task<bool> CreateUserAsync(User user, string password)
-        {
-            user.SyncObjectState(ObjectState.Added);
+        { 
             return (await _userManager.CreateAsync(user, password)).Succeeded ;
         }
 
@@ -76,8 +75,7 @@ namespace Identity.EFRepositories.UserAggregate
 
 
         public async Task<bool> Delete(User user)
-        {
-            user.SyncObjectState(ObjectState.Deleted);
+        { 
             return (await this._userManager.DeleteAsync(user)).Succeeded;
         }
         public async Task<bool> Update(User user)

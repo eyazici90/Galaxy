@@ -49,8 +49,7 @@ namespace CustomerSample.API.Host
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+         
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CustomerSampleDbContext>(options =>
@@ -80,8 +79,7 @@ namespace CustomerSample.API.Host
 
             return new AutofacServiceProvider(container);
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -95,10 +93,10 @@ namespace CustomerSample.API.Host
             });
 
             app.UseSwagger()
-             .UseSwaggerUI(c =>
-             {
-                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer API V1");
-             });
+               .UseSwaggerUI(c =>
+                 {
+                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer API V1");
+                 });
 
             app.UseMvc(routes =>
             {

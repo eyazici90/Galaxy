@@ -14,38 +14,32 @@ namespace Identity.Application.Services
     public class UserAppService : IUserAppService
     {
         private readonly IUserRepository _userRep;
-        private readonly IUnitOfWorkAsync _unitofWork;
         private readonly IObjectMapper _objectMapper;
         public UserAppService(IUserRepository userRep
             , IObjectMapper objectMapper
-            , IUnitOfWorkAsync unitofWork
            )
         {
             this._userRep = userRep ?? throw new ArgumentNullException(nameof(userRep));
             this._objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
-            this._unitofWork = unitofWork ?? throw new ArgumentNullException(nameof(unitofWork));
         }
 
         public async Task<bool> AddUser(UserDto user)
         {
            return await this._userRep
                 .CreateUserAsync(User.Create(user.UserName, user.TenantId), "123456.");
-         
         }
 
         public async Task<bool> AssignRoleToUser(UserDto userDto, int roleId)
         {
             var user = await this._userRep.GetUserAggregateById(userDto.Id);
-            var addedUserRole = user.AssignRole(roleId);
-            addedUserRole.SyncObjectState(ObjectState.Added);
+            user.AssignRole(roleId);;
             return await Task.FromResult(true);
         }
 
         public async Task<List<UserDto>> GetAllUsersAsync() =>
             this._objectMapper.MapTo<List<UserDto>>(await this._userRep.GetAllUsers());
 
-
-
+        
         public async Task<UserDto> GetUserByIdAsync(int userId) =>
              this._objectMapper.MapTo<UserDto>(await this._userRep.GetUserById(userId));
 
@@ -91,8 +85,7 @@ namespace Identity.Application.Services
         public async Task<bool> AssignPermissionToUser(UserDto userDto, int permissionId)
         {
             var user = await this._userRep.GetUserAggregateById(userDto.Id);
-            var permission = user.AssignPermission(permissionId);
-            permission.SyncObjectState(ObjectState.Added);
+            user.AssignPermission(permissionId);;
             return await Task.FromResult(true);
         }
     }

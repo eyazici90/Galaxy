@@ -14,14 +14,11 @@ namespace Identity.Application.Services
     public class PermissionAppService : IPermissionAppService
     {
         private readonly IPermissionRepository _permissionRep;
-        private readonly IUnitOfWorkAsync _unitofWork;
         private readonly IObjectMapper _objectMapper;
         public PermissionAppService(IPermissionRepository permissionRep
-            , IUnitOfWorkAsync unitofWork
             , IObjectMapper objectMapper)
         {
             _permissionRep = permissionRep ?? throw new ArgumentNullException(nameof(permissionRep));
-            _unitofWork = unitofWork ?? throw new ArgumentNullException(nameof(unitofWork));
             _objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
         }
         public async Task<bool> AddPermission(PermissionDto permissionDto)
@@ -52,10 +49,7 @@ namespace Identity.Application.Services
             var permission = await this._permissionRep.GetAsync(permissionDto.Id);
             permission
                 .ChangeName(permissionDto.Name)
-                .ChangeOrSetUrl(permissionDto.Url)
-                .SyncObjectState(ObjectState.Modified);
-            // Same with SyncObjectState(ObjectState.Modified) 
-            // this._permissionRep.Update(permission);
+                .ChangeOrSetUrl(permissionDto.Url);
             return await Task.FromResult(true);
         }
     }

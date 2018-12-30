@@ -30,8 +30,9 @@ namespace Galaxy.Identity
         bool _disposed;
         #endregion Private Fields
 
-        protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyDbContext).GetMethod(nameof(ConfigureGlobalFilters)
-            , BindingFlags.Instance | BindingFlags.NonPublic);
+        protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyIdentityDbContext<,,>).MakeGenericType(typeof(TUser), typeof(TRole), typeof(TPrimaryKey))
+                                                                                                          .GetMethod(nameof(ConfigureGlobalFilters)
+            , BindingFlags.Instance | BindingFlags.NonPublic) ;
          
 
         public GalaxyIdentityDbContext(DbContextOptions options) : base(options)
@@ -175,10 +176,10 @@ namespace Galaxy.Identity
 
         private void SyncObjectsStatePreCommit()
         {
-            foreach (var dbEntityEntry in ChangeTracker.Entries())
-            {
-                dbEntityEntry.State = StateHelper.ConvertState(((IObjectState)dbEntityEntry.Entity).ObjectState);
-            }
+            //foreach (var dbEntityEntry in ChangeTracker.Entries())
+            //{
+            //    dbEntityEntry.State = StateHelper.ConvertState(((IObjectState)dbEntityEntry.Entity).ObjectState);
+            //}
         }
 
         public void SyncObjectsAuditPreCommit(IAppSessionBase session)

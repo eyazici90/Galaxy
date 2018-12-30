@@ -32,6 +32,4 @@ namespace CustomerSample.Infrastructure
         }
      
     }
-
-   
 }

@@ -14,17 +14,13 @@ namespace Identity.Application.Services
 {
     public class RoleAppService : IRoleAppService
     {
-
         private readonly IRoleRepository _roleRep;
-        private readonly IUnitOfWorkAsync _unitofWork;
         private readonly IObjectMapper _objectMapper;
         public RoleAppService(IRoleRepository roleRep
-            , IObjectMapper objectMapper
-            , IUnitOfWorkAsync unitofWork)
+            , IObjectMapper objectMapper)
         {
             this._roleRep = roleRep ?? throw new ArgumentNullException(nameof(roleRep));
-            this._objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
-            this._unitofWork = unitofWork ?? throw new ArgumentNullException(nameof(unitofWork));
+            this._objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper)); ;
         }
 
         public async Task<IEnumerable<UserAssignedToRoleDto>> GetUserAssignedToRoleByRoleId(int roleId)

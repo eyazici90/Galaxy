@@ -13,7 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Galaxy.Identity.Domain\Galaxy.Identity.Domain.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Galaxy.EntityFrameworkCore\Galaxy.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Galaxy.Identity.Domain\Galaxy.Identity.Domain.csproj" />
   </ItemGroup>
 
 </Project>

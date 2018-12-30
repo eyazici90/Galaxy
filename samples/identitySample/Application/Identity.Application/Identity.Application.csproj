@@ -13,7 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Galaxy.NewtonSoftJson\Galaxy.NewtonSoftJson.csproj" />
     <ProjectReference Include="..\..\Domain\Identity.Domain\Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Identity.Infrastructure\Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\Identity.Application.Abstractions\Identity.Application.Abstractions.csproj" />
   </ItemGroup>
 

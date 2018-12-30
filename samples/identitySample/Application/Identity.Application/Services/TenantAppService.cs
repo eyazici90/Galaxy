@@ -43,8 +43,6 @@ namespace Identity.Application.Services
             var existingTenant = await this._tenantRep.GetAsync(tenant.Id);
             existingTenant.ChangeName(tenant.Name)
                 .ChangeOrAddDesc(tenant.Description);
-
-            existingTenant.SyncObjectState(ObjectState.Modified);
         }
     }
 }

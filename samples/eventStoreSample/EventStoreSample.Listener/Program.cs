@@ -25,7 +25,7 @@ namespace EventStoreSample.Listener
                          conf.Username = "guest";
                          conf.Password = "guest";
                          conf.HostAddress = "rabbitmq://localhost/";
-                         conf.QueueName = "eventStoreSample";
+                         conf.QueueName = "eventStoreSampleSub";
                      }, typeof(TransactionCreatedConsumer).Assembly);
 
           

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Identity.API.Host.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TenantController : ControllerBase
     {
         private readonly ITenanAppService _tenantAppServ;

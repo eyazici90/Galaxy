@@ -14,55 +14,52 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
 {
    public static class GalaxyEntityFrameworkCoreRegistrationExtensions
     {
-
-        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(
-           this ContainerBuilder builder,
-           Action<DbContextOptionsBuilder<TDbContext>> optionsAction, Type appSession ) 
-            where TDbContext : GalaxyDbContext
+        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(this ContainerBuilder builder,
+           Action<DbContextOptionsBuilder<TDbContext>> optionsAction) where TDbContext : DbContext
         {
+            builder.RegisterType<SessionBase>()
+                .As<IAppSessionBase>()
+                .InstancePerLifetimeScope();
 
-            if (!typeof(IAppSessionBase).IsAssignableFrom(appSession))
-                throw new GalaxyException($"The parameter : {appSession.Name} is not assignable from {nameof(IAppSessionBase)}");
-            
+            builder.AddGalaxyDbContext<TDbContext>(optionsAction);
+
+            builder.RegisterAssemblyModules(typeof(RepositoryModule).Assembly);
+
+            return builder;
+        }
+
+        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(this ContainerBuilder builder,
+            Action<DbContextOptionsBuilder<TDbContext>> optionsAction, Type appSession ) 
+            where TDbContext : DbContext
+        { 
             builder.RegisterType(appSession)
                 .As<IAppSessionBase>()
                 .InstancePerLifetimeScope();
          
             builder.AddGalaxyDbContext<TDbContext>(optionsAction, appSession );
 
-            builder.RegisterModule(new RepositoryModule());
-            builder.RegisterModule(new UnitOfWorkModule());
-
-            return builder;
-        }
-
-        public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(
-            this ContainerBuilder builder,
-            Action<DbContextOptionsBuilder<TDbContext>> optionsAction) where TDbContext : GalaxyDbContext
-        {
-            builder.RegisterType<SessionBase>()
-                .As<IAppSessionBase>()
-                .InstancePerLifetimeScope();
+            builder.RegisterAssemblyModules(typeof(RepositoryModule).Assembly);
             
-            builder.AddGalaxyDbContext<TDbContext>(optionsAction);
-
-            builder.RegisterModule(new RepositoryModule());
-            builder.RegisterModule(new UnitOfWorkModule());
-
             return builder;
         }
 
         private static void AddGalaxyDbContext<TDbContext>(this ContainerBuilder builder,
-          Action<DbContextOptionsBuilder<TDbContext>> optionsAction = default)
-          where TDbContext : GalaxyDbContext
+          Action<DbContextOptionsBuilder<TDbContext>> optionsAction)
+          where TDbContext : DbContext
         {
             builder.AddGalaxyDbContext(optionsAction, typeof(SessionBase));
         }
 
         private static void AddGalaxyDbContext<TDbContext>(this ContainerBuilder builder,
             Action<DbContextOptionsBuilder<TDbContext>>   optionsAction = default, Type appSession = default)
-            where TDbContext : GalaxyDbContext
+            where TDbContext : DbContext
         {
+            if (!typeof(IGalaxyContextAsync).IsAssignableFrom(typeof(TDbContext)))
+                throw new GalaxyException($"The parameter : {typeof(TDbContext).Name} is not assignable from {typeof(IGalaxyContextAsync).Name}");
+
+            if (!typeof(IAppSessionBase).IsAssignableFrom(appSession))
+                throw new GalaxyException($"The parameter : {appSession.Name} is not assignable from {typeof(IAppSessionBase).Name}");
+
             var options = new DbContextOptionsBuilder<TDbContext>();
             optionsAction(options);
 
@@ -91,10 +88,8 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
                    new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),
                    new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession),Activator.CreateInstance(appSession))
                })
-               .InstancePerLifetimeScope();
-
-        }
-
+               .InstancePerLifetimeScope(); 
+        } 
 
     }
 }

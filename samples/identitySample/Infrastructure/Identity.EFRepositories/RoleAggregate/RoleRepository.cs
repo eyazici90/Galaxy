@@ -64,20 +64,17 @@ namespace Identity.EFRepositories.RoleAggregate
             await this._userServ.GetRolesAsync(user);
 
         public async Task<bool> CreateAsync(Role role)
-        {
-            role.SyncObjectState(ObjectState.Added);
+        { 
             return (await this._roleServ.CreateAsync(role)).Succeeded;
         }
 
         public async Task<bool> UpdateAsync(Role role)
-        {
-            role.SyncObjectState(ObjectState.Modified);
+        { 
             return (await this._roleServ.UpdateAsync(role)).Succeeded ;
         }
 
         public async Task<bool> DeleteAsync(Role role)
-        {
-            role.SyncObjectState(ObjectState.Deleted);
+        { 
             return (await this._roleServ.DeleteAsync(role)).Succeeded;
         }
     }

@@ -15,10 +15,7 @@ namespace Galaxy.Bootstrapping
         private  ContainerBuilder SharedBuilder()
         {
             var container = new ContainerBuilder();
-            container.RegisterModule(new MediatrModule());
-            container.RegisterModule(new InterceptorModule());
-            container.RegisterModule(new BoostrapperModule());
-            
+            container.RegisterAssemblyModules(typeof(MediatrModule).Assembly);
             return container;
         }
     }

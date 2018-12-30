@@ -12,12 +12,10 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Galaxy.EntityFrameworkCore\Galaxy.EntityFrameworkCore.csproj" />
+  
+  <ItemGroup> 
+    <ProjectReference Include="..\Galaxy.Identity.Domain\Galaxy.Identity.Domain.csproj" />
+    <ProjectReference Include="..\Galaxy.Identity.Infrastructure\Galaxy.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

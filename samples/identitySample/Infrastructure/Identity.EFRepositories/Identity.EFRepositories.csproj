@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Galaxy.Identity.Infrastructure\Galaxy.Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Domain\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>
 
