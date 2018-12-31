@@ -190,7 +190,7 @@ Galaxy.Identity
     public Brand ChangeBrandName(string brandName)
       {
          this.BrandName = brandName;
-         AddDomainEvent(new BrandNameChangedDomainEvent(this));
+         AddEvent(new BrandNameChangedDomainEvent(this));
          return this;
       }
 ***Domain Events Handling***
