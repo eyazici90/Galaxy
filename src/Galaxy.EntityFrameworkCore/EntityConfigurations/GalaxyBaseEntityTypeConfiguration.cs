@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Galaxy.EntityFrameworkCore.EntityConfigurations
 {
-    public abstract class GalaxyBaseEntityTypeConfiguration<TEntity> : GalaxyBaseEntityTypeConfiguration<TEntity, int> where TEntity : Entity<int>
+    public abstract class GalaxyBaseEntityTypeConfiguration<TEntity> : GalaxyBaseEntityTypeConfiguration<TEntity, int>
+         where TEntity : class, IEntity<int>
     {
 
     }

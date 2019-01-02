@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using Galaxy.Infrastructure;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Galaxy.Domain
 {
-   public interface IEntity 
+   public interface IEntity: IObjectState
     {
         IReadOnlyCollection<INotification> DomainEvents { get; }
         void AddEvent(INotification eventItem);

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Galaxy.Domain
 {
-    public abstract class Entity<TPrimaryKey> : IObjectState, IEntity<TPrimaryKey>
+    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
         public virtual TPrimaryKey  Id { get; protected set; }
         private IEventRouter _eventRouter;

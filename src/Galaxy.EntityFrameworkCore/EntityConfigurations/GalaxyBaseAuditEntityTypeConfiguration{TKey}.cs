@@ -10,7 +10,7 @@ namespace Galaxy.EntityFrameworkCore.EntityConfigurations
 {
     
     public abstract class GalaxyBaseAuditEntityTypeConfiguration<TEntity, TPrimary>
-     : IEntityTypeConfiguration<TEntity> where TEntity : AggregateRootEntity<TPrimary>
+     : IEntityTypeConfiguration<TEntity> where TEntity : class, IEntity<TPrimary>
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
