@@ -88,9 +88,10 @@ namespace Galaxy.EFCore
         public int SaveChanges()
         {
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
+            var changes = _dataContext.SaveChanges();
             this._dataContext.DispatchNotificationsAsync(this._mediator).ConfigureAwait(false)
-                .GetAwaiter().GetResult();
-            return _dataContext.SaveChanges();
+             .GetAwaiter().GetResult();
+            return changes;
         }
 
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
@@ -101,15 +102,17 @@ namespace Galaxy.EFCore
         public async Task<int> SaveChangesAsync()
         {
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
+            var changes = await  _dataContext.SaveChangesAsync();
             await this._dataContext.DispatchNotificationsAsync(this._mediator);
-            return await  _dataContext.SaveChangesAsync();
+            return changes;
         }
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
-            await  this._dataContext.DispatchNotificationsAsync(this._mediator);
-            return await _dataContext.SaveChangesAsync(cancellationToken);
+            var changes = await _dataContext.SaveChangesAsync(cancellationToken);
+            await this._dataContext.DispatchNotificationsAsync(this._mediator);
+            return changes;
         }
 
         public IRepository<TEntity> RepositoryConcrete<TEntity>() where TEntity : class, IAggregateRoot, IObjectState

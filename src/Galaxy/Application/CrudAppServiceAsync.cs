@@ -14,8 +14,6 @@ namespace Galaxy.Application
         where TEntityDto : IEntityDto<TKey>
         where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
-      
-
         public CrudAppServiceAsync(IRepositoryAsync<TEntity, TKey> repositoryAsync
             , IObjectMapper objectMapper
             , IUnitOfWorkAsync unitOfWork) : base(repositoryAsync, objectMapper, unitOfWork)
@@ -49,4 +47,6 @@ namespace Galaxy.Application
             await this._unitOfWorkAsync.SaveChangesAsync();
         }
     }
+
+
 }

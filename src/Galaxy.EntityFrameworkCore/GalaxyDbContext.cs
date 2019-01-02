@@ -16,6 +16,7 @@ using Galaxy.Domain;
 using Galaxy.EFCore.Extensions;
 using Galaxy.EntityFrameworkCore;
 using Galaxy.EntityFrameworkCore.Extensions;
+using Galaxy.Domain.Auditing;
 
 namespace Galaxy.EFCore
 {
@@ -45,8 +46,7 @@ namespace Galaxy.EFCore
             modelBuilder.ApplyAllConfigurationsFromCurrentAssembly();
             
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                
+            {   
                 ConfigureGlobalFiltersMethodInfo
                   .MakeGenericMethod(entityType.ClrType)
                    .Invoke(this, new object[] { entityType, modelBuilder });
@@ -76,9 +76,9 @@ namespace Galaxy.EFCore
                 Expression<Func<TEntity, bool>> softDeleteFilter = e => !((ISoftDelete)e).IsDeleted ;
                 expression = expression == null ? softDeleteFilter : CombineExpressions(expression, softDeleteFilter);
             }
-            if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
+            if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
             {
-                Expression<Func<TEntity, bool>> tenanFilter = e => ((IFullyAudit)e).TenantId == this._appSession.GetCurrenTenantId();
+                Expression<Func<TEntity, bool>> tenanFilter = e => ((IMultiTenant)e).TenantId == this._appSession.GetCurrenTenantId();
                 expression = expression == null ? tenanFilter : CombineExpressions(expression, tenanFilter);
             }
             return expression;
@@ -91,7 +91,7 @@ namespace Galaxy.EFCore
             {
                 return true;
             }
-            if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
+            if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
             {
                 return true;
             }

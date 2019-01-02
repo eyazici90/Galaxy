@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Galaxy.Domain.Auditing;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Galaxy.Auditing
 {
-    public interface IFullyAudit<TPrimaryKey>
-    {
-        int? TenantId { get; }
+    public interface IFullyAudit<TPrimaryKey> : IMultiTenant
+    { 
         int? CreatorUserId { get; }
         DateTime? LastModificationTime { get; }
         int? LastModifierUserId { get; }
