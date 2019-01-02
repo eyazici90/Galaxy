@@ -1,6 +1,7 @@
 ﻿using Galaxy.Auditing;
 using Galaxy.DataContext;
 using Galaxy.Domain;
+using Galaxy.Domain.Auditing;
 using Galaxy.EFCore;
 using Galaxy.EFCore.Extensions;
 using Galaxy.EntityFrameworkCore;
@@ -57,7 +58,8 @@ namespace Galaxy.Identity
                    .Invoke(this, new object[] { entityType, modelBuilder });
             }
         }
-         
+
+
         protected virtual void ConfigureGlobalFilters<TEntity>(IMutableEntityType entityType, ModelBuilder modelBuilder)
            where TEntity : class
         {
@@ -80,9 +82,10 @@ namespace Galaxy.Identity
                 Expression<Func<TEntity, bool>> softDeleteFilter = e => !((ISoftDelete)e).IsDeleted;
                 expression = expression == null ? softDeleteFilter : CombineExpressions(expression, softDeleteFilter);
             }
-            if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
+            if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
             {
-                Expression<Func<TEntity, bool>> tenanFilter = e => ((IFullyAudit)e).TenantId == this._appSession.GetCurrenTenantId();
+                Expression<Func<TEntity, bool>> tenanFilter = e => ((IMultiTenant)e).TenantId == this._appSession.TenantId 
+                                                                || (((IMultiTenant)e).TenantId == this._appSession.TenantId) == this._appSession.TenantId.HasValue;
                 expression = expression == null ? tenanFilter : CombineExpressions(expression, tenanFilter);
             }
             return expression;
@@ -95,7 +98,7 @@ namespace Galaxy.Identity
             {
                 return true;
             }
-            if (typeof(IFullyAudit).IsAssignableFrom(typeof(TEntity)))
+            if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
             {
                 return true;
             }
@@ -119,7 +122,6 @@ namespace Galaxy.Identity
         {
             base.Attach(entity);
         }
-
 
         public override int SaveChanges()
         {
@@ -155,7 +157,6 @@ namespace Galaxy.Identity
             return await this.SaveChangesAsync(CancellationToken.None);
         }
 
-
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             this.SyncObjectsStatePreCommit();
@@ -176,6 +177,7 @@ namespace Galaxy.Identity
 
         private void SyncObjectsStatePreCommit()
         {
+            // Todo: precommit performing actions
             //foreach (var dbEntityEntry in ChangeTracker.Entries())
             //{
             //    dbEntityEntry.State = StateHelper.ConvertState(((IObjectState)dbEntityEntry.Entity).ObjectState);
@@ -251,6 +253,7 @@ namespace Galaxy.Identity
 
             Dispose(disposing);
         }
+
 
     }
 }

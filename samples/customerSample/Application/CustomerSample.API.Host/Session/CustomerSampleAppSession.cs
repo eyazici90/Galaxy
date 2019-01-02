@@ -9,7 +9,7 @@ namespace CustomerSample.API.Host.Session
 {
     public class CustomerSampleAppSession : IAppSessionBase
     {
-        public  int? TenantId { get => 1 ; set => TenantId =  value; }
+        public  int? TenantId { get => null ; set => TenantId =  value; }
         public  int? UserId { get => 1; set => UserId = value; }
         
         public  int? GetCurrenTenantId()

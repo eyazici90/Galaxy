@@ -78,7 +78,8 @@ namespace Galaxy.EFCore
             }
             if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
             {
-                Expression<Func<TEntity, bool>> tenanFilter = e => ((IMultiTenant)e).TenantId == this._appSession.GetCurrenTenantId();
+                Expression<Func<TEntity, bool>> tenanFilter = e => ((IMultiTenant)e).TenantId == this._appSession.TenantId
+                                                               || (((IMultiTenant)e).TenantId == this._appSession.TenantId) == this._appSession.TenantId.HasValue;
                 expression = expression == null ? tenanFilter : CombineExpressions(expression, tenanFilter);
             }
             return expression;
