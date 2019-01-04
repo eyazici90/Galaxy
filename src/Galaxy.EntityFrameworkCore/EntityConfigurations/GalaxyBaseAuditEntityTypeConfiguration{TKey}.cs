@@ -29,5 +29,27 @@ namespace Galaxy.EntityFrameworkCore.EntityConfigurations
             builder.Ignore(e => e.ObjectState);
             builder.Ignore(e => e.DomainEvents);
         }
+
+        public virtual void Configure(EntityTypeBuilder<TEntity> builder, bool ignoreIdconfigurations = default)
+        {
+            if (!ignoreIdconfigurations)
+            {
+                builder.HasKey(x => x.Id);
+
+                builder.Property(e => e.Id)
+                       .ValueGeneratedOnAdd();
+            }
+
+            if (typeof(IConcurrencyTest).GetTypeInfo().IsAssignableFrom(typeof(TEntity)))
+            {
+                builder
+                 .Property(nameof(IConcurrencyTest.RowVersion))
+                 .IsRowVersion();
+            }
+
+
+            builder.Ignore(e => e.ObjectState);
+            builder.Ignore(e => e.DomainEvents);
+        }
     }
 }

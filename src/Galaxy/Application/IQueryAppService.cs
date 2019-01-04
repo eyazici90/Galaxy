@@ -10,7 +10,7 @@ namespace Galaxy.Application
 {
     public interface IQueryAppService<TEntityDto, in TKey, TEntity>
         : IApplicationService
-           where TEntityDto : IEntityDto<TKey>
+          // where TEntityDto : IEntityDto<TKey>
            where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
 

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Galaxy.Application
 {
     public class CrudAppServiceAsync<TEntityDto, TKey, TEntity> : CrudAppService<TEntityDto, TKey, TEntity>, ICrudAppServiceAsync
-        where TEntityDto : IEntityDto<TKey>
+      //  where TEntityDto : IEntityDto<TKey>
         where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
         public CrudAppServiceAsync(IRepositoryAsync<TEntity, TKey> repositoryAsync

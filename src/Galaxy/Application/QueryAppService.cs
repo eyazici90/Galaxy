@@ -11,7 +11,7 @@ using System.Text;
 namespace Galaxy.Application
 {
     public abstract class QueryAppService<TEntityDto, TKey, TEntity> : IQueryAppService<TEntityDto, TKey, TEntity>
-         where TEntityDto : IEntityDto<TKey>
+        // where TEntityDto : IEntityDto<TKey>
          where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
 
     {
