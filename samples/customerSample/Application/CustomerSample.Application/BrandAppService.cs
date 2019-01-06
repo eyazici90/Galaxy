@@ -17,8 +17,7 @@ namespace CustomerSample.Application
     public class BrandAppService : CrudAppServiceAsync<BrandDto, int, Brand>
     {
         public BrandAppService(IRepositoryAsync<Brand, int> repositoryAsync
-            , IObjectMapper objectMapper
-            , IUnitOfWorkAsync unitOfWork) : base(repositoryAsync, objectMapper, unitOfWork)
+            , IObjectMapper objectMapper) : base(repositoryAsync, objectMapper)
         {
         }
         

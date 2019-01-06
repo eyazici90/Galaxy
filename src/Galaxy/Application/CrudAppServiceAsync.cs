@@ -15,8 +15,7 @@ namespace Galaxy.Application
         where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
         public CrudAppServiceAsync(IRepositoryAsync<TEntity, TKey> repositoryAsync
-            , IObjectMapper objectMapper
-            , IUnitOfWorkAsync unitOfWork) : base(repositoryAsync, objectMapper, unitOfWork)
+            , IObjectMapper objectMapper) : base(repositoryAsync, objectMapper)
         {
         }
 
@@ -24,7 +23,6 @@ namespace Galaxy.Application
         {
             var aggregate = await when();
             await _repositoryAsync.InsertAsync(aggregate);
-            await this._unitOfWorkAsync.SaveChangesAsync();
             return base._objectMapper.MapTo<TEntityDto>(
                 aggregate
                 );
@@ -35,7 +33,6 @@ namespace Galaxy.Application
             TEntity aggregate = await base._repositoryAsync.FindAsync(id);
             await when(aggregate);
             _repositoryAsync.Update(aggregate);
-            await this._unitOfWorkAsync.SaveChangesAsync();
             return base._objectMapper.MapTo<TEntityDto>(
                 aggregate
                 );
@@ -44,7 +41,6 @@ namespace Galaxy.Application
         public virtual async Task DeleteAsync(TKey id)
         {
             await base._repositoryAsync.DeleteAsync(id);
-            await this._unitOfWorkAsync.SaveChangesAsync();
         }
     }
 

@@ -200,16 +200,29 @@ namespace Galaxy.EFCore
 
         public bool Commit()
         {
-            this.SaveChangesAsync().ConfigureAwait(false)
+            this._dataContext.SyncObjectsAuditPreCommit(this._session);
+
+            var changes =  _dataContext.SaveChangesAsync().ConfigureAwait(false)
                 .GetAwaiter().GetResult();
+            
             _transaction.Commit();
+
+            this._dataContext.DispatchNotificationsAsync(this._mediator).ConfigureAwait(false)
+             .GetAwaiter().GetResult();
+
             return true;
         }
 
         public async Task<bool> CommitAsync()
         {
-            await this.SaveChangesAsync();
+            this._dataContext.SyncObjectsAuditPreCommit(this._session);
+
+            var changes = await _dataContext.SaveChangesAsync();
+
             _transaction.Commit();
+
+            await this._dataContext.DispatchNotificationsAsync(this._mediator);
+
             return true;
         }
 

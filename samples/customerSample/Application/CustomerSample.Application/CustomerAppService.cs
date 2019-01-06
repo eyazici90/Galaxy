@@ -30,8 +30,7 @@ namespace CustomerSample.Application
             , IObjectMapper objectMapper
             , IRepositoryAsync<Brand,int> rep
             , ICache cacheServ
-            , ILog log
-            , IUnitOfWorkAsync unitofWorkAsync) : base (rep,objectMapper, unitofWorkAsync)
+            , ILog log) : base (rep,objectMapper)
         {
             this._brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
             this._brandPolicy = brandPolicy ?? throw new ArgumentNullException(nameof(brandPolicy));
