@@ -31,6 +31,16 @@ namespace Galaxy.Bootstrapping
             return builder;
         }
 
+        public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, Assembly assembliesForExternalModules, params Assembly[] assembliesForInterceptors)
+        {
+            if (assembliesForInterceptors != null)
+                RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
+
+            builder.RegisterAssemblyModules(assembliesForExternalModules);
+
+            return builder;
+        }
+
 
         public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, Action<ContainerBuilder> action, params Assembly[] assembliesForInterceptors)
         {
@@ -38,6 +48,18 @@ namespace Galaxy.Bootstrapping
 
             if (assembliesForInterceptors != null)
                 RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
+            return builder;
+        }
+
+        public static ContainerBuilder UseGalaxyCore(this ContainerBuilder builder, Assembly assembliesForExternalModules, Action<ContainerBuilder> action, params Assembly[] assembliesForInterceptors)
+        {
+            action(builder);
+
+            if (assembliesForInterceptors != null)
+                RegisterInterceptorsIfAnyExist(builder, assembliesForInterceptors);
+
+            builder.RegisterAssemblyModules(assembliesForExternalModules);
+
             return builder;
         }
 

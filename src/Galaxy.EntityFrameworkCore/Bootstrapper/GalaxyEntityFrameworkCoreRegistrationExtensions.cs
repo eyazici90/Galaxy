@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using Galaxy.DataContext;
 using Galaxy.EFCore;
 using Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules;
@@ -70,23 +71,35 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
            .AsSelf()
            .SingleInstance();
 
+
             builder.RegisterType<TDbContext>()
-            .AsSelf()
-            .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionContext))
-            .WithParameters(new[]
-            {
-                new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),
-                new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession), Activator.CreateInstance(appSession))
-            })
-            .InstancePerLifetimeScope();
+                .AsSelf()
+                .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionContext))
+                .WithParameters(new[]
+                {
+                    new ResolvedParameter(
+                       (pi, ctx) => pi.ParameterType == typeof(DbContextOptions) ,
+                       (pi, ctx) => options.Options),
+
+                     new ResolvedParameter(
+                       (pi, ctx) => pi.ParameterType == typeof(IAppSessionContext) ,
+                       (pi, ctx) => ctx.Resolve<IAppSessionContext>())
+                       
+                })
+                .InstancePerLifetimeScope();
             
             builder.RegisterType<TDbContext>()
                .As<IGalaxyContextAsync>()
                .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionContext))
                .WithParameters(new[]
                {
-                   new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),
-                   new NamedParameter(nameof(GalaxyDbConnectionParameters.appSession),Activator.CreateInstance(appSession))
+                     new ResolvedParameter(
+                       (pi, ctx) => pi.ParameterType == typeof(DbContextOptions) ,
+                       (pi, ctx) => options.Options),
+
+                     new ResolvedParameter(
+                       (pi, ctx) => pi.ParameterType == typeof(IAppSessionContext) ,
+                       (pi, ctx) => ctx.Resolve<IAppSessionContext>())
                })
                .InstancePerLifetimeScope(); 
         } 

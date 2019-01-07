@@ -185,7 +185,7 @@ namespace Galaxy.EFCore
             foreach (var dbEntityEntry in ChangeTracker.Entries<IFullyAudit>())
             {
                     var entity = ((IFullyAudit)dbEntityEntry.Entity);
-                    if (((IObjectState)dbEntityEntry.Entity).ObjectState == ObjectState.Added)
+                    if ((dbEntityEntry.State)== EntityState.Added)
                     {
                        entity.SyncAuditState(creatorUserId : session.UserId,tenantId: session.TenantId, creationTime: DateTime.Now);                       
                     }

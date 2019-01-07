@@ -34,8 +34,10 @@ namespace Galaxy.Identity
         protected static MethodInfo ConfigureGlobalFiltersMethodInfo = typeof(GalaxyIdentityDbContext<,,>).MakeGenericType(typeof(TUser), typeof(TRole), typeof(TPrimaryKey))
                                                                                                           .GetMethod(nameof(ConfigureGlobalFilters)
             , BindingFlags.Instance | BindingFlags.NonPublic) ;
-         
 
+
+        protected virtual string DEFAULT_SCHEMA { get; set; } = "identity";
+        
         public GalaxyIdentityDbContext(DbContextOptions options) : base(options)
         { 
         }
@@ -50,6 +52,12 @@ namespace Galaxy.Identity
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyAllConfigurationsFromCurrentAssembly();
+
+            modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims", DEFAULT_SCHEMA);
+            modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins", DEFAULT_SCHEMA);
+            modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles", DEFAULT_SCHEMA);
+            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims", DEFAULT_SCHEMA);
+            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens", DEFAULT_SCHEMA);
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
