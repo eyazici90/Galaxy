@@ -21,7 +21,7 @@ namespace CustomerSample.Infrastructure
         {
         }
 
-        public CustomerSampleDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options, appSession)
+        public CustomerSampleDbContext(DbContextOptions options, IAppSessionContext appSession) : base(options, appSession)
         {
         }
 

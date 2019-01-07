@@ -1,23 +1,21 @@
-﻿using Galaxy.Auditing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Galaxy.Domain.Auditing
 {
-    public abstract class FullyAuditAggregateRootEntity<TPrimaryKey> : AggregateRootEntity<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, IFullyAudit, ISoftDelete
+     
+    public abstract class AuditAggregateRootEntity<TPrimaryKey> : AggregateRootEntity<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, ISoftDelete
     {
-        public virtual bool IsDeleted { get; protected set; }
-        public virtual int? TenantId { get; protected set; }
+        public virtual bool IsDeleted { get; protected set; } 
         public virtual int? CreatorUserId { get; protected set; }
         public virtual DateTime? LastModificationTime { get; protected set; }
         public virtual int? LastModifierUserId { get; protected set; }
         public virtual DateTime? CreationTime { get; protected set; }
 
-        public virtual void SyncAuditState(int? tenantId = default, int? creatorUserId = default, DateTime? lastModificationTime = default, int? lastmodifierUserId = default, DateTime? creationTime = default)
+        public virtual void SyncAuditState( int? creatorUserId = default, DateTime? lastModificationTime = default, int? lastmodifierUserId = default, DateTime? creationTime = default)
         {
-            this.IsDeleted = IsDeleted;
-            this.TenantId = tenantId;
+            this.IsDeleted = IsDeleted; 
             this.CreatorUserId = creatorUserId;
             this.LastModificationTime = lastModificationTime;
             this.LastModifierUserId = lastmodifierUserId;

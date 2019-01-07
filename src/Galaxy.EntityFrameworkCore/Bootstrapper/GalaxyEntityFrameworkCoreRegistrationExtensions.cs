@@ -18,7 +18,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
            Action<DbContextOptionsBuilder<TDbContext>> optionsAction) where TDbContext : DbContext
         {
             builder.RegisterType<SessionBase>()
-                .As<IAppSessionBase>()
+                .As<IAppSessionContext>()
                 .InstancePerLifetimeScope();
 
             builder.AddGalaxyDbContext<TDbContext>(optionsAction);
@@ -33,7 +33,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
             where TDbContext : DbContext
         { 
             builder.RegisterType(appSession)
-                .As<IAppSessionBase>()
+                .As<IAppSessionContext>()
                 .InstancePerLifetimeScope();
          
             builder.AddGalaxyDbContext<TDbContext>(optionsAction, appSession );
@@ -57,8 +57,8 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
             if (!typeof(IGalaxyContextAsync).IsAssignableFrom(typeof(TDbContext)))
                 throw new GalaxyException($"The parameter : {typeof(TDbContext).Name} is not assignable from {typeof(IGalaxyContextAsync).Name}");
 
-            if (!typeof(IAppSessionBase).IsAssignableFrom(appSession))
-                throw new GalaxyException($"The parameter : {appSession.Name} is not assignable from {typeof(IAppSessionBase).Name}");
+            if (!typeof(IAppSessionContext).IsAssignableFrom(appSession))
+                throw new GalaxyException($"The parameter : {appSession.Name} is not assignable from {typeof(IAppSessionContext).Name}");
 
             var options = new DbContextOptionsBuilder<TDbContext>();
             optionsAction(options);
@@ -72,7 +72,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
 
             builder.RegisterType<TDbContext>()
             .AsSelf()
-            .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionBase))
+            .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionContext))
             .WithParameters(new[]
             {
                 new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),
@@ -82,7 +82,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
             
             builder.RegisterType<TDbContext>()
                .As<IGalaxyContextAsync>()
-               .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionBase))
+               .UsingConstructor(typeof(DbContextOptions), typeof(IAppSessionContext))
                .WithParameters(new[]
                {
                    new NamedParameter(nameof(GalaxyDbConnectionParameters.options), options.Options ),

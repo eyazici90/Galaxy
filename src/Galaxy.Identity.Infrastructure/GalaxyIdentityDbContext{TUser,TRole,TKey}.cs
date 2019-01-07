@@ -27,7 +27,7 @@ namespace Galaxy.Identity
           where TPrimaryKey : IEquatable<TPrimaryKey>   
     {
         #region Private Fields 
-        private readonly IAppSessionBase _appSession;
+        private readonly IAppSessionContext _appSession;
         bool _disposed;
         #endregion Private Fields
 
@@ -40,7 +40,7 @@ namespace Galaxy.Identity
         { 
         }
 
-        public GalaxyIdentityDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options)
+        public GalaxyIdentityDbContext(DbContextOptions options, IAppSessionContext appSession) : base(options)
         {  
             this._appSession = appSession ?? throw new ArgumentNullException(nameof(appSession));
         }
@@ -184,7 +184,7 @@ namespace Galaxy.Identity
             //}
         }
 
-        public void SyncObjectsAuditPreCommit(IAppSessionBase session)
+        public void SyncObjectsAuditPreCommit(IAppSessionContext session)
         {
             if (!ChangeTracker.Entries().Any(x => x.Entity is IFullyAudit))
                 return;

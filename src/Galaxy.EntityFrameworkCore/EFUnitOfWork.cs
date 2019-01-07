@@ -22,7 +22,7 @@ namespace Galaxy.EFCore
         #region Private Fields
         private readonly IMediator _mediator;
         private IGalaxyContextAsync _dataContext;
-        private IAppSessionBase _session;
+        private IAppSessionContext _session;
         private bool _disposed;
         private IDbContextTransaction _transaction;
         private DbContext _dbContext;
@@ -34,7 +34,7 @@ namespace Galaxy.EFCore
         #region Constuctor/Dispose
 
         public EFUnitOfWork(IGalaxyContextAsync dataContext
-            , IAppSessionBase session
+            , IAppSessionContext session
             , IMediator mediator)
         {
             _dataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));

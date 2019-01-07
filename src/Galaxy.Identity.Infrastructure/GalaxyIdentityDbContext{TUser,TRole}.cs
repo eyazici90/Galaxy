@@ -18,7 +18,7 @@ namespace Galaxy.Identity
           
         }
 
-        public GalaxyIdentityDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options)
+        public GalaxyIdentityDbContext(DbContextOptions options, IAppSessionContext appSession) : base(options)
         {
             
         }

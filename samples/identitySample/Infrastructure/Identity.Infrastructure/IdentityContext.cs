@@ -19,7 +19,7 @@ namespace Identity.Infrastructure
         {
         }
 
-        public IdentityContext(DbContextOptions options, IAppSessionBase appSession) : base(options, appSession)
+        public IdentityContext(DbContextOptions options, IAppSessionContext appSession) : base(options, appSession)
         {
         }
 

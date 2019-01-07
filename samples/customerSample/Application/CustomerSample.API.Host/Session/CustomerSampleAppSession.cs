@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomerSample.API.Host.Session
 {
-    public class CustomerSampleAppSession : IAppSessionBase
+    public class CustomerSampleAppSession : IAppSessionContext
     {
         public  int? TenantId { get => null ; set => TenantId =  value; }
         public  int? UserId { get => 1; set => UserId = value; }

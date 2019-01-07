@@ -23,7 +23,7 @@ namespace Galaxy.EFCore
     public abstract class GalaxyDbContext: DbContext, IGalaxyContextAsync
     {
         #region Private Fields 
-        protected readonly IAppSessionBase _appSession;
+        protected readonly IAppSessionContext _appSession;
         bool _disposed;
         #endregion Private Fields
 
@@ -34,7 +34,7 @@ namespace Galaxy.EFCore
         { 
         }
 
-        public GalaxyDbContext(DbContextOptions options, IAppSessionBase appSession) : this(options)
+        public GalaxyDbContext(DbContextOptions options, IAppSessionContext appSession) : this(options)
         { 
             this._appSession = appSession ?? throw new ArgumentNullException(nameof(appSession));
         }
@@ -178,7 +178,7 @@ namespace Galaxy.EFCore
             //}
         }
 
-        public void SyncObjectsAuditPreCommit (IAppSessionBase session)
+        public void SyncObjectsAuditPreCommit (IAppSessionContext session)
         {
             if (!ChangeTracker.Entries().Any(x => x.Entity is IFullyAudit))
                 return;

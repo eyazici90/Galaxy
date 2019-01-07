@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Session
 {
-   public interface IAppSessionBase
+   public interface IAppSessionContext
     {
         Nullable<int> TenantId { get; set; }
         Nullable<int> UserId { get; set; }

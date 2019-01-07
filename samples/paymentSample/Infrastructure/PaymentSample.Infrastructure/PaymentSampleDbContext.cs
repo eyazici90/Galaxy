@@ -16,7 +16,7 @@ namespace PaymentSample.Infrastructure
         {
         }
 
-        public PaymentSampleDbContext(DbContextOptions options, IAppSessionBase appSession) : base(options, appSession)
+        public PaymentSampleDbContext(DbContextOptions options, IAppSessionContext appSession) : base(options, appSession)
         {
         }
 
