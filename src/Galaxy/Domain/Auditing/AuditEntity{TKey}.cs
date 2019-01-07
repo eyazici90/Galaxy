@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Domain.Auditing
 { 
-    public abstract class AuditEntity<TPrimaryKey> : Entity<TPrimaryKey>, ISoftDelete
+    public abstract class AuditEntity<TPrimaryKey> : Entity<TPrimaryKey>, IAudit, ISoftDelete 
     {
         public virtual bool IsDeleted { get; protected set; } 
         public virtual int? CreatorUserId { get; protected set; }

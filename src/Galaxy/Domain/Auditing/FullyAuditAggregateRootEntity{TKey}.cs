@@ -23,5 +23,14 @@ namespace Galaxy.Domain.Auditing
             this.LastModifierUserId = lastmodifierUserId;
             this.CreationTime = creationTime;
         }
+
+        public void SyncAuditState(int? creatorUserId = null, DateTime? lastModificationTime = null, int? lastmodifierUserId = null, DateTime? creationTime = null)
+        {
+            this.IsDeleted = IsDeleted; 
+            this.CreatorUserId = creatorUserId;
+            this.LastModificationTime = lastModificationTime;
+            this.LastModifierUserId = lastmodifierUserId;
+            this.CreationTime = creationTime;
+        }
     }
 }

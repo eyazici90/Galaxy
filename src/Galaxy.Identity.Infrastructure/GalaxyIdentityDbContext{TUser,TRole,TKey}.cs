@@ -194,19 +194,38 @@ namespace Galaxy.Identity
 
         public void SyncObjectsAuditPreCommit(IAppSessionContext session)
         {
-            if (!ChangeTracker.Entries().Any(x => x.Entity is IFullyAudit))
+            if (!ChangeTracker.Entries().Any(x => x.Entity is IAudit))
                 return;
-            foreach (var dbEntityEntry in ChangeTracker.Entries<IFullyAudit>())
+            foreach (var dbEntityEntry in ChangeTracker.Entries<IAudit>())
             {
-                var entity = ((IFullyAudit)dbEntityEntry.Entity);
-                if (((IObjectState)dbEntityEntry.Entity).ObjectState == ObjectState.Added)
+                var entity = (dbEntityEntry.Entity);
+
+                if ((dbEntityEntry.State) == EntityState.Added)
                 {
-                    entity.SyncAuditState(creatorUserId: session.UserId, tenantId: session.TenantId, creationTime: DateTime.Now);
+                    if (typeof(IFullyAudit).IsAssignableFrom(entity.GetType()))
+                    {
+                        (entity as IFullyAudit)
+                            .SyncAuditState(creatorUserId: session.UserId, tenantId: session.TenantId, creationTime: DateTime.Now);
+                    }
+                    else
+                    {
+                        entity.SyncAuditState(creatorUserId: session.UserId, creationTime: DateTime.Now);
+                    }
                 }
                 else
                 {
-                    entity.SyncAuditState(lastmodifierUserId: session.UserId, tenantId: session.TenantId, lastModificationTime: DateTime.Now
-                         , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+                    if (typeof(IFullyAudit).IsAssignableFrom(entity.GetType()))
+                    {
+                        (entity as IFullyAudit)
+                            .SyncAuditState(lastmodifierUserId: session.UserId, tenantId: session.TenantId, lastModificationTime: DateTime.Now
+                          , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+                    }
+                    else
+                    {
+                        entity.SyncAuditState(lastmodifierUserId: session.UserId, lastModificationTime: DateTime.Now
+                          , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+                    }
+
                 }
             }
         }
