@@ -119,7 +119,7 @@ namespace Galaxy.Tasks
             catch (Exception ex)
             {
                 exception = ex;
-                throw ex;
+                throw;
             }
             finally
             {
