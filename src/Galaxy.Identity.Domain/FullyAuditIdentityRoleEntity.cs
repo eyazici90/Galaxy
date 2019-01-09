@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Galaxy.Identity
 {
-    public abstract class FullyAuditIdentityRoleEntity : FullyAuditIdentityRoleEntity<int>, IAggregateRoot, IEntity
+    public abstract class FullyAuditIdentityRoleEntity : FullyAuditIdentityRoleEntity<int>, IAggregateRoot, IEntity, IFullyAudit
     {
     }
 }
