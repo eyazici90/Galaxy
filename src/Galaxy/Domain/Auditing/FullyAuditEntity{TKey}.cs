@@ -17,20 +17,38 @@ namespace Galaxy.Auditing
         public virtual void SyncAuditState(int? tenantId = default, int? creatorUserId = default, DateTime? lastModificationTime = default, int? lastmodifierUserId = default, DateTime? creationTime = default)
         {
             this.IsDeleted = IsDeleted;
-            this.TenantId = tenantId;
-            this.CreatorUserId = creatorUserId;
-            this.LastModificationTime = lastModificationTime;
-            this.LastModifierUserId = lastmodifierUserId;
-            this.CreationTime = creationTime;
+
+            if (tenantId.HasValue)
+                this.TenantId = tenantId;
+
+            if (creatorUserId.HasValue)
+                this.CreatorUserId = creatorUserId;
+
+            if (lastModificationTime.HasValue)
+                this.LastModificationTime = lastModificationTime;
+
+            if (lastmodifierUserId.HasValue)
+                this.LastModifierUserId = lastmodifierUserId;
+
+            if (creationTime.HasValue)
+                this.CreationTime = creationTime;
         }
 
         public void SyncAuditState(int? creatorUserId = null, DateTime? lastModificationTime = null, int? lastmodifierUserId = null, DateTime? creationTime = null)
         {
-            this.IsDeleted = IsDeleted; 
-            this.CreatorUserId = creatorUserId;
-            this.LastModificationTime = lastModificationTime;
-            this.LastModifierUserId = lastmodifierUserId;
-            this.CreationTime = creationTime;
+            this.IsDeleted = IsDeleted;
+            
+            if (creatorUserId.HasValue)
+                this.CreatorUserId = creatorUserId;
+
+            if (lastModificationTime.HasValue)
+                this.LastModificationTime = lastModificationTime;
+
+            if (lastmodifierUserId.HasValue)
+                this.LastModifierUserId = lastmodifierUserId;
+
+            if (creationTime.HasValue)
+                this.CreationTime = creationTime;
         }
     }
 }

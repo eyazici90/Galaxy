@@ -122,9 +122,7 @@ namespace Galaxy.UnitOfWork
             if (attrs.Length > 0)
             {
                 return attrs[0];
-            }
-             
-
+            } 
             return null;
         }
 
