@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Galaxy.Bootstrapping;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +11,10 @@ namespace Galaxy.TestBase
     public abstract class LocalTestBaseResolver : IDisposable
     {
         protected ContainerBuilder ContainerBuilder;
-        protected IResolver Resolver;
+        protected IContainer Container;
+        protected ILifetimeScope Scope;
+        protected bool IsContainerInitializedBefore;
+
         protected LocalTestBaseResolver()
         {
             ContainerBuilder = GalaxyCoreModule.New
@@ -24,21 +29,33 @@ namespace Galaxy.TestBase
 
         public void Initialize()
         {
-            var container =  this.ContainerBuilder
+
+            var container = this.ContainerBuilder
                 .InitializeGalaxy();
 
-            this.Resolver = container.Resolve<IResolver>();
+            Container = container;
+
+            Scope = Container.BeginLifetimeScope();
+            IsContainerInitializedBefore = true;
+        }
+
+        public void Initialize(IServiceCollection services)
+        {
+            this.ContainerBuilder.Populate(services);
+
+            Initialize();
         }
 
         protected T TheObject<T>()
         {
-            return this.Resolver.Resolve<T>();
+            return Scope.Resolve<T>();
         }
 
         public void Dispose()
         {
-            this.ContainerBuilder = null;
-            this.Resolver = null;
+            //this.Container.Dispose();
+            //this.Scope.Dispose();
+            //this.ContainerBuilder = null; 
         }
     }
 }
