@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CustomerSample.Application
 {
-    public class BrandAppService : CrudAppServiceAsync<BrandDto, int, Brand>
+    public class BrandAppService : CrudAppServiceAsync<Brand, BrandDto, int >
     {
         public BrandAppService(IRepositoryAsync<Brand, int> repositoryAsync
             , IObjectMapper objectMapper) : base(repositoryAsync, objectMapper)

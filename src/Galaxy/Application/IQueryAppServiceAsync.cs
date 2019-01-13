@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Application
 {
-    public interface IQueryAppServiceAsync<TEntityDto, in TKey, TEntity> : IQueryAppService<TEntityDto,TKey,TEntity>
-        // where TEntityDto : IEntityDto<TKey>
+    public interface IQueryAppServiceAsync<TEntity, TEntityDto, TKey> : IQueryAppService<TEntity, TEntityDto, TKey>
+      
          where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
         Task<TEntityDto> FindAsync(TKey id);

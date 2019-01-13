@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Application
 {
-    public class CrudAppServiceAsync<TEntityDto, TKey, TEntity> : CrudAppService<TEntityDto, TKey, TEntity>, ICrudAppServiceAsync
-      //  where TEntityDto : IEntityDto<TKey>
+    public class CrudAppServiceAsync<TEntity, TEntityDto, TKey> : CrudAppService<TEntity, TEntityDto, TKey>, ICrudAppServiceAsync 
         where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
         public CrudAppServiceAsync(IRepositoryAsync<TEntity, TKey> repositoryAsync
@@ -22,9 +21,9 @@ namespace Galaxy.Application
         public virtual async Task<TEntityDto> AddAsync(Func<Task<TEntity>> when)
         {
             var aggregate = await when();
-            await _repositoryAsync.InsertAsync(aggregate);
+            var insertedAggregate = await _repositoryAsync.InsertAsync(aggregate);
             return base._objectMapper.MapTo<TEntityDto>(
-                aggregate
+                insertedAggregate
                 );
         }
 
@@ -32,7 +31,7 @@ namespace Galaxy.Application
         {
             TEntity aggregate = await base._repositoryAsync.FindAsync(id);
             await when(aggregate);
-            _repositoryAsync.Update(aggregate);
+            aggregate =_repositoryAsync.Update(aggregate);
             return base._objectMapper.MapTo<TEntityDto>(
                 aggregate
                 );

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace CustomerSample.Application
 {
-   public class CustomerAppService : CrudAppServiceAsync<BrandDto,int,Brand>, ICustomerAppService
+   public class CustomerAppService : CrudAppServiceAsync<Brand, BrandDto, int>, ICustomerAppService
     {
         private readonly ILog _log;
         private readonly ICache _cacheServ;

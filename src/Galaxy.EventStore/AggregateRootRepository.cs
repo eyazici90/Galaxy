@@ -65,12 +65,13 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public void Insert(TAggregateRoot entity)
+        public TAggregateRoot Insert(TAggregateRoot entity)
         {
             this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
+            return entity;
         }
 
-        public Task InsertAsync(TAggregateRoot entity)
+        public Task<TAggregateRoot> InsertAsync(TAggregateRoot entity)
         {
             throw new NotImplementedException();
         }
@@ -129,7 +130,7 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public void Update(TAggregateRoot entity)
+        public TAggregateRoot Update(TAggregateRoot entity)
         {
             throw new NotImplementedException();
         }

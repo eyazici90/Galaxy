@@ -36,18 +36,30 @@ namespace Galaxy.EFCore
             _dbSet = dbContext.Set<TEntity>();
         }
 
-        public virtual void Insert(TEntity entity)
+        public virtual async Task<TEntity> FindAsync(params object[] keyValues)
         {
-            entity.SyncObjectState(ObjectState.Added);
-             _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            return await _dbSet.FindAsync(keyValues);
         }
 
-        public virtual async Task InsertAsync(TEntity entity)
+        public virtual async Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
+        {
+            return await _dbSet.FindAsync(cancellationToken, keyValues);
+        }
+
+        public virtual TEntity Insert(TEntity entity)
         {
             entity.SyncObjectState(ObjectState.Added);
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
+            return entity;
+        }
+
+        public virtual async Task<TEntity> InsertAsync(TEntity entity)
+        {
+            entity.SyncObjectState(ObjectState.Added);
+            _dbSet.Attach(entity);
+            _context.SyncObjectState(entity);
+            return entity;
         }
 
         public virtual void InsertRange(IEnumerable<TEntity> entities)
@@ -68,11 +80,12 @@ namespace Galaxy.EFCore
             }
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             entity.SyncObjectState(ObjectState.Modified);
             _dbSet.Attach(entity);
             _context.SyncObjectState(entity);
+            return entity;
         }
 
 
@@ -114,11 +127,8 @@ namespace Galaxy.EFCore
         } 
 
         public virtual IQueryable<TEntity> ExecuteQuery(string sqlQuery)
-        {
-            //(_context as DbContext).Database.ExecuteSqlCommand(sqlQuery);
-            // Todo : this method is obsolete
-            //return _dbSet.FromSql<TEntity>(sqlQuery);
-            return this._dbSet;
+        { 
+            return _dbSet.FromSql<TEntity>(sqlQuery);
         } 
 
         public virtual IRepository<T> GetRepository<T>() where T : class, IAggregateRoot, IObjectState
@@ -217,15 +227,6 @@ namespace Galaxy.EFCore
         }
 
       
-        public virtual async Task<TEntity> FindAsync(params object[] keyValues)
-        {
-            return await _dbSet.FindAsync(keyValues);
-        }
-        public virtual async Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
-        {
-            return await _dbSet.FindAsync(cancellationToken, keyValues);
-        }
-
  
         public virtual async Task<bool> DeleteAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
@@ -247,9 +248,7 @@ namespace Galaxy.EFCore
 
         public virtual IQueryable<TEntity> SelectQuery(string query, params object[] parameters)
         {
-            // Todo: This method is absolote
-            //   return _dbSet.FromSql(query, parameters).AsQueryable();
-            return _dbSet;
+              return _dbSet.FromSql(query, parameters).AsQueryable();
         }
 
             public virtual void Delete(object id)

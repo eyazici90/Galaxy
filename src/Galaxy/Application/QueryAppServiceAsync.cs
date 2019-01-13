@@ -11,8 +11,7 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Application
 {
-    public abstract class QueryAppServiceAsync<TEntityDto, TKey, TEntity> : QueryAppService<TEntityDto, TKey, TEntity>, IQueryAppServiceAsync<TEntityDto, TKey, TEntity>
-        // where TEntityDto : IEntityDto<TKey>
+    public abstract class QueryAppServiceAsync<TEntity, TEntityDto, TKey> : QueryAppService<TEntity, TEntityDto, TKey>, IQueryAppServiceAsync<TEntity, TEntityDto, TKey>
          where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
         public QueryAppServiceAsync(IRepositoryAsync<TEntity, TKey> repositoryAsync, IObjectMapper objectMapper) : base(repositoryAsync, objectMapper)

@@ -115,9 +115,10 @@ namespace Galaxy.EventStore
             return await this.FindAsync(keyValues);
         }
 
-        public void Insert(TAggregateRoot entity)
+        public TAggregateRoot Insert(TAggregateRoot entity)
         {
             this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));
+            return entity;
         }
 
         public void InsertGraphRange(IEnumerable<TAggregateRoot> entities)
@@ -174,9 +175,10 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public void Update(TAggregateRoot entity)
+        public TAggregateRoot Update(TAggregateRoot entity)
         {
-          //
+            //
+            return entity;
         }
 
         IRepository<T> IRepository<TAggregateRoot, TKey>.GetRepository<T>()
@@ -184,9 +186,10 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public async Task InsertAsync(TAggregateRoot entity)
+        public async Task<TAggregateRoot> InsertAsync(TAggregateRoot entity)
         {
             this.Insert(entity);
+            return entity;
         }
     }
 }

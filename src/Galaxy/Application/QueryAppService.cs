@@ -10,8 +10,8 @@ using System.Text;
 
 namespace Galaxy.Application
 {
-    public abstract class QueryAppService<TEntityDto, TKey, TEntity> : IQueryAppService<TEntityDto, TKey, TEntity>
-        // where TEntityDto : IEntityDto<TKey>
+    public abstract class QueryAppService<TEntity, TEntityDto, TKey> : IQueryAppService<TEntity, TEntityDto, TKey>
+      
          where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
 
     {
