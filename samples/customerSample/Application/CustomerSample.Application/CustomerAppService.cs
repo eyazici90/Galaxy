@@ -29,8 +29,9 @@ namespace CustomerSample.Application
             , IBrandPolicy brandPolicy
             , IObjectMapper objectMapper
             , IRepositoryAsync<Brand,int> rep
+            , IUnitOfWorkAsync unitofWorkAsync
             , ICache cacheServ
-            , ILog log) : base (rep,objectMapper)
+            , ILog log) : base (rep, unitofWorkAsync, objectMapper)
         {
             this._brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
             this._brandPolicy = brandPolicy ?? throw new ArgumentNullException(nameof(brandPolicy));
@@ -38,7 +39,8 @@ namespace CustomerSample.Application
             this._log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
-        public async Task<object> GetCachedBrand(string brandName) {
+        public async Task<object> GetCachedBrand(string brandName)
+        {
             this._log.Warning($"This is a test message for Serilog File!!!");
             return await  this._cacheServ.GetAsync(brandName);
         }

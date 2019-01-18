@@ -11,13 +11,10 @@ using System.Text;
 namespace Galaxy.Application
 {
     public abstract class QueryAppService<TEntity, TEntityDto, TKey> : IQueryAppService<TEntity, TEntityDto, TKey>
-      
          where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
-
     {
         protected readonly IRepositoryAsync<TEntity,TKey> _repositoryAsync;
         protected readonly IObjectMapper _objectMapper;
- 
 
         public QueryAppService(IRepositoryAsync<TEntity,TKey> repositoryAsync
             , IObjectMapper objectMapper)
@@ -26,7 +23,6 @@ namespace Galaxy.Application
             this._objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
         }
         
-
         public virtual IQueryable<TEntityDto> Queryable()
         {
             return this._objectMapper.MapTo<TEntityDto>(
