@@ -5,7 +5,7 @@ using System.Text;
 namespace Galaxy.Domain.Auditing
 {
      
-    public abstract class AuditAggregateRootEntity<TPrimaryKey> : AggregateRootEntity<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, ISoftDelete
+    public abstract class AuditAggregateRootEntity<TPrimaryKey> : AggregateRootEntity<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, IAudit, ISoftDelete
     {
         public virtual bool IsDeleted { get; protected set; } 
         public virtual int? CreatorUserId { get; protected set; }
@@ -13,13 +13,21 @@ namespace Galaxy.Domain.Auditing
         public virtual int? LastModifierUserId { get; protected set; }
         public virtual DateTime? CreationTime { get; protected set; }
 
-        public virtual void SyncAuditState( int? creatorUserId = default, DateTime? lastModificationTime = default, int? lastmodifierUserId = default, DateTime? creationTime = default)
+        public void SyncAuditState(int? creatorUserId = null, DateTime? lastModificationTime = null, int? lastmodifierUserId = null, DateTime? creationTime = null)
         {
-            this.IsDeleted = IsDeleted; 
-            this.CreatorUserId = creatorUserId;
-            this.LastModificationTime = lastModificationTime;
-            this.LastModifierUserId = lastmodifierUserId;
-            this.CreationTime = creationTime;
+            this.IsDeleted = IsDeleted;
+
+            if (creatorUserId.HasValue)
+                this.CreatorUserId = creatorUserId;
+
+            if (lastModificationTime.HasValue)
+                this.LastModificationTime = lastModificationTime;
+
+            if (lastmodifierUserId.HasValue)
+                this.LastModifierUserId = lastmodifierUserId;
+
+            if (creationTime.HasValue)
+                this.CreationTime = creationTime;
         }
     }
 }

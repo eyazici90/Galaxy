@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Galaxy.Domain.Auditing
-{
-    public class AuditAggregateRootEntity
+{ 
+    public abstract class AuditAggregateRootEntity : AuditAggregateRootEntity<int>, IAggregateRoot, IEntity, IAudit, ISoftDelete
     {
     }
 }
