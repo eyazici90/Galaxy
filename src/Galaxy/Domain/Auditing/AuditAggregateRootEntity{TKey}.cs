@@ -5,9 +5,8 @@ using System.Text;
 namespace Galaxy.Domain.Auditing
 {
      
-    public abstract class AuditAggregateRootEntity<TPrimaryKey> : AggregateRootEntity<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, IAudit, ISoftDelete
+    public abstract class AuditAggregateRootEntity<TPrimaryKey> : AggregateRootEntity<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, IAudit
     {
-        public virtual bool IsDeleted { get; protected set; } 
         public virtual int? CreatorUserId { get; protected set; }
         public virtual DateTime? LastModificationTime { get; protected set; }
         public virtual int? LastModifierUserId { get; protected set; }
@@ -15,8 +14,6 @@ namespace Galaxy.Domain.Auditing
 
         public void SyncAuditState(int? creatorUserId = null, DateTime? lastModificationTime = null, int? lastmodifierUserId = null, DateTime? creationTime = null)
         {
-            this.IsDeleted = IsDeleted;
-
             if (creatorUserId.HasValue)
                 this.CreatorUserId = creatorUserId;
 

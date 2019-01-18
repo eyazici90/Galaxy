@@ -9,9 +9,8 @@ using System.Text;
 
 namespace Galaxy.Identity.Domain
 {
-    public class AuditIdentityUserEntity<TPrimaryKey> : IdentityUser<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, IAudit, ISoftDelete, IObjectState where TPrimaryKey : struct, IEquatable<TPrimaryKey>
+    public class AuditIdentityUserEntity<TPrimaryKey> : IdentityUser<TPrimaryKey>, IAggregateRoot, IEntity<TPrimaryKey>, IAudit, IObjectState where TPrimaryKey : struct, IEquatable<TPrimaryKey>
     {
-        public virtual bool IsDeleted { get; protected set; }
         public virtual int? CreatorUserId { get; protected set; }
         public virtual DateTime? LastModificationTime { get; protected set; }
         public virtual int? LastModifierUserId { get; protected set; }
@@ -94,8 +93,7 @@ namespace Galaxy.Identity.Domain
 
         public void SyncAuditState(int? creatorUserId = null, DateTime? lastModificationTime = null, int? lastmodifierUserId = null, DateTime? creationTime = null)
         {
-            this.IsDeleted = IsDeleted;
-
+            
             if (creatorUserId.HasValue)
                 this.CreatorUserId = creatorUserId;
 

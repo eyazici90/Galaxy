@@ -9,10 +9,11 @@ namespace Galaxy.Domain.Auditing
     {
         public virtual int? TenantId { get; protected set; }
 
+        public virtual bool IsDeleted { get; protected set; }
+
         public virtual void SyncAuditState(int? tenantId = default, int? creatorUserId = default, DateTime? lastModificationTime = default, int? lastmodifierUserId = default, DateTime? creationTime = default)
         {
-            this.IsDeleted = IsDeleted;
-
+           
             if (tenantId.HasValue)
                 this.TenantId = tenantId;
 

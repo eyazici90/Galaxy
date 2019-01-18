@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Galaxy.Identity.Domain
 {
-    public class AuditIdentityUserEntity : AuditIdentityUserEntity<int>, IAggregateRoot, IEntity, IAudit, ISoftDelete
+    public class AuditIdentityUserEntity : AuditIdentityUserEntity<int>, IAggregateRoot, IEntity, IAudit
     {
     }
 }
