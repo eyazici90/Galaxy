@@ -1,5 +1,6 @@
 ﻿using Galaxy.Domain;
 using Galaxy.Identity;
+using Galaxy.Identity.Domain;
 using Identity.Domain.Events;
 using Identity.Domain.Exceptions;
 using System;

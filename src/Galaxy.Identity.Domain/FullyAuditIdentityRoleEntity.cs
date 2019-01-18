@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Galaxy.Identity
+namespace Galaxy.Identity.Domain
 {
     public abstract class FullyAuditIdentityRoleEntity : FullyAuditIdentityRoleEntity<int>, IAggregateRoot, IEntity, IFullyAudit
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Galaxy.Identity
+namespace Galaxy.Identity.Domain
 {
    
     public abstract class IdentityUserRoleEntity<TPrimaryKey> : IdentityUserRole<TPrimaryKey>, IEntity<TPrimaryKey>, IObjectState where TPrimaryKey : struct, IEquatable<TPrimaryKey>

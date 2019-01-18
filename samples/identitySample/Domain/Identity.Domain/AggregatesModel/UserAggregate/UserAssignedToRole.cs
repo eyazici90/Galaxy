@@ -1,5 +1,6 @@
 ﻿using Galaxy.Domain;
 using Galaxy.Identity;
+using Galaxy.Identity.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;

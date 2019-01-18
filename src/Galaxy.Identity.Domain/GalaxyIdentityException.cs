@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Galaxy.Identity
+namespace Galaxy.Identity.Domain
 {
     public class GalaxyIdentityException : Exception
     {
