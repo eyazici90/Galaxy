@@ -194,17 +194,22 @@ namespace Galaxy.Identity
 
         public void SyncObjectsAuditPreCommit(IAppSessionContext session)
         {
-            if (!ChangeTracker.Entries().Any(x => x.Entity is IAudit))
+            if (!ChangeTracker.Entries().Any(e => (e.Entity is IAudit)))
                 return;
+
             foreach (var dbEntityEntry in ChangeTracker.Entries<IAudit>())
             {
                 var entity = (dbEntityEntry.Entity);
+
+                if ((dbEntityEntry.State) == EntityState.Unchanged)
+                    continue;
 
                 if ((dbEntityEntry.State) == EntityState.Added)
                 {
                     if (typeof(IMultiTenant).IsAssignableFrom(entity.GetType()))
                     {
                         ApplyTenantState(entity as IMultiTenant, session);
+                        ApplyCreatedAuditState(entity, session);
                     }
                     else
                     {
@@ -216,6 +221,7 @@ namespace Galaxy.Identity
                     if (typeof(IMultiTenant).IsAssignableFrom(entity.GetType()))
                     {
                         ApplyTenantState(entity as IMultiTenant, session);
+                        ApplyUpdatedAuditState(entity, session);
                     }
                     else
                     {
