@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Domain.Auditing
 { 
-    public abstract class AuditEntity : AuditEntity<int>
+    public abstract class AuditEntity : AuditEntity<int>, IEntity, IAudit
     {
 
     }

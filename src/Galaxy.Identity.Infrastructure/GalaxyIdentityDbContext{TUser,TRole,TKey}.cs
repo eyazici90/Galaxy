@@ -202,28 +202,24 @@ namespace Galaxy.Identity
 
                 if ((dbEntityEntry.State) == EntityState.Added)
                 {
-                    if (typeof(IFullyAudit).IsAssignableFrom(entity.GetType()))
+                    if (typeof(IMultiTenant).IsAssignableFrom(entity.GetType()))
                     {
-                        (entity as IFullyAudit)
-                            .SyncAuditState(creatorUserId: session.UserId, tenantId: session.TenantId, creationTime: DateTime.Now);
+                        ApplyTenantState(entity as IMultiTenant, session);
                     }
                     else
                     {
-                        entity.SyncAuditState(creatorUserId: session.UserId, creationTime: DateTime.Now);
+                        ApplyCreatedAuditState(entity, session);
                     }
                 }
                 else
                 {
-                    if (typeof(IFullyAudit).IsAssignableFrom(entity.GetType()))
+                    if (typeof(IMultiTenant).IsAssignableFrom(entity.GetType()))
                     {
-                        (entity as IFullyAudit)
-                            .SyncAuditState(lastmodifierUserId: session.UserId, tenantId: session.TenantId, lastModificationTime: DateTime.Now
-                          , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+                        ApplyTenantState(entity as IMultiTenant, session);
                     }
                     else
                     {
-                        entity.SyncAuditState(lastmodifierUserId: session.UserId, lastModificationTime: DateTime.Now
-                          , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+                        ApplyUpdatedAuditState(entity, session);
                     }
 
                 }
@@ -237,6 +233,22 @@ namespace Galaxy.Identity
                 ((IObjectState)dbEntityEntry.Entity).SyncObjectState(StateHelper.ConvertState(dbEntityEntry.State));
             }
         }
+
+        private void ApplyCreatedAuditState(IAudit entity, IAppSessionContext session)
+        {
+            entity.SyncAuditState(creatorUserId: session.UserId, creationTime: DateTime.Now);
+        }
+
+        private void ApplyUpdatedAuditState(IAudit entity, IAppSessionContext session)
+        {
+            entity.SyncAuditState(lastmodifierUserId: session.UserId, lastModificationTime: DateTime.Now
+                              , creatorUserId: entity.CreatorUserId, creationTime: entity.CreationTime);
+        }
+        private void ApplyTenantState(IMultiTenant entity, IAppSessionContext session)
+        {
+            entity.SyncTenantState(session.TenantId);
+        }
+
 
         public async Task DispatchNotificationsAsync(IMediator mediator)
         {

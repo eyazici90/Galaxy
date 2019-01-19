@@ -93,32 +93,11 @@ namespace Galaxy.Identity.Domain
                 return Convert.ToInt64(Id) <= 0;
             }
             return false;
-        }
-
-        public virtual void SyncAuditState(int? tenantId = default, int? creatorUserId = default, DateTime? lastModificationTime = default, int? lastmodifierUserId = default, DateTime? creationTime = default)
-        {
-            this.IsDeleted = IsDeleted;
-
-            if (tenantId.HasValue)
-                this.TenantId = tenantId;
-
-            if (creatorUserId.HasValue)
-                this.CreatorUserId = creatorUserId;
-
-            if (lastModificationTime.HasValue)
-                this.LastModificationTime = lastModificationTime;
-
-            if (lastmodifierUserId.HasValue)
-                this.LastModifierUserId = lastmodifierUserId;
-
-            if (creationTime.HasValue)
-                this.CreationTime = creationTime;
-        }
+        } 
 
         public void SyncAuditState(int? creatorUserId = null, DateTime? lastModificationTime = null, int? lastmodifierUserId = null, DateTime? creationTime = null)
         {
-            this.IsDeleted = IsDeleted;
-
+            
             if (creatorUserId.HasValue)
                 this.CreatorUserId = creatorUserId;
 
@@ -130,6 +109,12 @@ namespace Galaxy.Identity.Domain
 
             if (creationTime.HasValue)
                 this.CreationTime = creationTime;
+        }
+
+        public void SyncTenantState(int? tenantId = null)
+        {
+            if (tenantId.HasValue)
+                this.TenantId = tenantId;
         }
     }
 }

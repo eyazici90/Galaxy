@@ -7,5 +7,7 @@ namespace Galaxy.Domain.Auditing
     public interface IMultiTenant
     {
         int? TenantId { get; }
+
+        void SyncTenantState(int? tenantId = default);
     }
 }

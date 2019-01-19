@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Galaxy.Auditing
 {
-    public abstract class FullyAuditEntity : FullyAuditEntity<int>, IFullyAudit, ISoftDelete
+    public abstract class FullyAuditEntity : FullyAuditEntity<int>, IFullyAudit
     {
       
     }

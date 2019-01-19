@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.Domain.Auditing
 { 
-    public abstract class AuditEntity<TPrimaryKey> : Entity<TPrimaryKey>, IAudit 
+    public abstract class AuditEntity<TPrimaryKey> : Entity<TPrimaryKey>, IEntity<TPrimaryKey>, IAudit 
     {
         public virtual int? CreatorUserId { get; protected set; }
         public virtual DateTime? LastModificationTime { get; protected set; }
