@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Galaxy.Cache;
 using Galaxy.Redis.Bootstrapper.AutoFacModules;
 using StackExchange.Redis;
 using System;
@@ -13,9 +14,23 @@ namespace Galaxy.Redis.Bootstrapper
         {
             RegisterRedisCache(builder, configurationOpts);
 
-            builder.RegisterModule(new RedisGlobalSettingsModule());
-            builder.RegisterModule(new RedisCacheModule());
+            builder.RegisterAssemblyModules(typeof(RedisCacheModule).Assembly);
             
+            return builder;
+        }
+
+        public static ContainerBuilder UseGalaxyRedisCache(this ContainerBuilder builder, Action<ConfigurationOptions> configurationOpts, Action<ICacheDefaultSettings> configureCacheSettings)
+        {
+            UseGalaxyRedisCache(builder, configurationOpts);
+
+            var settings = new RedisGlobalDefaultCacheSettings();
+
+            configureCacheSettings(settings);
+
+            builder.RegisterInstance(settings)
+                .As<ICacheDefaultSettings>()
+                .SingleInstance();
+
             return builder;
         }
 

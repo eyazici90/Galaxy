@@ -26,11 +26,11 @@ namespace Galaxy.Cache
         public object Get(string key)
         {
 
-            var cachedBytes = this._memoryCache.Get<string>(NormalizeKey(key));
-            if (cachedBytes == null)
+            var cachedString = this._memoryCache.Get<string>(NormalizeKey(key));
+            if (cachedString == null)
                 return null;
 
-            return this._objectSerializer.Deserialize(cachedBytes);
+            return this._objectSerializer.Deserialize(cachedString);
         }
 
         public TItem Get<TItem>(string key)
@@ -40,6 +40,18 @@ namespace Galaxy.Cache
                 return default(TItem);
             return this._objectSerializer.Deserialize<TItem>(cachedBytes.ToString());
         }
+
+        public string GetString(string key)
+        {
+            var cachedString = this._memoryCache.Get<string>(NormalizeKey(key));
+            if (cachedString == null)
+                return null;
+            return cachedString;
+        }
+
+        public Task<string> GetStringAsync(string key) =>
+            Task.FromResult(this.GetString(key));
+        
 
         public Task<object> GetAsync(string key) =>
             Task.FromResult(this.Get(key));
@@ -96,11 +108,14 @@ namespace Galaxy.Cache
         }
 
         public string NormalizeKey(string key) =>
-            $"cache:{this._cacheSettings.NameofCache},key:{key}";
-        
+            _cacheSettings.IsNormalizeKeyEnabled ? $"cache:{this._cacheSettings.NameofCache},key:{key}"
+                                                 : key;
+
         public void Dispose()
         {
             //Disposing
         }
+
+       
     }
 }

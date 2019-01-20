@@ -51,10 +51,26 @@ namespace Galaxy.Redis
 
         public async Task<TItem> GetAsync<TItem>(string key)
         {
-            var cachedBytes = await this._database.StringGetAsync(NormalizeKey(key));
-            if (!cachedBytes.HasValue)
+            var cachedString = await this._database.StringGetAsync(NormalizeKey(key));
+            if (!cachedString.HasValue)
                 return default(TItem);
-            return this._objectSerializer.Deserialize<TItem>(cachedBytes.ToString());
+            return this._objectSerializer.Deserialize<TItem>(cachedString.ToString());
+        }
+
+        public string GetString(string key)
+        {
+            var cachedString =  this._database.StringGet(NormalizeKey(key));
+            if (!cachedString.HasValue)
+                return null;
+            return cachedString;
+        }
+
+        public async Task<string> GetStringAsync(string key)
+        {
+            var cachedString = await this._database.StringGetAsync(NormalizeKey(key));
+            if (!cachedString.HasValue)
+                return null;
+            return cachedString;
         }
 
         public object GetOrDefault(string key)
@@ -112,7 +128,7 @@ namespace Galaxy.Redis
                 throw new GalaxyException($"Can not insert null values to the cache!");
             }
 
-            return this._database.StringSetAsync(
+            return  this._database.StringSetAsync(
               NormalizeKey(key),
               this._objectSerializer.Serialize(value),
               slidingExpireTime ?? absoluteExpireTime ?? this._cacheSettings.DefaultSlidingExpireTime
@@ -120,11 +136,14 @@ namespace Galaxy.Redis
         }  
 
         public string NormalizeKey(string key) =>
-            $"cache:{this._cacheSettings.NameofCache},key:{key}";
+          _cacheSettings.IsNormalizeKeyEnabled ? $"cache:{this._cacheSettings.NameofCache},key:{key}" 
+                                               : key ;
 
         public void Dispose()
         {
             //Disposing
         }
+
+       
     }
 }

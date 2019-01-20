@@ -7,6 +7,8 @@ namespace Galaxy.Redis
 { 
     public sealed class RedisGlobalDefaultCacheSettings : GlobalDefaultCacheSettingsBase
     {
+        public override bool IsNormalizeKeyEnabled { get; set; } = true;
+
         public override TimeSpan DefaultSlidingExpireTime { get; set; } = TimeSpan.FromHours(1);
 
         public override TimeSpan? DefaultAbsoluteExpireTime { get; set; } = TimeSpan.FromHours(24);

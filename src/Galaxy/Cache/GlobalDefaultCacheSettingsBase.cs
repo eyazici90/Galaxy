@@ -11,5 +11,7 @@ namespace Galaxy.Cache
         public abstract TimeSpan? DefaultAbsoluteExpireTime { get; set; }
 
         public abstract string NameofCache { get; set; }
+
+        public abstract bool IsNormalizeKeyEnabled { get; set; }
     }
 }
