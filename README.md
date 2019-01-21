@@ -46,6 +46,7 @@ FluentValidation
 
 ## Log
 Serilog support
+NLog support
 
 ## Modules
 Galaxy.Identity
