@@ -45,7 +45,7 @@ In-Memory
 FluentValidation
 
 ## Log
-Serilog support
+Serilog support<br/>
 NLog support
 
 ## Modules
