@@ -52,6 +52,10 @@ namespace Galaxy.FluentValidation
 
 
             var requestObject = invocation.Arguments[0];
+
+            if (requestObject == null)
+                return;
+
             var requestType = requestObject.GetType();
             if (requestType.IsValueType || requestType == typeof(string))
                 return;
