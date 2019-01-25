@@ -26,6 +26,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public string ResponseMessage { get; private set; }
 
         public int TransactionStatusId { get; private set; }
+
         public PaymenTransactionStatus PaymenTransactionStatus { get; private set; }
 
         public int TransactionTypeId { get; private set; }
@@ -45,6 +46,14 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private PaymentTransaction(string msisdn, string orderId, DateTime transactionDateTime) : this()
         {
+            this.Msisdn = !string.IsNullOrWhiteSpace(msisdn) ? msisdn
+                                                   : throw new ArgumentNullException(nameof(msisdn));
+            this.OrderId = !string.IsNullOrWhiteSpace(orderId) ? orderId
+                                                     : throw new ArgumentNullException(nameof(orderId));
+
+            if (DateTime.Now.AddDays(-1) > transactionDateTime)
+                throw new PaymentDomainException($"Invalid transactionDateTime {transactionDateTime}");
+            
             ApplyEvent(new TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
         }
 
@@ -55,19 +64,9 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private void When(TransactionCreatedDomainEvent @event)
         {
-            this.Msisdn = !string.IsNullOrWhiteSpace(@event.Msisdn) ? @event.Msisdn
-                                                      : throw new ArgumentNullException(nameof(@event.Msisdn));
-            this.OrderId = !string.IsNullOrWhiteSpace(@event.OrderId) ? @event.OrderId
-                                                     : throw new ArgumentNullException(nameof(@event.OrderId));
-
             this.TransactionDateTime = @event.TransactionDateTime;
 
             this.TransactionTypeId = PaymentTransactionType.DirectPaymentType.Id;
-
-            if (DateTime.Now.AddDays(-1) > @event.TransactionDateTime)
-            {
-                throw new PaymentDomainException($"Invalid transactionDateTime {@event.TransactionDateTime}");
-            }
         }
 
         private void When(TransactionAmountChangedDomainEvent @event)

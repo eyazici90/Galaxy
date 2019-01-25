@@ -19,7 +19,7 @@ namespace CustomerSample.Customer.Domain.EFRepositories.BrandAggregate
         }
         public void Add(Brand brand)
         {
-            this._brandRep.Insert(brand); 
+            this._brandRep.Insert(brand);
         }
 
     
