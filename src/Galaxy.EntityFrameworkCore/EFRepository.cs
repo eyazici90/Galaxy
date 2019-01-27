@@ -54,13 +54,8 @@ namespace Galaxy.EFCore
             return entity;
         }
 
-        public virtual async Task<TEntity> InsertAsync(TEntity entity)
-        {
-            entity.SyncObjectState(ObjectState.Added);
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
-            return entity;
-        }
+        public virtual async Task<TEntity> InsertAsync(TEntity entity) => await Task.FromResult(Insert(entity)) ;
+       
 
         public virtual void InsertRange(IEnumerable<TEntity> entities)
         {
@@ -88,6 +83,7 @@ namespace Galaxy.EFCore
             return entity;
         }
 
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity) => await Task.FromResult(Update(entity));
 
         public virtual void Delete(TEntity entity)
         {

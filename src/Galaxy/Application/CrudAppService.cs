@@ -26,11 +26,11 @@ namespace Galaxy.Application
         {
             var aggregate = when();
 
-            var insertedAggregate = _repositoryAsync.Insert(aggregate);
+            var insertedAggregate = RepositoryAsync.Insert(aggregate);
 
             UnitOfWorkAsync.SaveChanges();
 
-            return base._objectMapper.MapTo<TEntityDto>(
+            return base.ObjectMapper.MapTo<TEntityDto>(
                insertedAggregate
              );
         }
@@ -38,15 +38,15 @@ namespace Galaxy.Application
         [DisableUnitOfWork]
         public virtual TEntityDto Update(TKey id, Action<TEntity> when)
         {
-            TEntity aggregate =  base._repositoryAsync.Find(id);
+            TEntity aggregate =  base.RepositoryAsync.Find(id);
 
             when(aggregate);
 
-            aggregate =_repositoryAsync.Update(aggregate);
+            aggregate = RepositoryAsync.Update(aggregate);
 
             UnitOfWorkAsync.SaveChanges();
 
-            return base._objectMapper.MapTo<TEntityDto>(
+            return base.ObjectMapper.MapTo<TEntityDto>(
              aggregate
              );
         }
@@ -54,7 +54,7 @@ namespace Galaxy.Application
         [DisableUnitOfWork]
         public virtual void Delete(TKey id)
         {
-            _repositoryAsync.Delete(id);
+            RepositoryAsync.Delete(id);
 
             UnitOfWorkAsync.SaveChanges();
         }

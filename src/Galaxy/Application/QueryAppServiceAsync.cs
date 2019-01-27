@@ -19,13 +19,13 @@ namespace Galaxy.Application
         }
         
         public virtual async Task<TEntityDto> FindAsync(TKey id) =>
-                this._objectMapper.MapTo<TEntityDto>(
-                    await base._repositoryAsync.FindAsync(id)
+                this.ObjectMapper.MapTo<TEntityDto>(
+                    await base.RepositoryAsync.FindAsync(id)
                 );
 
         public virtual async Task<TEntityDto> GetAsync(TKey id) =>
-                this._objectMapper.MapTo<TEntityDto>(
-                         await base._repositoryAsync.FindAsync(id)
+                this.ObjectMapper.MapTo<TEntityDto>(
+                         await base.RepositoryAsync.FindAsync(id)
                      );
         
     }

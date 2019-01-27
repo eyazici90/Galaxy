@@ -135,6 +135,11 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
+        public Task<TAggregateRoot> UpdateAsync(TAggregateRoot entity)
+        {
+            throw new NotImplementedException();
+        }
+
         IRepository<T> IRepository<TAggregateRoot>.GetRepository<T>()
         {
             throw new NotImplementedException();

@@ -11,6 +11,7 @@ namespace Galaxy.Repositories
     public interface IRepositoryAsync<TEntity, TPrimaryKey> : IRepositoryAsync, IRepository<TEntity,TPrimaryKey> where TEntity : class, IAggregateRoot, IObjectState
     {
         Task<TEntity> InsertAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> FindAsync(params object[] keyValues);
         Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues);
         Task<bool> DeleteAsync(params object[] keyValues);

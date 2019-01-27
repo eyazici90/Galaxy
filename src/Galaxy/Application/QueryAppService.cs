@@ -13,55 +13,55 @@ namespace Galaxy.Application
     public abstract class QueryAppService<TEntity, TEntityDto, TKey> : IQueryAppService<TEntity, TEntityDto, TKey>
          where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
-        protected readonly IRepositoryAsync<TEntity,TKey> _repositoryAsync;
-        protected readonly IObjectMapper _objectMapper;
+        protected readonly IRepositoryAsync<TEntity,TKey> RepositoryAsync;
+        protected readonly IObjectMapper ObjectMapper;
 
         public QueryAppService(IRepositoryAsync<TEntity,TKey> repositoryAsync
             , IObjectMapper objectMapper)
         {
-            this._repositoryAsync = repositoryAsync ?? throw new ArgumentNullException(nameof(repositoryAsync));
-            this._objectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
+            this.RepositoryAsync = repositoryAsync ?? throw new ArgumentNullException(nameof(repositoryAsync));
+            this.ObjectMapper = objectMapper ?? throw new ArgumentNullException(nameof(objectMapper));
         }
         
         public virtual IQueryable<TEntityDto> Queryable()
         {
-            return this._objectMapper.MapTo<TEntityDto>(
-                    this._repositoryAsync.Queryable()
+            return this.ObjectMapper.MapTo<TEntityDto>(
+                    this.RepositoryAsync.Queryable()
                 );
         }
 
         public virtual IQueryable<TEntityDto> QueryableNoTrack()
         {
-            return this._objectMapper.MapTo<TEntityDto>(
-                    this._repositoryAsync.QueryableNoTrack()
+            return this.ObjectMapper.MapTo<TEntityDto>(
+                    this.RepositoryAsync.QueryableNoTrack()
                 );
         }
 
         public virtual IQueryable<TEntityDto> QueryableWithNoFilter()
         {
-            return this._objectMapper.MapTo<TEntityDto>(
-                    this._repositoryAsync.QueryableWithNoFilter()
+            return this.ObjectMapper.MapTo<TEntityDto>(
+                    this.RepositoryAsync.QueryableWithNoFilter()
                 );
         }
 
         public virtual TEntityDto Find(TKey id)
         {
-            return this._objectMapper.MapTo<TEntityDto>(
-                    this._repositoryAsync.Find(id)
+            return this.ObjectMapper.MapTo<TEntityDto>(
+                    this.RepositoryAsync.Find(id)
                 );
         }
 
         public virtual TEntityDto Get(TKey id)
         {
-            return this._objectMapper.MapTo<TEntityDto>(
-                   this._repositoryAsync.Find(id)
+            return this.ObjectMapper.MapTo<TEntityDto>(
+                   this.RepositoryAsync.Find(id)
                );
         }
 
         public virtual IList<TEntityDto> GetAll()
         {
-            return this._objectMapper.MapTo<IList<TEntityDto>>(
-                    this._repositoryAsync.Queryable().ToList()
+            return this.ObjectMapper.MapTo<IList<TEntityDto>>(
+                    this.RepositoryAsync.Queryable().ToList()
                 );
         }
 
@@ -69,12 +69,12 @@ namespace Galaxy.Application
         {
             if (whereCondition == default)
             {
-                return this._objectMapper.MapTo<TEntityDto>(
-                                   this._repositoryAsync.Queryable()
+                return this.ObjectMapper.MapTo<TEntityDto>(
+                                   this.RepositoryAsync.Queryable()
                                );
             }
-            return this._objectMapper.MapTo<TEntityDto>(
-                   this._repositoryAsync.Queryable()
+            return this.ObjectMapper.MapTo<TEntityDto>(
+                   this.RepositoryAsync.Queryable()
                         .Where(whereCondition)
                );
         }

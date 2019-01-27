@@ -10,6 +10,7 @@ namespace Galaxy.DataContext
         int SaveChanges();
         void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState;
         void SyncEntityState<TEntity>(TEntity entity) where TEntity : class, IObjectState;
+        void SyncObjectsStatePreCommit();
         void SyncObjectsStatePostCommit();
         void SyncObjectsAuditPreCommit(IAppSessionContext session);
         bool CheckIfThereIsAvailableTransaction();

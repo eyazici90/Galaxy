@@ -173,17 +173,17 @@ namespace Galaxy.Identity
             return changesAsync;
         }
 
-        public void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
+        public virtual void SyncObjectState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {
             Entry(entity).State = StateHelper.ConvertState(entity.ObjectState);
         }
 
-        public void SyncEntityState<TEntity>(TEntity entity) where TEntity : class, IObjectState
+        public virtual void SyncEntityState<TEntity>(TEntity entity) where TEntity : class, IObjectState
         {
             entity.SyncObjectState(StateHelper.ConvertState(Entry(entity).State));
         }
 
-        private void SyncObjectsStatePreCommit()
+        public virtual void SyncObjectsStatePreCommit()
         {
             // Todo: precommit performing actions
             //foreach (var dbEntityEntry in ChangeTracker.Entries())
@@ -192,7 +192,7 @@ namespace Galaxy.Identity
             //}
         }
 
-        public void SyncObjectsAuditPreCommit(IAppSessionContext session)
+        public virtual void SyncObjectsAuditPreCommit(IAppSessionContext session)
         {
             if (!ChangeTracker.Entries().Any(e => (e.Entity is IAudit)))
                 return;
@@ -232,7 +232,7 @@ namespace Galaxy.Identity
             }
         }
 
-        public void SyncObjectsStatePostCommit()
+        public virtual void SyncObjectsStatePostCommit()
         {
             foreach (var dbEntityEntry in ChangeTracker.Entries())
             {
@@ -256,7 +256,7 @@ namespace Galaxy.Identity
         }
 
 
-        public async Task DispatchNotificationsAsync(IMediator mediator)
+        public virtual async Task DispatchNotificationsAsync(IMediator mediator)
         {
             var notifications = ChangeTracker
                 .Entries<IEntity>()

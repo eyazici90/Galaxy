@@ -191,5 +191,10 @@ namespace Galaxy.EventStore
             this.Insert(entity);
             return entity;
         }
+
+        public Task<TAggregateRoot> UpdateAsync(TAggregateRoot entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
