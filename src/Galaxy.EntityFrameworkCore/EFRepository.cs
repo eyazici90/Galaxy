@@ -21,36 +21,36 @@ namespace Galaxy.EFCore
     public  class EFRepository<TEntity> : IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class, IAggregateRoot, IObjectState
     {
         #region Private Fields
-        protected readonly IGalaxyContextAsync _context;
-        protected readonly DbSet<TEntity> _dbSet;
-        protected readonly IUnitOfWorkAsync _unitOfWork;
+        protected readonly IGalaxyContextAsync Context;
+        protected readonly DbSet<TEntity> DbSet;
+        protected readonly IUnitOfWorkAsync UnitOfWorkAsync;
 
         #endregion Private Fields
 
-        public EFRepository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWork)
+        public EFRepository(IGalaxyContextAsync context, IUnitOfWorkAsync unitOfWorkAsync)
         {
-            _context = context;
-            _unitOfWork = unitOfWork;
+            Context = context;
+            UnitOfWorkAsync = unitOfWorkAsync;
 
             var dbContext = context as DbContext;
-            _dbSet = dbContext.Set<TEntity>();
+            DbSet = dbContext.Set<TEntity>();
         }
 
         public virtual async Task<TEntity> FindAsync(params object[] keyValues)
         {
-            return await _dbSet.FindAsync(keyValues);
+            return await DbSet.FindAsync(keyValues);
         }
 
         public virtual async Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
-            return await _dbSet.FindAsync(cancellationToken, keyValues);
+            return await DbSet.FindAsync(cancellationToken, keyValues);
         }
 
         public virtual TEntity Insert(TEntity entity)
         {
             entity.SyncObjectState(ObjectState.Added);
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            DbSet.Attach(entity);
+            Context.SyncObjectState(entity);
             return entity;
         }
 
@@ -67,19 +67,19 @@ namespace Galaxy.EFCore
 
         public virtual void InsertGraphRange(IEnumerable<TEntity> entities)
         {
-          
-            _dbSet.AddRange(entities);
+
+            DbSet.AddRange(entities);
             foreach (var entity in entities)
             {
-                _context.SyncEntityState(entity);
+                Context.SyncEntityState(entity);
             }
         }
 
         public virtual TEntity Update(TEntity entity)
         {
             entity.SyncObjectState(ObjectState.Modified);
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            DbSet.Attach(entity);
+            Context.SyncObjectState(entity);
             return entity;
         }
 
@@ -88,8 +88,8 @@ namespace Galaxy.EFCore
         public virtual void Delete(TEntity entity)
         {
             entity.SyncObjectState(ObjectState.Deleted);
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            DbSet.Attach(entity);
+            Context.SyncObjectState(entity);
         }
 
         public virtual IQueryFluent<TEntity> Query()
@@ -109,27 +109,27 @@ namespace Galaxy.EFCore
 
         public virtual IQueryable<TEntity> Queryable()
         {
-            return _dbSet;
+            return DbSet;
         }
 
         public virtual IQueryable<TEntity> QueryableNoTrack()
         {
-            return _dbSet.AsNoTracking();
+            return DbSet.AsNoTracking();
         }
 
         public virtual IQueryable<TEntity> QueryableWithNoFilter()
         {
-            return _dbSet.IgnoreQueryFilters();
+            return DbSet.IgnoreQueryFilters();
         } 
 
         public virtual IQueryable<TEntity> ExecuteQuery(string sqlQuery)
         { 
-            return _dbSet.FromSql<TEntity>(sqlQuery);
+            return DbSet.FromSql<TEntity>(sqlQuery);
         } 
 
         public virtual IRepository<T> GetRepository<T>() where T : class, IAggregateRoot, IObjectState
         {
-            return _unitOfWork.Repository<T>();
+            return UnitOfWorkAsync.Repository<T>();
         }
 
         public virtual async Task<bool> DeleteAsync(params object[] keyValues)
@@ -145,7 +145,7 @@ namespace Galaxy.EFCore
             int? page = null,
             int? pageSize = null)
         {
-            IQueryable<TEntity> query = _dbSet;
+            IQueryable<TEntity> query = DbSet;
 
             if (includes != null)
             {
@@ -180,7 +180,7 @@ namespace Galaxy.EFCore
         {
             SyncObjectGraph(entity);
             _entitesChecked = null;
-            _dbSet.Attach(entity);
+            DbSet.Attach(entity);
         }
 
         HashSet<object> _entitesChecked; // tracking of all process entities in the object graph when calling SyncObjectGraph
@@ -198,7 +198,7 @@ namespace Galaxy.EFCore
             var objectState = entity as IObjectState;
 
             if (objectState != null && objectState.ObjectState == ObjectState.Added)
-                _context.SyncObjectState((IObjectState)entity);
+                Context.SyncObjectState((IObjectState)entity);
 
             // Set tracking state for child collections
             foreach (var prop in entity.GetType().GetProperties())
@@ -208,7 +208,7 @@ namespace Galaxy.EFCore
                 if (trackableRef != null)
                 {
                     if(trackableRef.ObjectState == ObjectState.Added)
-                        _context.SyncObjectState((IObjectState) entity);
+                        Context.SyncObjectState((IObjectState) entity);
 
                     SyncObjectGraph(prop.GetValue(entity, null));
                 }
@@ -233,23 +233,23 @@ namespace Galaxy.EFCore
                 return false;
             }
             entity.SyncObjectState(ObjectState.Deleted);
-            _dbSet.Attach(entity);
+            DbSet.Attach(entity);
 
             return true;
         }
             public virtual TEntity Find(params object[] keyValues)
         {
-            return _dbSet.Find(keyValues);
+            return DbSet.Find(keyValues);
         }
 
         public virtual IQueryable<TEntity> SelectQuery(string query, params object[] parameters)
         {
-              return _dbSet.FromSql(query, parameters).AsQueryable();
+              return DbSet.FromSql(query, parameters).AsQueryable();
         }
 
             public virtual void Delete(object id)
         {
-            var entity = _dbSet.Find(id);
+            var entity = DbSet.Find(id);
             Delete(entity);
         }
     }

@@ -26,13 +26,13 @@ namespace Galaxy.EFCore
 
         public async Task<TEntity> FindAsync(TKey keyValues)
         {
-            return await _dbSet.FindAsync(keyValues);
-        }
-        public  async Task<TEntity> FindAsync(CancellationToken cancellationToken, TKey keyValues)
-        {
-            return await _dbSet.FindAsync(cancellationToken, keyValues);
+            return await DbSet.FindAsync(keyValues);
         }
 
+        public  async Task<TEntity> FindAsync(CancellationToken cancellationToken, TKey keyValues)
+        {
+            return await DbSet.FindAsync(cancellationToken, keyValues);
+        }
 
         public virtual async Task<bool> DeleteAsync(CancellationToken cancellationToken, TKey keyValues)
         {
@@ -43,19 +43,19 @@ namespace Galaxy.EFCore
                 return false;
             }
             entity.SyncObjectState(ObjectState.Deleted);
-            _dbSet.Attach(entity);
-            _context.SyncObjectState(entity);
+            DbSet.Attach(entity);
+            Context.SyncObjectState(entity);
             return true;
         }
 
         public virtual TEntity Find(TKey keyValues)
         {
-            return _dbSet.Find(keyValues);
+            return DbSet.Find(keyValues);
         }
         
         public virtual void Delete(TKey id)
         {
-            var entity = _dbSet.Find(id);
+            var entity = DbSet.Find(id);
             Delete(entity);
         }
     }

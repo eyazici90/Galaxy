@@ -11,46 +11,46 @@ namespace Galaxy.Commands
 {
    public abstract class CommandHandlerBase<TAggregateRoot, TPrimaryKey> : ICommandHandler where TAggregateRoot : class, IAggregateRoot, IObjectState
     {
-        protected readonly IUnitOfWorkAsync _unitOfWorkAsync;
-        protected readonly IRepositoryAsync<TAggregateRoot, TPrimaryKey> _aggregateRootRepository;
+        protected readonly IUnitOfWorkAsync UnitOfWorkAsync;
+        protected readonly IRepositoryAsync<TAggregateRoot, TPrimaryKey> AggregateRootRepository;
         public CommandHandlerBase(IUnitOfWorkAsync unitOfWorkAsync
             , IRepositoryAsync<TAggregateRoot, TPrimaryKey> aggregateRootRepository)
         {
-            _unitOfWorkAsync = unitOfWorkAsync ?? throw new ArgumentNullException(nameof(unitOfWorkAsync));
-            _aggregateRootRepository = aggregateRootRepository ?? throw new ArgumentNullException(nameof(aggregateRootRepository));
+            UnitOfWorkAsync = unitOfWorkAsync ?? throw new ArgumentNullException(nameof(unitOfWorkAsync));
+            AggregateRootRepository = aggregateRootRepository ?? throw new ArgumentNullException(nameof(aggregateRootRepository));
         }
 
         public virtual async Task AddAsync(Func<Task<TAggregateRoot>> when)
         {
             var aggregate = await when();
-            await _aggregateRootRepository.InsertAsync(aggregate);
-            await this._unitOfWorkAsync.SaveChangesAsync();
+            await AggregateRootRepository.InsertAsync(aggregate);
+            await this.UnitOfWorkAsync.SaveChangesAsync();
         }
 
         public virtual async Task UpdateAsync(TPrimaryKey id, Func<TAggregateRoot, Task> when)
         {
-            TAggregateRoot aggregate = await _aggregateRootRepository.FindAsync(id);
+            TAggregateRoot aggregate = await AggregateRootRepository.FindAsync(id);
             await when(aggregate);
-            _aggregateRootRepository.Update(aggregate);
-            await this._unitOfWorkAsync.SaveChangesAsync();
+            await AggregateRootRepository.UpdateAsync(aggregate);
+            await this.UnitOfWorkAsync.SaveChangesAsync();
         }
 
 
         public virtual void Add(Func<TAggregateRoot> when)
         {
             var aggregate = when();
-            _aggregateRootRepository.Insert(aggregate);
-            this._unitOfWorkAsync.SaveChangesAsync()
+            AggregateRootRepository.Insert(aggregate);
+            this.UnitOfWorkAsync.SaveChangesAsync()
                 .ConfigureAwait(false)
                 .GetAwaiter().GetResult();
         }
 
         public virtual void Update(TPrimaryKey id, Action<TAggregateRoot> when)
         {
-            TAggregateRoot aggregate = _aggregateRootRepository.Find(id);
+            TAggregateRoot aggregate = AggregateRootRepository.Find(id);
             when(aggregate);
-            _aggregateRootRepository.Update(aggregate);
-            this._unitOfWorkAsync.SaveChangesAsync()
+            AggregateRootRepository.Update(aggregate);
+            this.UnitOfWorkAsync.SaveChangesAsync()
                  .ConfigureAwait(false)
                  .GetAwaiter().GetResult();
         }
