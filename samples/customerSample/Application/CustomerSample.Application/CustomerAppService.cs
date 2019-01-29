@@ -24,6 +24,7 @@ namespace CustomerSample.Application
         private readonly ILog _log;
         private readonly ICache _cacheServ;
         private readonly IBrandRepository _brandRepository;
+        private readonly IReadOnlyRepositoryAsync<Brand> _readOnlyRepAsync;
         private readonly IBrandPolicy _brandPolicy;
         public CustomerAppService(IBrandRepository brandRepository
             , IBrandPolicy brandPolicy
@@ -31,12 +32,14 @@ namespace CustomerSample.Application
             , IRepositoryAsync<Brand,int> rep
             , IUnitOfWorkAsync unitofWorkAsync
             , ICache cacheServ
-            , ILog log) : base (rep, unitofWorkAsync, objectMapper)
+            , ILog log
+            , IReadOnlyRepositoryAsync<Brand> readOnlyRepAsync) : base (rep, unitofWorkAsync, objectMapper)
         {
             this._brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
             this._brandPolicy = brandPolicy ?? throw new ArgumentNullException(nameof(brandPolicy));
             this._cacheServ = cacheServ ?? throw new ArgumentNullException(nameof(cacheServ));
             this._log = log ?? throw new ArgumentNullException(nameof(log));
+            this._readOnlyRepAsync = readOnlyRepAsync ?? throw new ArgumentNullException(nameof(readOnlyRepAsync));
         }
 
         public async Task<object> GetCachedBrand(string brandName)
@@ -45,8 +48,8 @@ namespace CustomerSample.Application
             return await  this._cacheServ.GetAsync(brandName);
         }
 
-        public async Task<IList<BrandDto>> GetAllBrandsAsync() => await base.QueryableNoTrack().ToListAsync();
-        
+        public async Task<IList<BrandDto>> GetAllBrandsAsync() =>
+            await QueryableNoTrack().ToListAsync();
 
         public async Task AddNewBrand(BrandDto brandDto)
         {

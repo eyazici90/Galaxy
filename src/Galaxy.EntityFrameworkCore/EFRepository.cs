@@ -16,9 +16,8 @@ using Galaxy.UnitOfWork;
 #endregion
 
 namespace Galaxy.EFCore
-{
-
-    public  class EFRepository<TEntity> : IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class, IAggregateRoot, IObjectState
+{ 
+    public  class EFRepository<TEntity> : IReadOnlyRepositoryAsync<TEntity>, IRepositoryAsync<TEntity> where TEntity : class, IAggregateRoot, IObjectState
     {
         #region Private Fields
         protected readonly IGalaxyContextAsync Context;
