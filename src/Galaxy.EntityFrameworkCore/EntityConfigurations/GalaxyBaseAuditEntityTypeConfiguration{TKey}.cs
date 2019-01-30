@@ -19,11 +19,12 @@ namespace Galaxy.EntityFrameworkCore.EntityConfigurations
             builder.Property(e => e.Id)
                    .ValueGeneratedOnAdd();
 
-            if (typeof(IConcurrencyTest).GetTypeInfo().IsAssignableFrom(typeof(TEntity)))
+            if (typeof(IConcurrencyStamp).GetTypeInfo().IsAssignableFrom(typeof(TEntity)))
             {
                 builder
-                 .Property(nameof(IConcurrencyTest.RowVersion))
-                 .IsRowVersion();
+                 .Property(e => ((IConcurrencyStamp)e).ConcurrencyStamp)
+                 .IsConcurrencyToken()
+                 .HasColumnName(nameof(IConcurrencyStamp.ConcurrencyStamp));
             }
 
             builder.Ignore(e => e.ObjectState);
@@ -40,11 +41,12 @@ namespace Galaxy.EntityFrameworkCore.EntityConfigurations
                        .ValueGeneratedOnAdd();
             }
 
-            if (typeof(IConcurrencyTest).GetTypeInfo().IsAssignableFrom(typeof(TEntity)))
+            if (typeof(IConcurrencyStamp).GetTypeInfo().IsAssignableFrom(typeof(TEntity)))
             {
                 builder
-                 .Property(nameof(IConcurrencyTest.RowVersion))
-                 .IsRowVersion();
+                 .Property(e => ((IConcurrencyStamp)e).ConcurrencyStamp)
+                 .IsConcurrencyToken()
+                 .HasColumnName(nameof(IConcurrencyStamp.ConcurrencyStamp));
             }
 
 

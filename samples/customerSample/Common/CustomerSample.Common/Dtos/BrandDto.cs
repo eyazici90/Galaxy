@@ -15,7 +15,7 @@ namespace CustomerSample.Common.Dtos
         public string Gsm { get;  set; }
         public string SNCode { get;  set; }
         public bool IsActive { get;  set; }
-
+        public string ConcurrencyStamp { get;  set; }
         //public IEnumerable<MerchantDto> Merchants { get; set; }
     }
 }

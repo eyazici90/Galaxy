@@ -76,7 +76,8 @@ namespace CustomerSample.Application
         {
             await UpdateAsync(brandDto.Id, async brand => {
                 brand
-                    .ChangeBrandName(brandDto.BrandName);
+                    .ChangeBrandName(brandDto.BrandName)
+                    .SyncConcurrencyStamp(brandDto.ConcurrencyStamp);
             });
         }
         

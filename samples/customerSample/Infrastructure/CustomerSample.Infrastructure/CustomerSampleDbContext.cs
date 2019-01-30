@@ -20,15 +20,19 @@ namespace CustomerSample.Infrastructure
         public CustomerSampleDbContext(DbContextOptions options) : base(options)
         {
         }
-
+        
         public CustomerSampleDbContext(DbContextOptions options, IAppSessionContext appSession) : base(options, appSession)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(DEFAULT_SCHEMA);
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BrandEntityTypeConfiguration).Assembly);
         }
      
     }

@@ -11,14 +11,20 @@ using System.Linq;
 
 namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
 {
-    public sealed class Brand : FullyAuditAggregateRootEntity
+    public sealed class Brand : FullyAuditAggregateRootEntity , IConcurrencyStamp
     {
         public  string EMail { get; private set; }
+
         public  string BrandName { get; private set; }
+
         public  string Gsm { get; private set; }
+
         public  string SNCode { get; private set; }
+
         public  bool IsActive { get; private set; }
-        
+
+        public string ConcurrencyStamp { get; private set; }
+
         private List<Merchant> _merchants;
 
         public IEnumerable<Merchant> Merchants => _merchants.AsEnumerable();
@@ -141,5 +147,9 @@ namespace CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate
             this.IsDeleted = true;
         }
 
+        public void SyncConcurrencyStamp(string stamp)
+        {
+            this.ConcurrencyStamp = stamp;
+        }
     }
 }
