@@ -6,9 +6,9 @@ namespace Galaxy.Cache
 {
     public interface ICacheDefaultSettings
     {
-        bool IsNormalizeKeyEnabled { get; }
-        string NameofCache { get; }
-        TimeSpan DefaultSlidingExpireTime { get; }
-        TimeSpan? DefaultAbsoluteExpireTime { get;  }
+        bool IsNormalizeKeyEnabled { get; set; }
+        string NameofCache { get; set; }
+        TimeSpan DefaultSlidingExpireTime { get; set; }
+        TimeSpan? DefaultAbsoluteExpireTime { get; set; }
     }
 }
