@@ -15,7 +15,7 @@ namespace Galaxy.Dapper
 
         private IDbConnection _dbConnection;
         private IDbConnection DbConnection
-        {
+        { 
             get
             {
                 if (_dbConnection == null)
