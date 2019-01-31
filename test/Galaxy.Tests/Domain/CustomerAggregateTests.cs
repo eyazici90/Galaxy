@@ -18,6 +18,7 @@ namespace Galaxy.Tests.Domain
             var fakeName = string.Empty;
             Assert.Throws<GalaxyException>(() => Customer.Create(fakeName));
         }
+
         [Fact]
         public void Create_customer_aggregateroot_true()
         {

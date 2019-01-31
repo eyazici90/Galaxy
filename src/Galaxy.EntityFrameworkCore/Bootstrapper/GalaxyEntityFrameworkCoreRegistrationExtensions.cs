@@ -26,8 +26,6 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
 
             builder.RegisterAssemblyModules(typeof(RepositoryModule).Assembly);
 
-            builder.RegisterType<ActiveDbConnectionProvider>().As<IActiveDbConnectionProvider>().InstancePerDependency();
-
             return builder;
         }
 
@@ -42,8 +40,6 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
             builder.AddGalaxyDbContext<TDbContext>(optionsAction, appSession );
 
             builder.RegisterAssemblyModules(typeof(RepositoryModule).Assembly);
-
-            builder.RegisterType<ActiveDbConnectionProvider>().As<IActiveDbConnectionProvider>().InstancePerDependency();
 
             return builder;
         }
