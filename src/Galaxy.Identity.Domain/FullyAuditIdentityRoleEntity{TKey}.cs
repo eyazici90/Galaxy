@@ -12,8 +12,7 @@ namespace Galaxy.Identity.Domain
 {
    
     public abstract class FullyAuditIdentityRoleEntity<TPrimaryKey> : IdentityRole<TPrimaryKey>, IFullyAudit<TPrimaryKey>, IEntity<TPrimaryKey>, IObjectState where TPrimaryKey : struct, IEquatable<TPrimaryKey>
-    {
-        public virtual TPrimaryKey Id { get; protected set; }
+    { 
         public virtual bool IsDeleted { get; protected set; }
         public virtual int? TenantId { get; protected set; }
         public virtual int? CreatorUserId { get; protected set; }
