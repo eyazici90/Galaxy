@@ -1,14 +1,8 @@
 
 
+## Galaxy ![](https://github.com/eyazici90/Galaxy/blob/master/docs/galaxy.png)
 
 
-
-
-
-
-
-
-## Galaxy
 Next generation framework for Domain Driven Design needs. .Net Core 2.2 support !
 
 ## IoC
