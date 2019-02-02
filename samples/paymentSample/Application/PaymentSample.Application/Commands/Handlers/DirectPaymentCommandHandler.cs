@@ -1,5 +1,6 @@
 ﻿using Galaxy.Commands;
 using Galaxy.Infrastructure;
+using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
 using MediatR;
@@ -12,11 +13,12 @@ using System.Threading.Tasks;
 
 namespace PaymentSample.Application.Commands.Handlers
 {
-    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransaction,int>
+    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransaction,object>
         , IRequestHandler<DirectPaymentCommand, bool>
     {
         public DirectPaymentCommandHandler(IUnitOfWorkAsync unitOfWorkAsync
-            , IRepositoryAsync<PaymentTransaction,int> aggregateRootRepository) : base(unitOfWorkAsync, aggregateRootRepository)
+            , IRepositoryAsync<PaymentTransaction,int> aggregateRootRepository
+            , IObjectMapper objectMapper) : base(unitOfWorkAsync, aggregateRootRepository, objectMapper)
         {
         }
 

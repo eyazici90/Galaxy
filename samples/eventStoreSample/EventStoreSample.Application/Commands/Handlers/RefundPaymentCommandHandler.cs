@@ -1,5 +1,6 @@
 ﻿using EventStoreSample.Domain.AggregatesModel.PaymentAggregate;
 using Galaxy.Commands;
+using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
 using MediatR;
@@ -12,11 +13,12 @@ using System.Threading.Tasks;
 namespace EventStoreSample.Application.Commands.Handlers
 {
     
-    public class RefundPaymentCommandHandler : CommandHandlerBase<PaymentTransaction, Guid>
+    public class RefundPaymentCommandHandler : CommandHandlerBase<PaymentTransaction, object, Guid>
         , IRequestHandler<RefundPaymentCommand, bool>
     {
         public RefundPaymentCommandHandler(IUnitOfWorkAsync unitOfWorkAsync
-            , IRepositoryAsync<PaymentTransaction, Guid> aggregateRootRepository) : base(unitOfWorkAsync, aggregateRootRepository)
+            , IRepositoryAsync<PaymentTransaction, Guid> aggregateRootRepository
+            , IObjectMapper objectMapper) : base(unitOfWorkAsync, aggregateRootRepository, objectMapper)
         {
         }
 
