@@ -21,9 +21,11 @@ namespace CustomerSample.Application.Abstractions
          
         [EnableUnitOfWork(isolationLevel:IsolationLevel.ReadUncommitted, timeout:20)]
         Task AddNewBrand(BrandDto brandDto);
-         
+
         Task AddMerchantToBrand(MerchantDto merchant);
+
         Task ChangeBrandName(BrandDto brandDto);
+
         Task ChangeMerchantVknByBrand(MerchantDto merchant);
     }
 }

@@ -25,13 +25,11 @@ namespace Galaxy.EFCore
         private IAppSessionContext _session;
         private bool _disposed;
         private IDbContextTransaction _transaction;
-        private DbContext _dbContext;
         private Dictionary<string, dynamic> _repositories;
      
-
         #endregion Private Fields
 
-        #region Constuctor/Dispose
+        #region Constuctor
 
         public EFUnitOfWork(IGalaxyContextAsync dataContext
             , IAppSessionContext session
@@ -42,38 +40,8 @@ namespace Galaxy.EFCore
             _repositories = new Dictionary<string, dynamic>();
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-            {
-                if (_dbContext != null)
-                        {
-                            _dbContext.Dispose();
-                            _dbContext = null;
-                        }
-                if (_dataContext != null)
-                {
-                    _dataContext.Dispose();
-                    _dataContext = null;
-                }
-            }
-            // release any unmanaged objects
-            // set the object references to null
-
-            _disposed = true;
-        }
-
-        #endregion Constuctor/Dispose
+        
+        #endregion Constuctor
 
         public bool CheckIfThereIsAvailableTransaction()
         {
@@ -163,38 +131,36 @@ namespace Galaxy.EFCore
 
         public void BeginTransaction(IUnitOfWorkOptions unitOfWorkOptions = default)
         {
-              _dbContext = (DbContext)_dataContext;
             if (unitOfWorkOptions == default)
             { 
-                _transaction = _dbContext.Database.BeginTransaction();
+                _transaction = ((DbContext)_dataContext).Database.BeginTransaction();
             }
             else
             {
                 if (unitOfWorkOptions.Timeout.HasValue)
                 {
-                    _dbContext.Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
+                    ((DbContext)_dataContext).Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
                 }
                 
-                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? _dbContext.Database.BeginTransaction(unitOfWorkOptions.IsolationLevel.Value) 
-                                                                         : _dbContext.Database.BeginTransaction();              
+                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? ((DbContext)_dataContext).Database.BeginTransaction(unitOfWorkOptions.IsolationLevel.Value) 
+                                                                         : ((DbContext)_dataContext).Database.BeginTransaction();              
             }
         }
 
         public async Task BeginTransactionAsync(IUnitOfWorkOptions unitOfWorkOptions = default)
         {
-            _dbContext = (DbContext)_dataContext;
             if (unitOfWorkOptions == default)
             {
-                _transaction = await _dbContext.Database.BeginTransactionAsync();
+                _transaction = await ((DbContext)_dataContext).Database.BeginTransactionAsync();
             }
             else
             { 
                 if (unitOfWorkOptions.Timeout.HasValue)
                 {
-                    _dbContext.Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
+                    ((DbContext)_dataContext).Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
                 }
-                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? await _dbContext.Database.BeginTransactionAsync(unitOfWorkOptions.IsolationLevel.Value)
-                                                                         : await _dbContext.Database.BeginTransactionAsync();
+                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? await ((DbContext)_dataContext).Database.BeginTransactionAsync(unitOfWorkOptions.IsolationLevel.Value)
+                                                                         : await ((DbContext)_dataContext).Database.BeginTransactionAsync();
             } 
         }
 
@@ -238,5 +204,27 @@ namespace Galaxy.EFCore
         }
         
         #endregion
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                if (_dataContext != null)
+                {
+                    _dataContext.Dispose();
+                    _dataContext = null;
+                }
+            }
+            _disposed = true;
+        }
     }
 }

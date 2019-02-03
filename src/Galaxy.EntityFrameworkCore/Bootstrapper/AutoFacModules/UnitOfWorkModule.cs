@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Galaxy.EFCore;
 using Galaxy.UnitOfWork;
 
 namespace Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules
@@ -8,11 +9,11 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules
         protected override void Load(ContainerBuilder builder)
         {
 
-            builder.RegisterType<Galaxy.EFCore.EFUnitOfWork>()
+            builder.RegisterType<EFUnitOfWork>()
                 .As<IUnitOfWork>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<Galaxy.EFCore.EFUnitOfWork>()
+            builder.RegisterType<EFUnitOfWork>()
                .As<IUnitOfWorkAsync>()
                .InstancePerLifetimeScope();
         }

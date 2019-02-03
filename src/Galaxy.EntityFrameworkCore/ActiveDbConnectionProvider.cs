@@ -15,7 +15,7 @@ namespace Galaxy.EntityFrameworkCore
 
         public IDbConnection GetActiveDbConnection()
         {
-           return ((DbContext) _context).Database.GetDbConnection();  
+           return ((DbContext) _context)?.Database.GetDbConnection();  
         }
 
         public IDbTransaction GetActiveDbTransaction()

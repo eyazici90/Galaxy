@@ -303,15 +303,9 @@ namespace Galaxy.EFCore
             if (!_disposed)
             {
                 if (disposing)
-                {
-                    
-                    // free other managed objects that implement
-                    // IDisposable only
+                { 
+                    // Release objects
                 }
-
-                // release any unmanaged objects
-                // set object references to null
-
                 _disposed = true;
             }
 

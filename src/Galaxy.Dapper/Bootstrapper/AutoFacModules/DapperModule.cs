@@ -9,6 +9,16 @@ namespace Galaxy.Dapper.Bootstrapper.AutoFacModules
             builder.RegisterType<DapperRepository>()
                 .As<IDapperRepository>()
                 .InstancePerDependency();
+
+            builder.RegisterGeneric(typeof(DapperRepository<>))
+                .As(typeof(IDapperRepository<>))
+                .InstancePerDependency();
+
+            builder.RegisterGeneric(typeof(DapperRepository<,>))
+                .As(typeof(IDapperRepository<,>))
+                .InstancePerDependency();
+            
+
         }
     }
 }

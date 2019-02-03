@@ -27,6 +27,7 @@ namespace CustomerSample.Application
         private readonly IBrandRepository _brandRepository;
         private readonly IReadOnlyRepositoryAsync<Brand> _readOnlyRepAsync;
         private readonly IBrandPolicy _brandPolicy;
+        private readonly IDapperRepository<Brand,int> _dapperRep;
         public CustomerAppService(IBrandRepository brandRepository
             , IBrandPolicy brandPolicy
             , IObjectMapper objectMapper
@@ -34,13 +35,15 @@ namespace CustomerSample.Application
             , IUnitOfWorkAsync unitofWorkAsync
             , ICache cacheServ
             , ILog log
-            , IReadOnlyRepositoryAsync<Brand> readOnlyRepAsync) : base (rep, unitofWorkAsync, objectMapper)
+            , IReadOnlyRepositoryAsync<Brand> readOnlyRepAsync
+            , IDapperRepository<Brand, int> dapperRep) : base (rep, unitofWorkAsync, objectMapper)
         {
             this._brandRepository = brandRepository ?? throw new ArgumentNullException(nameof(brandRepository));
             this._brandPolicy = brandPolicy ?? throw new ArgumentNullException(nameof(brandPolicy));
             this._cacheServ = cacheServ ?? throw new ArgumentNullException(nameof(cacheServ));
             this._log = log ?? throw new ArgumentNullException(nameof(log));
             this._readOnlyRepAsync = readOnlyRepAsync ?? throw new ArgumentNullException(nameof(readOnlyRepAsync));
+            this._dapperRep = dapperRep;
         }
 
         public async Task<object> GetCachedBrand(string brandName)
@@ -63,7 +66,6 @@ namespace CustomerSample.Application
 
         public async Task<BrandDto> GetBrandByIdAsync(int brandId) =>
             await FindAsync(brandId);
-
             
         public async Task AddMerchantToBrand(MerchantDto merchant)
         {
