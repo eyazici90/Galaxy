@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Galaxy.Dapper.Interfaces;
 
 namespace Galaxy.Dapper.Bootstrapper.AutoFacModules
 {

@@ -15,6 +15,7 @@ using CustomerSample.Infrastructure;
 using Galaxy.Application;
 using Galaxy.Bootstrapping;
 using Galaxy.Cache.Bootstrapper;
+using Galaxy.Dapper.Bootstrapper;
 using Galaxy.EntityFrameworkCore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
@@ -129,10 +130,14 @@ namespace CustomerSample.API.Host
                               .InstancePerLifetimeScope();
                      })
                      .UseGalaxyUtf8JsonSerialization()
-                     .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf=> 
+                     .UseGalaxyEntityFrameworkCore<CustomerSampleDbContext>(conf =>
                      {
-                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));  
-                     }, typeof(CustomerSampleAppSession)) 
+                         conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                     }, typeof(CustomerSampleAppSession))
+                     .UseGalaxyDapper(settings=> 
+                     {
+                         settings.CommandTimeout = 30;
+                     })
                      .UseGalaxyMapster()
                      .UseGalaxyFluentValidation(typeof(BrandValidation).Assembly)
                      .UseGalaxyInMemoryCache(services)

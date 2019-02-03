@@ -13,4 +13,8 @@
     <PackageReference Include="Dapper" Version="1.50.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
 </Project>

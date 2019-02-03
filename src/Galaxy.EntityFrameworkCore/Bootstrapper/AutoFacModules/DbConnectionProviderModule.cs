@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Galaxy.DataContext;
+using Galaxy.EFCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,9 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper.AutoFacModules
         {
             builder.RegisterType<ActiveDbConnectionProvider>()
                 .As<IActiveDbConnectionProvider>().InstancePerDependency();
+
+            builder.RegisterType<ActiveDbConnectionProvider>()
+               .As<IActiveDbTransactionProvider>().InstancePerDependency();
         }
     }
 }

@@ -4,6 +4,7 @@ using CustomerSample.Common.Dtos;
 using CustomerSample.Customer.Domain.AggregatesModel.BrandAggregate;
 using Galaxy.Application;
 using Galaxy.Cache;
+using Galaxy.Dapper;
 using Galaxy.FluentValidation;
 using Galaxy.Infrastructure;
 using Galaxy.Log;

@@ -35,12 +35,12 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
         { 
             builder.RegisterType(appSession)
                 .As<IAppSessionContext>()
-                .InstancePerLifetimeScope();
-         
+                .InstancePerLifetimeScope(); 
+
             builder.AddGalaxyDbContext<TDbContext>(optionsAction, appSession );
 
             builder.RegisterAssemblyModules(typeof(RepositoryModule).Assembly);
-
+            
             return builder;
         }
 
@@ -101,8 +101,17 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
                        (pi, ctx) => pi.ParameterType == typeof(IAppSessionContext) ,
                        (pi, ctx) => ctx.Resolve<IAppSessionContext>())
                })
-               .InstancePerLifetimeScope(); 
+               .InstancePerLifetimeScope();
+
+            EnsurePropertiesKeysRegistred<TDbContext>(builder);
         } 
+
+        private static void EnsurePropertiesKeysRegistred<TDbContext>(ContainerBuilder builder) 
+            where TDbContext : DbContext
+        {
+            builder.Properties[GalaxyConsts.DbConnectionRegistrationKey] = typeof(TDbContext).Name;
+            builder.Properties[GalaxyConsts.DbTransactionRegistrationKey] = typeof(TDbContext).Name;
+        }
 
     }
 }

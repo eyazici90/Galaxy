@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Galaxy.Dapper.Interfaces;
 using Galaxy.DataContext;
 using System;
 using System.Collections.Generic;
@@ -10,32 +9,25 @@ namespace Galaxy.Dapper
 {
     public class DapperRepository : IDapperRepository
     {
-        private readonly DapperGlobalSettings _dapperSettings;
+        private readonly IDapperSettings _dapperSettings;
         private readonly IActiveDbConnectionProvider _activeConnectionProvider;
+        private readonly IActiveDbTransactionProvider _activeTransactionProvider;
+        private readonly IDbConnection _dbConnection;
+        private readonly IDbTransaction _dbTransaction;
 
-        private IDbConnection _dbConnection;
-        private IDbConnection DbConnection
-        { 
-            get
-            {
-                if (_dbConnection == null)
-                {
-                    _dbConnection = _activeConnectionProvider.GetActiveDbConnection();
-                    if (_dbConnection.State == ConnectionState.Open)
-                    {
-                        _dbConnection.Close();
-                    }
-                    _dbConnection.Open();
-                }
-                return _dbConnection;
-            }
-        }
-
-        public DapperRepository(DapperGlobalSettings dapperSettings
-                               , IActiveDbConnectionProvider activeConnectionProvider)
+        public DapperRepository(IDapperSettings dapperSettings
+                               , IActiveDbConnectionProvider activeConnectionProvider
+                               , IActiveDbTransactionProvider activeTransactionProvider)
         {
             _activeConnectionProvider = activeConnectionProvider ?? throw new ArgumentNullException(nameof(activeConnectionProvider));
+
+            _activeTransactionProvider = activeTransactionProvider ?? throw new ArgumentNullException(nameof(activeTransactionProvider));
+
             _dapperSettings = dapperSettings ?? throw new ArgumentNullException(nameof(dapperSettings));
+
+            _dbConnection = (IDbConnection)activeConnectionProvider.GetActiveDbConnection();
+
+            _dbTransaction = (IDbTransaction)activeTransactionProvider.GetActiveDbTransaction();
         }
 
         private int SetCommandTimout(int? timeout)
@@ -45,90 +37,90 @@ namespace Galaxy.Dapper
 
         public IEnumerable<object> Query(string sql, int? timeout = null)
         {
-            IEnumerable<object> result = this.DbConnection.Query<object>(sql, commandTimeout: SetCommandTimout(timeout));
+            IEnumerable<object> result = this._dbConnection.Query<object>(sql, commandTimeout: SetCommandTimout(timeout));
             return result;
         }
 
         public IEnumerable<object> Query(string sql, object param, int? timeout = null)
         {
-            IEnumerable<object> result = this.DbConnection.Query<object>(sql, param, commandTimeout: SetCommandTimout(timeout));
+            IEnumerable<object> result = this._dbConnection.Query<object>(sql, param, commandTimeout: SetCommandTimout(timeout));
             return result;
         }
 
         public IEnumerable<T> Query<T>(string sql, int? timeout = null)
         {
-            IEnumerable<T> result = this.DbConnection.Query<T>(sql, commandTimeout: SetCommandTimout(timeout));
+            IEnumerable<T> result = this._dbConnection.Query<T>(sql, commandTimeout: SetCommandTimout(timeout));
             return result;
         }
 
         public IEnumerable<T> Query<T>(string sql, object param, int? timeout = null)
         {
-            IEnumerable<T> result = this.DbConnection.Query<T>(sql, param, commandTimeout: SetCommandTimout(timeout));
+            IEnumerable<T> result = this._dbConnection.Query<T>(sql, param, commandTimeout: SetCommandTimout(timeout));
             return result;
         }
 
         public Task<IEnumerable<object>> QueryAsync(string sql, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<object>(sql, commandTimeout: SetCommandTimout(timeout));
+            return this._dbConnection.QueryAsync<object>(sql, commandTimeout: SetCommandTimout(timeout));
         }
 
         public Task<IEnumerable<object>> QueryAsync(string sql, object param, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<object>(sql, param, commandTimeout: SetCommandTimout(timeout));
+            return this._dbConnection.QueryAsync<object>(sql, param, commandTimeout: SetCommandTimout(timeout));
         }
 
         public Task<IEnumerable<T>> QueryAsync<T>(string sql, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<T>(sql, commandTimeout: SetCommandTimout(timeout));
+            return this._dbConnection.QueryAsync<T>(sql, commandTimeout: SetCommandTimout(timeout));
         }
 
         public Task<IEnumerable<T>> QueryAsync<T>(string sql, object param, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<T>(sql, param, commandTimeout: SetCommandTimout(timeout));
+            return this._dbConnection.QueryAsync<T>(sql, param, commandTimeout: SetCommandTimout(timeout));
         }
 
         public IEnumerable<object> QueryViaStoredProc(string proc_name, int? timeout = null)
         {
-            IEnumerable<object> result = this.DbConnection.Query<object>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            IEnumerable<object> result = this._dbConnection.Query<object>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
             return result;
         }
 
         public IEnumerable<object> QueryViaStoredProc(string proc_name, object param, int? timeout = null)
         {
-            IEnumerable<object> result = this.DbConnection.Query<object>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            IEnumerable<object> result = this._dbConnection.Query<object>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
             return result;
         }
 
         public IEnumerable<T> QueryViaStoredProc<T>(string proc_name, int? timeout = null)
         {
-            IEnumerable<T> result = this.DbConnection.Query<T>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            IEnumerable<T> result = this._dbConnection.Query<T>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
             return result;
         }
 
         public IEnumerable<T> QueryViaStoredProc<T>(string proc_name, object param, int? timeout = null)
         {
-            IEnumerable<T> result = this.DbConnection.Query<T>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            IEnumerable<T> result = this._dbConnection.Query<T>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
             return result;
         }
 
         public Task<IEnumerable<object>> QueryViaStoredProcAsync(string proc_name, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<object>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            return this._dbConnection.QueryAsync<object>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
         }
 
         public Task<IEnumerable<object>> QueryViaStoredProcAsync(string proc_name, object param, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<object>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            return this._dbConnection.QueryAsync<object>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
         }
 
         public Task<IEnumerable<T>> QueryViaStoredProcAsync<T>(string proc_name, int? timeout = null)
         {
-            return this.DbConnection.QueryAsync<T>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            return this._dbConnection.QueryAsync<T>(proc_name, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
         }
 
         public Task<IEnumerable<T>> QueryViaStoredProcAsync<T>(string proc_name, object param, int? timeout)
         {
-            return this.DbConnection.QueryAsync<T>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
+            return this._dbConnection.QueryAsync<T>(proc_name, param, commandTimeout: SetCommandTimout(timeout), commandType: CommandType.StoredProcedure);
         }
     }
 }

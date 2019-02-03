@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Galaxy.Cache\Galaxy.Cache.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Galaxy.Dapper\Galaxy.Dapper.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
     <ProjectReference Include="..\..\..\..\src\Galaxy.RabbitMQ\Galaxy.RabbitMQ.csproj" />

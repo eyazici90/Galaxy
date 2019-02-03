@@ -1,6 +1,6 @@
 ﻿namespace Galaxy.Dapper
 {
-    public class DapperGlobalSettings
+    public class DapperGlobalSettings : IDapperSettings
     {
         public int CommandTimeout { get; set; }
     }
