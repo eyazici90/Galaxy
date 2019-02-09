@@ -47,8 +47,11 @@ namespace Galaxy.Domain
             {
                 throw new ArgumentNullException(nameof(@event));
             }
-            _eventRouter.Route(@event);
+
+            BeforeApplyChange(@event);
+            Play(@event);
             AddEvent(@event as INotification);
+            AfterApplyChange(@event);
         }
 
         public virtual void ApplyAllChanges()
@@ -58,6 +61,21 @@ namespace Galaxy.Domain
                 _eventRouter.Route(@event);
             }
         }
+
+        private void Play(object @event)
+        {
+            _eventRouter.Route(@event);
+        }
+        
+        public virtual void BeforeApplyChange(object @event)
+        {
+        }
+
+
+        public virtual void AfterApplyChange(object @event)
+        {
+        }
+
 
         public virtual ObjectState ObjectState { get; private set; }
 
