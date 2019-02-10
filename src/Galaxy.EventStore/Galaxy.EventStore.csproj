@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <Authors>Emre YAZICI</Authors>
+    <Company></Company>
+    <Product />
+    <Description>EventStore integration for Galaxy</Description>
+    <Copyright>Copyright 2019</Copyright>
+    <PackageLicenseUrl>https://github.com/eyazici90/Galaxy/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/eyazici90/Galaxy</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/eyazici90/Galaxy/master/docs/galaxy300x168.jpg</PackageIconUrl>
+    <PackageTags>galaxy;eventstore</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

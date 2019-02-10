@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>7.1</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Emre YAZICI</Authors>
+    <Company />
+    <Product />
+    <Copyright>Copyright 2019</Copyright>
+    <Description>Dapper integration for Galaxy</Description>
+    <PackageLicenseUrl>https://github.com/eyazici90/Galaxy/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/eyazici90/Galaxy</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/eyazici90/Galaxy/master/docs/galaxy300x168.jpg</PackageIconUrl>
+    <PackageTags>galaxy;dapper</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

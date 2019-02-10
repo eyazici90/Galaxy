@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>7.1</LangVersion>
+    <Version>1.0.1</Version>
+    <Authors>Emre YAZICI</Authors>
+    <Company />
+    <Product />
+    <Description>RabbitMQ integration for Galaxy</Description>
+    <Copyright>Copyright 2019</Copyright>
+    <PackageLicenseUrl>https://github.com/eyazici90/Galaxy/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/eyazici90/Galaxy</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/eyazici90/Galaxy/master/docs/galaxy300x168.jpg</PackageIconUrl>
+    <PackageTags>galaxy;rabbitmq</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

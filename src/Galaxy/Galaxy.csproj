@@ -5,7 +5,7 @@
     <LangVersion>7.1</LangVersion>
     <Authors>Emre YAZICI</Authors>
     <Company />
-    <PackageIconUrl>http://poplike.gr/wp-content/uploads/2016/10/galaxy-picture-10-1.jpg</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/eyazici90/Galaxy/master/docs/galaxy300x168.jpg</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/eyazici90/Galaxy/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Copyright 2019</Copyright>
     <Description>Solid &amp; next generation framework for your applications</Description>
