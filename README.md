@@ -366,4 +366,4 @@ Galaxy.Identity
 |eventStoreSample | DDD, CQRS, Event Sourcing|
 
  ## Note
-What brings me here not unique. I inspired a lot from https://github.com/aspnetboilerplate/aspnetboilerplate
+What brings me here of course not unique. I inspired a lot from https://github.com/aspnetboilerplate/aspnetboilerplate
