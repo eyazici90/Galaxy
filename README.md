@@ -1,5 +1,6 @@
 
 
+
 ## Galaxy ![](https://github.com/eyazici90/Galaxy/blob/master/docs/galaxy.png)
 
 
@@ -364,3 +365,5 @@ Galaxy.Identity
 |paymentSample| DDD, CQRS |
 |eventStoreSample | DDD, CQRS, Event Sourcing|
 
+ ## Note
+What brings me here not unique. I inspired a lot from https://github.com/aspnetboilerplate/aspnetboilerplate
