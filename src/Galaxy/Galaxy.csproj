@@ -9,17 +9,17 @@
     <PackageLicenseUrl>https://github.com/eyazici90/Galaxy/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Copyright 2019</Copyright>
     <Description>Solid &amp; next generation framework for your applications</Description>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageProjectUrl>https://github.com/eyazici90/Galaxy</PackageProjectUrl>
     <PackageTags>galaxy;ddd;solid</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
-    <PackageReference Include="MediatR" Version="5.1.0" />
+    <PackageReference Include="MediatR" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

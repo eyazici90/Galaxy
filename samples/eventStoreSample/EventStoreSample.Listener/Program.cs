@@ -28,8 +28,7 @@ namespace EventStoreSample.Listener
                          conf.QueueName = "eventStoreSampleSub";
                      }, typeof(TransactionCreatedConsumer).Assembly);
 
-          
-                     
+           
             var container = containerBuilder.InitializeGalaxy();
 
             var busControl = container.Resolve<IBusControl>();

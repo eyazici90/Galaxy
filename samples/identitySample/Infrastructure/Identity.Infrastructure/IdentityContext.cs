@@ -13,7 +13,7 @@ namespace Identity.Infrastructure
 {
     public sealed class IdentityContext : GalaxyIdentityDbContext<User, Role, int>, IGalaxyContextAsync
     {
-        public const string DEFAULT_SCHEMA = "identity";
+        public new const string  DEFAULT_SCHEMA = "identity";
 
         public IdentityContext(DbContextOptions options) : base(options)
         {

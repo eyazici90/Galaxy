@@ -40,7 +40,7 @@ namespace Galaxy.EFCore.Extensions
                         applyConfigGenericMethod.Invoke(builder,
                                 new object[] { Activator.CreateInstance(configuration) });
                     }
-                    catch (Exception ex) { }
+                    catch  { }
                 }
            
         }
@@ -100,7 +100,7 @@ namespace Galaxy.EFCore.Extensions
                 {
                     allAssemblies.Add(Assembly.LoadFile(dll));
                 }
-                catch (Exception ex)
+                catch
                 {
                 }
 

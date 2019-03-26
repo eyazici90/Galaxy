@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/eyazici90/Galaxy</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/eyazici90/Galaxy/master/docs/galaxy300x168.jpg</PackageIconUrl>
     <PackageTags>galaxy;dapper</PackageTags>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Dapper" Version="1.60.1" />
   </ItemGroup>
 
   <ItemGroup>
