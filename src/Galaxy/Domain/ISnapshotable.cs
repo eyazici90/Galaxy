@@ -6,6 +6,8 @@ namespace Galaxy.Domain
 {
     public interface ISnapshotable
     {
-
+        void RestoreSnapshot(object state);
+         
+        object TakeSnapshot();
     }
 }
