@@ -7,8 +7,8 @@ namespace Galaxy.Events
 {
     public interface IEventBus
     {
-        Task Publish(object @event);
+        Task PublishAsync(object @event);
 
-        Task Publish<TEvent>(object @event) where TEvent : class;
+        Task PublishAsync<TEvent>(object @event) where TEvent : class;
     }
 }

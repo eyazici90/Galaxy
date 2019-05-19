@@ -16,18 +16,14 @@ namespace Galaxy.RabbitMQ
         {
             _bus = bus ?? throw new ArgumentNullException(nameof(bus));
             _galaxyRabbitMqConfiguration = galaxyRabbitMqConfiguration ?? throw new ArgumentNullException(nameof(galaxyRabbitMqConfiguration));
-        }
-        public async Task Send(IntegrationCommand command)
+        } 
+
+        public async Task SendAsync(object command)
         {
-           await _bus.Send(command);
+            await _bus.Send(command);
         }
 
-        public async Task Send<TCommand>(IntegrationCommand command) where TCommand : IntegrationCommand
-        {
-            await _bus.Send<TCommand>(command); 
-        }
-
-        public async Task Send<TCommand>(object command) where TCommand : IntegrationCommand
+        public async Task SendAsync<TCommand>(object command) where TCommand : class
         {
             await _bus.Send<TCommand>(command);
         }

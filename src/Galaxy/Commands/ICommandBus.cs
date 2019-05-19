@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 namespace Galaxy.Commands
 {
     public interface ICommandBus
-    {
-        Task Send(IntegrationCommand command);
+    { 
+        Task SendAsync(object command);
 
-        Task Send<TCommand>(IntegrationCommand command) where TCommand : IntegrationCommand;
+        Task SendAsync<TCommand>(object command) where TCommand : class;
 
-        Task Send<TCommand>(object command) where TCommand : IntegrationCommand;
-        
     }
 }
