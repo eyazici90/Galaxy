@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}"
 EndProject
@@ -166,6 +166,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Identity.Domain", "src\Galaxy.Identity.Domain\Galaxy.Identity.Domain.csproj", "{437F98B0-C577-458B-89CC-D7402A6B544D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Identity.Infrastructure", "src\Galaxy.Identity.Infrastructure\Galaxy.Identity.Infrastructure.csproj", "{43D641D3-ADB1-4E4D-AAD0-C50B5D8CEFFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.ServiceBus", "src\Galaxy.Azure.ServiceBus\Galaxy.Azure.ServiceBus.csproj", "{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.EventGrid", "src\Galaxy.Azure.EventGrid\Galaxy.Azure.EventGrid.csproj", "{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.EventGrid.Tests", "test\Galaxy.Azure.EventGrid.Tests\Galaxy.Azure.EventGrid.Tests.csproj", "{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.ServiceBus.Tests", "test\Galaxy.Azure.ServiceBus.Tests\Galaxy.Azure.ServiceBus.Tests.csproj", "{841B95C5-CFCE-4913-8413-D527BE51F716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -429,6 +437,22 @@ Global
 		{43D641D3-ADB1-4E4D-AAD0-C50B5D8CEFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43D641D3-ADB1-4E4D-AAD0-C50B5D8CEFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43D641D3-ADB1-4E4D-AAD0-C50B5D8CEFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{841B95C5-CFCE-4913-8413-D527BE51F716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{841B95C5-CFCE-4913-8413-D527BE51F716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{841B95C5-CFCE-4913-8413-D527BE51F716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{841B95C5-CFCE-4913-8413-D527BE51F716}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -513,6 +537,10 @@ Global
 		{742D2112-A2A9-4E53-B05E-1C4016FB4C70} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{437F98B0-C577-458B-89CC-D7402A6B544D} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 		{43D641D3-ADB1-4E4D-AAD0-C50B5D8CEFFB} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
+		{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{841B95C5-CFCE-4913-8413-D527BE51F716} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}
