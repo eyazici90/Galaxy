@@ -27,7 +27,9 @@ NewtonSoftJson <br/>
 Utf8Json 
 
 ## Event Bus
-RabbitMQ support
+RabbitMQ support<br/>
+Azure Service Bus<br/>
+Azure Event Grid
 
 ## Document Databases
 MongoDB
