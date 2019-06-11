@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Galaxy.EventStore
 {
-    class SnapshotableRepository
+    public class SnapshotableRepository
     {
     }
 }
