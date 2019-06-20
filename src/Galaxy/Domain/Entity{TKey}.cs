@@ -69,14 +69,12 @@ namespace Galaxy.Domain
         
         public virtual void BeforeApplyChange(object @event)
         {
-        }
-
+        } 
 
         public virtual void AfterApplyChange(object @event)
         {
         }
-
-
+         
         public virtual ObjectState ObjectState { get; private set; }
 
         public virtual void SyncObjectState(ObjectState objectState)

@@ -19,7 +19,7 @@
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
-    <PackageReference Include="MediatR" Version="6.0.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,8 +14,7 @@ using Galaxy.Auditing;
 using Galaxy.Infrastructure;
 using Galaxy.Domain;
 using Galaxy.EFCore.Extensions;
-using Galaxy.EntityFrameworkCore;
-using Galaxy.EntityFrameworkCore.Extensions;
+using Galaxy.EntityFrameworkCore; 
 using Galaxy.Domain.Auditing;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

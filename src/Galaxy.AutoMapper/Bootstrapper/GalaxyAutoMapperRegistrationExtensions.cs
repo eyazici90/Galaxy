@@ -12,6 +12,7 @@ namespace Galaxy.AutoMapper.Bootstrapper
         public static ContainerBuilder UseGalaxyAutoMapper(this ContainerBuilder builder)
         {
             builder.RegisterModule(new AutoMapperModule());
+            Mapper.AssertConfigurationIsValid();
             return builder;
         }
         public static ContainerBuilder UseGalaxyAutoMapper(this ContainerBuilder builder, Action<IMapperConfigurationExpression> configurations = default)

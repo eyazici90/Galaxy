@@ -61,20 +61,11 @@ namespace Galaxy.EFCore
              .GetAwaiter().GetResult();
             return changes;
         }
+         
 
-        public IRepository<TEntity> Repository<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
-        {
-            return RepositoryConcrete<TEntity>();
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            this._dataContext.SyncObjectsAuditPreCommit(this._session);
-            var changes = await  _dataContext.SaveChangesAsync();
-            await this._dataContext.DispatchNotificationsAsync(this._mediator);
-            return changes;
-        }
-
+        public async Task<int> SaveChangesAsync() =>
+           await this.SaveChangesAsync(CancellationToken.None);
+        
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
@@ -83,20 +74,14 @@ namespace Galaxy.EFCore
             return changes;
         }
 
-        public IRepository<TEntity> RepositoryConcrete<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
+        public IRepository<TEntity> Repository<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
         {
 
-            if (_repositories == null)
-            {
-                _repositories = new Dictionary<string, dynamic>();
-            }
+            if (_repositories == null) { _repositories = new Dictionary<string, dynamic>(); }
 
             var type = typeof(TEntity).Name;
 
-            if (_repositories.ContainsKey(type))
-            {
-                return (IRepository<TEntity>)_repositories[type];
-            }
+            if (_repositories.ContainsKey(type)) { return (IRepositoryAsync<TEntity>)_repositories[type]; }
 
             var repositoryType = typeof(EFRepository<>);
 
@@ -107,18 +92,11 @@ namespace Galaxy.EFCore
 
         public IRepositoryAsync<TEntity> RepositoryAsync<TEntity>() where TEntity : class, IAggregateRoot, IObjectState
         {
-
-            if (_repositories == null)
-            {
-                _repositories = new Dictionary<string, dynamic>();
-            }
+            if (_repositories == null) { _repositories = new Dictionary<string, dynamic>(); }
 
             var type = typeof(TEntity).Name;
 
-            if (_repositories.ContainsKey(type))
-            {
-                return (IRepositoryAsync<TEntity>)_repositories[type];
-            }
+            if (_repositories.ContainsKey(type)) { return (IRepositoryAsync<TEntity>)_repositories[type]; }
 
             var repositoryType = typeof(EFRepository<>);
 
@@ -129,23 +107,11 @@ namespace Galaxy.EFCore
 
         #region Unit of Work Transactions
 
-        public void BeginTransaction(IUnitOfWorkOptions unitOfWorkOptions = default)
-        {
-            if (unitOfWorkOptions == default)
-            { 
-                _transaction = ((DbContext)_dataContext).Database.BeginTransaction();
-            }
-            else
-            {
-                if (unitOfWorkOptions.Timeout.HasValue)
-                {
-                    ((DbContext)_dataContext).Database.SetCommandTimeout(unitOfWorkOptions.Timeout.Value);
-                }
-                
-                _transaction = unitOfWorkOptions.IsolationLevel.HasValue ? ((DbContext)_dataContext).Database.BeginTransaction(unitOfWorkOptions.IsolationLevel.Value) 
-                                                                         : ((DbContext)_dataContext).Database.BeginTransaction();              
-            }
-        }
+        public void BeginTransaction(IUnitOfWorkOptions unitOfWorkOptions = default) =>
+            BeginTransactionAsync(unitOfWorkOptions).ConfigureAwait(false)
+                .GetAwaiter()
+                .GetResult();
+        
 
         public async Task BeginTransactionAsync(IUnitOfWorkOptions unitOfWorkOptions = default)
         {
@@ -164,20 +130,10 @@ namespace Galaxy.EFCore
             } 
         }
 
-        public bool Commit()
-        {
-            this._dataContext.SyncObjectsAuditPreCommit(this._session);
-
-            var changes =  _dataContext.SaveChangesAsync().ConfigureAwait(false)
+        public bool Commit() =>
+            CommitAsync().ConfigureAwait(false)
                 .GetAwaiter().GetResult();
-            
-            _transaction.Commit();
-
-            this._dataContext.DispatchNotificationsAsync(this._mediator).ConfigureAwait(false)
-             .GetAwaiter().GetResult();
-
-            return true;
-        }
+        
 
         public async Task<bool> CommitAsync()
         {
@@ -198,10 +154,9 @@ namespace Galaxy.EFCore
             _dataContext.SyncObjectsStatePostCommit();
         }
 
-        public async Task<int> SaveChangesByPassAsync(CancellationToken cancellationToken = default)
-        {
-          return await this._dataContext.SaveChangesByPassedAsync(cancellationToken);
-        }
+        public async Task<int> SaveChangesByPassAsync(CancellationToken cancellationToken = default) =>
+           await this._dataContext.SaveChangesByPassedAsync(cancellationToken);
+        
         
         #endregion
 
