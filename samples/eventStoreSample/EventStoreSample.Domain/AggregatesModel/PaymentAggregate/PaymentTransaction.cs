@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
-    public sealed class PaymentTransaction : AggregateRootEntity<Guid>
+    public sealed class PaymentTransaction : AggregateRootEntity<Guid>, ISnapshotable
     {
         public Money Money { get; private set; }
 
@@ -62,6 +62,26 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             return new PaymentTransaction(msisdn, orderId, transactionDateTime);
         }
 
+        public void RestoreSnapshot(object state)
+        {
+            var snapshot = (PaymentTransactionSnapshot)state;
+
+            TransactionDateTime = snapshot.TransactionDateTime;
+            MerchantTransactionDateTime = snapshot.MerchantTransactionDateTime;
+            Msisdn = snapshot.Msisdn;
+            Description = snapshot.Description;
+            OrderId = snapshot.OrderId;
+        }
+
+        public object TakeSnapshot() => new PaymentTransactionSnapshot
+        {
+            TransactionDateTime = this.TransactionDateTime,
+            MerchantTransactionDateTime = this.MerchantTransactionDateTime,
+            Msisdn = this. Msisdn,
+            Description = this.Description,
+            OrderId = this.OrderId
+        };
+
         private void When(TransactionCreatedDomainEvent @event)
         {
             this.TransactionDateTime = @event.TransactionDateTime;
@@ -111,6 +131,6 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public void PaymentStatusFailed()
         {
             ApplyEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.FailStatus.Id));
-        }
+        } 
     }
 }

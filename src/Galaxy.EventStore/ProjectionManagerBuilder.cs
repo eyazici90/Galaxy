@@ -15,7 +15,7 @@ namespace Galaxy.EventStore
         private IEventStoreConnection _connection;
         private ISerializer _deserializer;
         private int? _maxLiveQueueSize;
-        private IProjection<INotification>[] _projections;
+        private Projection[] _projections;
         private int? _readBatchSize;
         private ISnapshotter[] _snapshotters = { };
 
@@ -55,18 +55,18 @@ namespace Galaxy.EventStore
             return this;
         }
 
-        public ProjectionManagerBuilder Projections(params IProjection<INotification>[] projections)
+        public ProjectionManagerBuilder Projections(params Projection[] projections)
         {
             _projections = projections;
             return this;
         }
 
-        public ProjectionManager<TConnection> Build<TConnection>(Func<TConnection> connection) =>
-          new ProjectionManager<TConnection>(_connection, _deserializer, connection, _checkpointStore, _projections, _snapshotters, _maxLiveQueueSize, _readBatchSize);
+        public ProjectionManager Build() =>
+          new ProjectionManager(_connection, _deserializer, _checkpointStore, _projections, _snapshotters, _maxLiveQueueSize, _readBatchSize);
 
-        public async Task<ProjectionManager<TConnection>> Activate<TConnection>(Func<TConnection> getConnection)
+        public async Task<ProjectionManager> Activate()
         {
-            ProjectionManager<TConnection> manager = Build(getConnection);
+            ProjectionManager manager = Build();
             await manager.Activate();
             return manager;
         }

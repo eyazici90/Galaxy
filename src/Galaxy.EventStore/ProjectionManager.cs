@@ -10,29 +10,26 @@ using System.Threading.Tasks;
 
 namespace Galaxy.EventStore
 {
-    public class ProjectionManager<TConnection>
+    public class ProjectionManager
     { 
         private readonly ICheckpointStore _checkpointStore;
         private readonly IEventStoreConnection _connection;
-        private readonly Func<TConnection> _getConnection;
         private readonly int _maxLiveQueueSize;
-        private readonly IProjection<INotification>[] _projections;
+        private readonly Projection[] _projections;
         private readonly int _readBatchSize;
         private readonly ISerializer _serializer;
         private readonly ISnapshotter[] _snapshotters;
 
         internal ProjectionManager(IEventStoreConnection connection,
             ISerializer serializer,
-            Func<TConnection> getConnection,
             ICheckpointStore checkpointStore,
-            IProjection<INotification>[] projections,
+            Projection[] projections,
             ISnapshotter[] snapshotters,
             int? maxLiveQueueSize,
             int? readBatchSize)
         {
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            _getConnection = getConnection;
             _projections = projections;
             _snapshotters = snapshotters;
             _checkpointStore = checkpointStore;
@@ -42,7 +39,7 @@ namespace Galaxy.EventStore
 
         public Task Activate() => Task.WhenAll(_projections.Select(x => StartProjection(x)));
 
-        private async Task StartProjection(IProjection<INotification> projection)
+        private async Task StartProjection(Projection projection)
         {
             var projectionTypeName = projection.GetType().FullName;
 
@@ -66,30 +63,33 @@ namespace Galaxy.EventStore
         }
  
         private Func<EventStoreCatchUpSubscription, ResolvedEvent, Task> EventAppeared(
-            IProjection<INotification> projection,
+            Projection projection,
             string projectionName
         ) => async (_, e) =>
         {
             // check system event
             if (e.OriginalEvent.EventType.StartsWith("$")) { return; }
 
-            var @event = this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data));
+            var @event = this._serializer.Deserialize(Type.GetType(e.Event.EventType), Encoding.UTF8.GetString(e.Event.Data));
 
-            await projection.Handle(notification: @event as INotification, cancellationToken: CancellationToken.None);
- 
+            if (@event == null) { throw new ArgumentNullException(nameof(@event)); }
+            
+            await projection.Handle(@event);  
+             
             await _checkpointStore.SetLastCheckpoint(projectionName, e.OriginalPosition);
 
             var metadata = this._serializer.Deserialize<EventMetadata>(Encoding.UTF8.GetString(e.Event.Metadata));
+
             ISnapshotter snapshotter = _snapshotters.FirstOrDefault(
-                x => x.ShouldTakeSnapshot(Type.GetType(metadata.AggregateAssemblyQualifiedName), e) && !metadata.IsSnapshot);
+                            x => x.ShouldTakeSnapshot(Type.GetType(metadata.AggregateAssemblyQualifiedName), e) && !metadata.IsSnapshot);
 
             if (snapshotter != null)
             {
-                await snapshotter.TakeSnapshot(e.OriginalStreamId); 
+                await snapshotter.TakeSnapshot(e.OriginalStreamId);
             }
         };
 
-        private Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception> SubscriptionDropped(IProjection<INotification> projection, string projectionName)
+        private Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception> SubscriptionDropped(Projection projection, string projectionName)
             => (subscription, reason, ex) =>
             { 
                 subscription.Stop();
@@ -111,7 +111,7 @@ namespace Galaxy.EventStore
                 }
             };
 
-        private static Action<EventStoreCatchUpSubscription> LiveProcessingStarted(IProjection<INotification> projection, string projectionName)
+        private static Action<EventStoreCatchUpSubscription> LiveProcessingStarted(Projection projection, string projectionName)
             => _ => 
             {
 

@@ -26,7 +26,6 @@ namespace Galaxy.EventStore
         private readonly ISerializer _serializer;
         private readonly IMediator _mediatR;
         public EventStoreUnitOfWorkAsync(IEventStoreConnection connection
-            , IGalaxyEventStoreConfigurations eventStoreConfigurations
             , ISerializer serializer
             , IMediator mediatR)
         {
@@ -70,14 +69,14 @@ namespace Galaxy.EventStore
                                                    Encoding.UTF8.GetBytes(this._serializer.Serialize(new EventMetadata
                                                    {
                                                        TimeStamp = DateTime.Now,
-                                                       AggregateType = aggregate.GetType().Name,
-                                                       AggregateAssemblyQualifiedName = aggregate.GetType().AssemblyQualifiedName,
+                                                       AggregateType = aggregate.Root.GetType().Name,
+                                                       AggregateAssemblyQualifiedName = aggregate.Root.GetType().AssemblyQualifiedName,
                                                        IsSnapshot = false
                                                    }))
                                                    )).ToArray();
                 try
                 {
-                    await this._connection.AppendToStreamAsync(StreamExtensions.GetStreamName(aggregate), aggregate.Version, changes);
+                    await this._connection.AppendToStreamAsync(StreamExtensions.GetStreamName(aggregate), aggregate.ExpectedVersion, changes);
                    
                     eventCount = eventCount + changes.Length;
                 }
@@ -103,12 +102,8 @@ namespace Galaxy.EventStore
 
         public bool Commit()
         {
-            SendToStreamAsync().ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult();
-            DispatchNotificationsAsync(this._mediatR).ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult();
+            CommitAsync().ConfigureAwait(false)
+                    .GetAwaiter().GetResult();
             return true;
         }
 
@@ -126,12 +121,8 @@ namespace Galaxy.EventStore
 
         public int SaveChanges()
         {
-            var result = SendToStreamAsync().ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult();
-            DispatchNotificationsAsync(this._mediatR).ConfigureAwait(false)
-                .GetAwaiter()
-                .GetResult();
+            var result = SaveChangesAsync().ConfigureAwait(false)
+                    .GetAwaiter().GetResult();
             return result;
         }
 

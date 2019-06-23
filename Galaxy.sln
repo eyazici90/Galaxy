@@ -167,13 +167,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Identity.Domain", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Identity.Infrastructure", "src\Galaxy.Identity.Infrastructure\Galaxy.Identity.Infrastructure.csproj", "{43D641D3-ADB1-4E4D-AAD0-C50B5D8CEFFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.ServiceBus", "src\Galaxy.Azure.ServiceBus\Galaxy.Azure.ServiceBus.csproj", "{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Azure.ServiceBus", "src\Galaxy.Azure.ServiceBus\Galaxy.Azure.ServiceBus.csproj", "{8DF91CC7-0FF6-4E5F-9446-E9BC0FEC0779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.EventGrid", "src\Galaxy.Azure.EventGrid\Galaxy.Azure.EventGrid.csproj", "{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Azure.EventGrid", "src\Galaxy.Azure.EventGrid\Galaxy.Azure.EventGrid.csproj", "{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.EventGrid.Tests", "test\Galaxy.Azure.EventGrid.Tests\Galaxy.Azure.EventGrid.Tests.csproj", "{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Azure.EventGrid.Tests", "test\Galaxy.Azure.EventGrid.Tests\Galaxy.Azure.EventGrid.Tests.csproj", "{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaxy.Azure.ServiceBus.Tests", "test\Galaxy.Azure.ServiceBus.Tests\Galaxy.Azure.ServiceBus.Tests.csproj", "{841B95C5-CFCE-4913-8413-D527BE51F716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galaxy.Azure.ServiceBus.Tests", "test\Galaxy.Azure.ServiceBus.Tests\Galaxy.Azure.ServiceBus.Tests.csproj", "{841B95C5-CFCE-4913-8413-D527BE51F716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSample.Projections", "samples\eventStoreSample\EventStoreSample.Projections\EventStoreSample.Projections.csproj", "{1756C932-5CD2-49D9-B389-6B1B9E1717F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -453,6 +455,10 @@ Global
 		{841B95C5-CFCE-4913-8413-D527BE51F716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{841B95C5-CFCE-4913-8413-D527BE51F716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{841B95C5-CFCE-4913-8413-D527BE51F716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1756C932-5CD2-49D9-B389-6B1B9E1717F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1756C932-5CD2-49D9-B389-6B1B9E1717F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1756C932-5CD2-49D9-B389-6B1B9E1717F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1756C932-5CD2-49D9-B389-6B1B9E1717F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -541,6 +547,7 @@ Global
 		{E89A9C97-9F84-48CD-9F33-0E7CFD91A5DD} = {2EA9361A-23EA-4A5E-8612-DF1F774AAEF3}
 		{77BB6DE3-8E0D-41E7-8F6B-5B39B097F147} = {E37410B3-6E79-454D-A4C4-183440F7190F}
 		{841B95C5-CFCE-4913-8413-D527BE51F716} = {E37410B3-6E79-454D-A4C4-183440F7190F}
+		{1756C932-5CD2-49D9-B389-6B1B9E1717F7} = {B4946AB5-2A9B-4978-A722-A4730BA02BB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {644439D9-293D-43F0-9991-9B01B933485A}

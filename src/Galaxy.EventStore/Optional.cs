@@ -16,8 +16,7 @@ namespace Galaxy.EventStore
         {
             _hasValue = true;
             _value = value;
-        }
-
+        } 
   
         public bool HasValue
         {
@@ -89,8 +88,7 @@ namespace Galaxy.EventStore
         public static bool operator !=(Optional<T> instance1, Optional<T> instance2)
         {
             return !instance1.Equals(instance2);
-        }
-
+        } 
     
         public override int GetHashCode()
         {
@@ -109,8 +107,6 @@ namespace Galaxy.EventStore
                 }
             }
             return _hasValue.GetHashCode() ^ EqualityComparer<T>.Default.GetHashCode(_value) ^ typeof(T).GetHashCode();
-        }
-
-       
+        } 
     }
 }

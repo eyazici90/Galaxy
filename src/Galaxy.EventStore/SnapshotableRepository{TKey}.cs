@@ -123,10 +123,6 @@ namespace Galaxy.EventStore
         {
             throw new NotImplementedException();
         }
-
-        IRepository<T> IRepository<TAggregateRoot, TKey>.GetRepository<T>()
-        {
-            throw new NotImplementedException();
-        }
+         
     }
 }

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Galaxy.EventStore\Galaxy.EventStore.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.NewtonSoftJson\Galaxy.NewtonSoftJson.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.Utf8Json\Galaxy.Utf8Json.csproj" />
+    <ProjectReference Include="..\EventStoreSample.Domain\EventStoreSample.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

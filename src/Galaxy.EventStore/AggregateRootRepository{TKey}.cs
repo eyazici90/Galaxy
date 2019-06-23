@@ -175,16 +175,10 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public TAggregateRoot Update(TAggregateRoot entity)
-        {
-            //
-            return entity;
-        }
-
-        IRepository<T> IRepository<TAggregateRoot, TKey>.GetRepository<T>()
-        {
-            throw new NotImplementedException();
-        }
+        public TAggregateRoot Update(TAggregateRoot entity) =>
+            UpdateAsync(entity).ConfigureAwait(false)
+             .GetAwaiter().GetResult();
+         
 
         public async Task<TAggregateRoot> InsertAsync(TAggregateRoot entity)
         {
@@ -192,9 +186,11 @@ namespace Galaxy.EventStore
             return entity;
         }
 
-        public Task<TAggregateRoot> UpdateAsync(TAggregateRoot entity)
-        {
-            throw new NotImplementedException();
+        public async Task<TAggregateRoot> UpdateAsync(TAggregateRoot entity)
+        { 
+            return await Task.FromResult(entity);
         }
+
+      
     }
 }
