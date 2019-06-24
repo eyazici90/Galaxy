@@ -32,6 +32,9 @@ namespace Galaxy.NewtonSoftJson
         private JsonSerializerSettings CreateSerializerSettings(bool camelCase = true, bool indented = false)
         {
             var settings = new JsonSerializerSettings();
+            settings.TypeNameHandling = TypeNameHandling.None;
+            settings.NullValueHandling = NullValueHandling.Ignore;
+
             if (indented)
             {
                 settings.Formatting = Formatting.Indented;

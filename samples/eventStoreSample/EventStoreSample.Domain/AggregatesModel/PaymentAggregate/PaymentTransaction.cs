@@ -1,4 +1,4 @@
-﻿using EventStoreSample.Domain.Events;
+﻿
 using EventStoreSample.Domain.Exceptions;
 using Galaxy.Domain;
 using System;
@@ -39,9 +39,9 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private PaymentTransaction()
         {
-            RegisterEvent<TransactionCreatedDomainEvent>(When);
-            RegisterEvent<TransactionAmountChangedDomainEvent>(When);
-            RegisterEvent<TransactionStatusChangedDomainEvent>(When);
+            RegisterEvent<Events.V1.TransactionCreatedDomainEvent>(When);
+            RegisterEvent<Events.V1.TransactionAmountChangedDomainEvent>(When);
+            RegisterEvent<Events.V1.TransactionStatusChangedDomainEvent>(When);
         }
 
         private PaymentTransaction(string msisdn, string orderId, DateTime transactionDateTime) : this()
@@ -54,7 +54,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             if (DateTime.Now.AddDays(-1) > transactionDateTime)
                 throw new PaymentDomainException($"Invalid transactionDateTime {transactionDateTime}");
             
-            ApplyEvent(new TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
+            ApplyEvent(new Events.V1.TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
         }
 
         public static PaymentTransaction Create(string msisdn, string orderId, DateTime transactionDateTime)
@@ -82,19 +82,23 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             OrderId = this.OrderId
         };
 
-        private void When(TransactionCreatedDomainEvent @event)
+        private void When(Events.V1.TransactionCreatedDomainEvent @event)
         {
+            this.Msisdn = @event.Msisdn;
+
+            this.OrderId = @event.OrderId;
+
             this.TransactionDateTime = @event.TransactionDateTime;
 
             this.TransactionTypeId = PaymentTransactionType.DirectPaymentType.Id;
         }
 
-        private void When(TransactionAmountChangedDomainEvent @event)
+        private void When(Events.V1.TransactionAmountChangedDomainEvent @event)
         {
             this.Money = @event.Money;
         }
 
-        private void When(TransactionStatusChangedDomainEvent @event)
+        private void When(Events.V1.TransactionStatusChangedDomainEvent @event)
         {
             this.TransactionStatusId = @event.TransactionStatusId;
         }
@@ -120,17 +124,17 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
                 throw new PaymentDomainException($"Max daily amount exceed for this transaction {this.Id}");
             }
             // AggregateRoot leads all owned domain events !!!
-            ApplyEvent(new TransactionAmountChangedDomainEvent(money));
+            ApplyEvent(new Events.V1.TransactionAmountChangedDomainEvent(money));
         }
 
         public void PaymentStatusSucceded()
         {
-            ApplyEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.SuccessStatus.Id));
+            ApplyEvent(new Events.V1.TransactionStatusChangedDomainEvent(PaymenTransactionStatus.SuccessStatus.Id));
         }
 
         public void PaymentStatusFailed()
         {
-            ApplyEvent(new TransactionStatusChangedDomainEvent(PaymenTransactionStatus.FailStatus.Id));
+            ApplyEvent(new Events.V1.TransactionStatusChangedDomainEvent(PaymenTransactionStatus.FailStatus.Id));
         } 
     }
 }

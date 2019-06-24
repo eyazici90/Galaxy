@@ -33,22 +33,26 @@ namespace Galaxy.EventStore
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        private async Task<List<object>> GetEvents(string streamName)
+        private async Task<TAggregateRoot> ApplyEventsToRoot(string streamName, TAggregateRoot aggregateRoot)
         {
             var sliceStart = StreamPosition.Start;
-            var deserializedEvents = new List<object>();
             StreamEventsSlice slice;
 
             do
             {
                 slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
-                deserializedEvents
-                    .AddRange(slice.Events.Select(e => this._serializer.Deserialize(Encoding.UTF8.GetString(e.Event.Data))));
+
+                slice.Events.ToList().ForEach(e=> 
+                {
+                    var resolvedEvent = this._serializer.Deserialize(Type.GetType(e.Event.EventType, true), Encoding.UTF8.GetString(e.Event.Data));
+                    (aggregateRoot as IEntity).ApplyEvent(resolvedEvent);
+                });
+                 
                 sliceStart = Convert.ToInt32(slice.NextEventNumber);
 
             } while (!slice.IsEndOfStream);
-
-            return deserializedEvents;
+            (aggregateRoot as IEntity).ClearEvents();
+            return aggregateRoot;
         }
 
         public void Delete(object id)
@@ -86,7 +90,7 @@ namespace Galaxy.EventStore
             string streamName = StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString());
             StreamEventsSlice slice =
                 await
-                    _connection.ReadStreamEventsForwardAsync(streamName, StreamPosition.Start, 20,
+                    _connection.ReadStreamEventsForwardAsync(streamName, StreamPosition.Start, 100,
                         false);
 
             if (slice.Status == SliceReadStatus.StreamDeleted || slice.Status == SliceReadStatus.StreamNotFound)
@@ -95,16 +99,11 @@ namespace Galaxy.EventStore
             } 
 
             var aggregateRoot = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
-            var events = await GetEvents(streamName);
 
-            events.ForEach(e => 
-            {
-                (aggregateRoot as IEntity).ApplyEvent(e);
-            });
-
-            (aggregateRoot as IEntity).ClearEvents();
+            aggregateRoot = await ApplyEventsToRoot(streamName, aggregateRoot);
 
             var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
+
             this._unitOfworkAsync.Attach(aggregate);
 
             return aggregateRoot;

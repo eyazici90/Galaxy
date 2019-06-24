@@ -2,6 +2,7 @@
 using EventStore.ClientAPI.Exceptions;
 using Galaxy.Domain;
 using Galaxy.Exceptions;
+using Galaxy.Extensions;
 using Galaxy.Infrastructure;
 using Galaxy.Repositories;
 using Galaxy.Serialization;
@@ -63,7 +64,7 @@ namespace Galaxy.EventStore
                 EventData[] changes = (aggregate.Root as IEntity).DomainEvents
                                                .Select(@event => new EventData(
                                                    Guid.NewGuid(),
-                                                   @event.GetType().FullName,
+                                                   @event.GetType().TypeQualifiedName(),
                                                    true,
                                                    Encoding.UTF8.GetBytes(this._serializer.Serialize(@event)),
                                                    Encoding.UTF8.GetBytes(this._serializer.Serialize(new EventMetadata
