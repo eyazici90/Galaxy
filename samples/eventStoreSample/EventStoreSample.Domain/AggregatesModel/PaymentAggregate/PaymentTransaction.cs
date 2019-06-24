@@ -67,6 +67,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             _msisdn = snapshot.Msisdn;
             _description = snapshot.Description;
             _orderId = snapshot.OrderId;
+            _money  = SetMoney(0, Convert.ToDecimal(snapshot.Amount));
         }
 
         public object TakeSnapshot() => new PaymentTransactionSnapshot
@@ -92,7 +93,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private void When(Events.V1.TransactionAmountChangedDomainEvent @event)
         {
-            this._money = @event.Money;
+            SetMoney(0, @event.Amount);
         }
 
         private void When(Events.V1.TransactionStatusChangedDomainEvent @event)
@@ -119,7 +120,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             {
                 throw new PaymentDomainException($"Max daily amount exceed for this transaction {this.Id}");
             } 
-            ApplyEvent(new Events.V1.TransactionAmountChangedDomainEvent(money));
+            ApplyEvent(new Events.V1.TransactionAmountChangedDomainEvent(money._amount.Value));
         }
 
         public void PaymentStatusSucceded()

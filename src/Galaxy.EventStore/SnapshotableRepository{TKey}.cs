@@ -31,25 +31,69 @@ namespace Galaxy.EventStore
             _connection = connection ?? throw new ArgumentNullException(nameof(connection));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
-
-        private async Task<TAggregateRoot> ApplyEventsToRoot(string streamName, int sliceStart, TAggregateRoot aggregateRoot)
-        { 
-            StreamEventsSlice slice; 
-            do
+         
+        public async Task<TAggregateRoot> FindAsync(params object[] keyValues)
+        {
+            var existingAggregate = _unitOfworkAsync.AttachedObject(keyValues[0].ToString());
+            if (existingAggregate != null)
             {
-                slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
+                return (TAggregateRoot)(((Aggregate)existingAggregate).Root);
+            }
+            var streamName = StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString());
 
+            var snapshotStreamName = $"{StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString())}-Snapshot";
+
+            Optional<Snapshot> snapshot = await _snapshotReader.ReadOptional(snapshotStreamName); 
+            var version = StreamPosition.Start;
+            if (snapshot.HasValue)
+            {
+                version = snapshot.Value.Version + 1;
+            }
+             
+            StreamEventsSlice slice =
+                 await
+                     _connection.ReadStreamEventsForwardAsync(streamName, version, 100, false);
+            if (slice.Status == SliceReadStatus.StreamDeleted || slice.Status == SliceReadStatus.StreamNotFound)
+            {
+                throw new AggregateNotFoundException($"Aggregate not found by {streamName}");
+            }
+
+            TAggregateRoot root = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
+            if (snapshot.HasValue)
+            {
+                root.RestoreSnapshot(snapshot.Value.State);
+            }
+            slice.Events.ToList().ForEach(e =>
+            {
+                var resolvedEvent = this._serializer.Deserialize(Type.GetType(e.Event.EventType, true), Encoding.UTF8.GetString(e.Event.Data));
+                (root as IEntity).ApplyEvent(resolvedEvent);
+            });
+
+            while (!slice.IsEndOfStream)
+            {
+                slice =
+                    await
+                        _connection.ReadStreamEventsForwardAsync(streamName, slice.NextEventNumber, 100,
+                            false);
                 slice.Events.ToList().ForEach(e =>
                 {
                     var resolvedEvent = this._serializer.Deserialize(Type.GetType(e.Event.EventType, true), Encoding.UTF8.GetString(e.Event.Data));
-                    (aggregateRoot as IEntity).ApplyEvent(resolvedEvent);
+                    (root as IEntity).ApplyEvent(resolvedEvent);
                 });
+            }
 
-                sliceStart = Convert.ToInt32(slice.NextEventNumber);
+            (root as IEntity).ClearEvents();
 
-            } while (!slice.IsEndOfStream);
-            (aggregateRoot as IEntity).ClearEvents();
-            return aggregateRoot;
+            var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, root);
+
+            this._unitOfworkAsync.Attach(aggregate);
+
+            return root; 
+        }
+
+        public async Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
+        {
+            return await this.FindAsync(keyValues);
         }
 
         public void Delete(object id)
@@ -81,51 +125,6 @@ namespace Galaxy.EventStore
         {
             throw new NotImplementedException();
         }
-
-        public async Task<TAggregateRoot> FindAsync(params object[] keyValues)
-        {
-            var streamName = StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString()); 
-
-            var snapshotStreamName = $"{StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString())}-Snapshot";
-
-            Optional<Snapshot> snapshot = await _snapshotReader.ReadOptional(snapshotStreamName);
-
-            var version = StreamPosition.Start;
-
-            if (snapshot.HasValue) { version = snapshot.Value.Version + 1; }
-            
-            StreamEventsSlice slice =
-                await
-                    _connection.ReadStreamEventsForwardAsync(streamName, version, 100,
-                        false);
-
-            if (slice.Status == SliceReadStatus.StreamDeleted || slice.Status == SliceReadStatus.StreamNotFound)
-            {
-                throw new AggregateNotFoundException($"Aggregate not found by {streamName}");
-            }
-
-            var aggregateRoot = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
-
-            if (snapshot.HasValue)
-            {
-                aggregateRoot.RestoreSnapshot(snapshot.Value.State);
-            }
-
-            aggregateRoot = await ApplyEventsToRoot(streamName, version, aggregateRoot);
-
-
-            var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
-
-            this._unitOfworkAsync.Attach(aggregate);
-
-            return aggregateRoot;
-        }
-
-        public async Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
-        {
-            return await this.FindAsync(keyValues);
-        }
-
         public TAggregateRoot Insert(TAggregateRoot entity)
         {
             this._unitOfworkAsync.Attach(new Aggregate(Guid.NewGuid().ToString(), (int)ExpectedVersion.NoStream, entity));

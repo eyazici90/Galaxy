@@ -11,11 +11,11 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         {
             public class TransactionAmountChangedDomainEvent : INotification
             {
-                public Money Money { get; private set; }
+                public decimal Amount { get; private set; }
 
-                public TransactionAmountChangedDomainEvent(Money money)
+                public TransactionAmountChangedDomainEvent(decimal amount)
                 {
-                    this.Money = money;
+                    this.Amount = amount;
                 }
             }
 
