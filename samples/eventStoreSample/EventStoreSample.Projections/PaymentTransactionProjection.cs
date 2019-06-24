@@ -1,4 +1,4 @@
-﻿using EventStoreSample.Domain.Events;
+﻿
 using Galaxy.EventStore;
 using MediatR;
 using System;
@@ -10,16 +10,11 @@ using System.Threading.Tasks;
 namespace EventStoreSample.Projections
 {
     public class PaymentTransactionProjection : Projection  
-    {
-        public override bool CanHandle(object e)
-        {
-            throw new NotImplementedException();
-        }
- 
+    { 
 
         public override async Task Handle(object e)
         {
-            Console.WriteLine($"{DateTime.Now} - Projected  event");
+            Console.WriteLine($"{DateTime.Now} - Projected  event {e.GetType().FullName}");
         }
     }
 }

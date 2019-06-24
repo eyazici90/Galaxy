@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EventStoreSample.Listener.Consumers
+namespace EventStoreSample.TelemetryListener.Consumers
 {
     public class TransactionCreatedConsumer :  IConsumer<TransactionCreatedIntegrationEvent>
     {

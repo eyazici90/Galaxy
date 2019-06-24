@@ -2,7 +2,6 @@
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.SystemData;
 using EventStoreSample.Domain.AggregatesModel.PaymentAggregate;
-using EventStoreSample.Domain.Events;
 using Galaxy.Bootstrapping;
 using Galaxy.Domain;
 using Galaxy.EventStore;

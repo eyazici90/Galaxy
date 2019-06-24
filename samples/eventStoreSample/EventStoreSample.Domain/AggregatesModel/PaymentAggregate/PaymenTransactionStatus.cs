@@ -10,14 +10,14 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public static PaymenTransactionStatus SuccessStatus = new PaymenTransactionStatus("Success").StatusSuccedeed();
         public static PaymenTransactionStatus FailStatus = new PaymenTransactionStatus("Fail").StatusFailed();
 
-        public string Name { get; private set; }
+        public string _name { get; private set; }
 
         private PaymenTransactionStatus()
         {
         }
         public PaymenTransactionStatus(string name)
         {
-            this.Name = !string.IsNullOrWhiteSpace(name) ? name
+            this._name = !string.IsNullOrWhiteSpace(name) ? name
                                                          : throw new ArgumentNullException(nameof(name));
         }
         private PaymenTransactionStatus StatusSuccedeed()

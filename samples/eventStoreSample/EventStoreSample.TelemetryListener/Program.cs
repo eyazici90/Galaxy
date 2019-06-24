@@ -1,14 +1,11 @@
 ﻿using Autofac;
-using EventStoreSample.Listener.Consumers;
+using EventStoreSample.TelemetryListener.Consumers;
 using Galaxy.Bootstrapping;
 using Galaxy.RabbitMQ.Bootstrapper;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+using System; 
 
-namespace EventStoreSample.Listener
+namespace EventStoreSample.TelemetryListener
 {
     class Program
     {

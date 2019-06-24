@@ -8,17 +8,17 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
     public class Money : ValueObject
     {
 
-        public decimal? Amount { get; private set; }
+        public decimal? _amount { get; private set; }
 
-        public int? CurrencyCode { get; private set; }
+        public int? _currencyCode { get; private set; }
         private Money()
         {
         }
 
         private Money(decimal amount = default, int currencyCode = default) : this()
         {
-            this.Amount = amount;
-            this.CurrencyCode = currencyCode;
+            this._amount = amount;
+            this._currencyCode = currencyCode;
         }
 
         public static Money Create(decimal amount = default, int currencyCode = default)
@@ -38,8 +38,8 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         protected override IEnumerable<object> GetAtomicValues()
         {
-            yield return Amount;
-            yield return CurrencyCode;
+            yield return _amount;
+            yield return _currencyCode;
         }
 
     }

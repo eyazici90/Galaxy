@@ -12,16 +12,16 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public static PaymentTransactionType ReservationPaymenType = new PaymentTransactionType("Reservation").ReservationPaymentTyped();
 
 
-        public string Name { get; private set; }
-        public string Description { get; private set; }
+        public string _name { get; private set; }
+        public string _description { get; private set; }
         private PaymentTransactionType()
         {
         }
         public PaymentTransactionType(string name, string desc = default)
         {
-            this.Name = !string.IsNullOrWhiteSpace(name) ? name
+            this._name = !string.IsNullOrWhiteSpace(name) ? name
                                                        : throw new ArgumentNullException(nameof(name));
-            this.Description = desc;
+            this._description = desc;
         }
         private PaymentTransactionType DirectPaymentTyped()
         {

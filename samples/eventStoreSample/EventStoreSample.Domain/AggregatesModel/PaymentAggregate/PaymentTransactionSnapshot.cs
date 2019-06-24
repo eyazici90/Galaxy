@@ -12,6 +12,8 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         public string Msisdn { get;  set; }
 
+        public decimal? Amount { get; set; }
+
         public string Description { get;  set; }
 
         public string OrderId { get;  set; }
