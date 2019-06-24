@@ -48,11 +48,7 @@ namespace Galaxy.EFCore
             return this._dataContext.CheckIfThereIsAvailableTransaction();
         }
 
-        public void Attach(object entity)
-        {
-            this._dataContext.Attach(entity);
-        }
-        
+
         public int SaveChanges()
         {
             this._dataContext.SyncObjectsAuditPreCommit(this._session);
@@ -156,8 +152,15 @@ namespace Galaxy.EFCore
 
         public async Task<int> SaveChangesByPassAsync(CancellationToken cancellationToken = default) =>
            await this._dataContext.SaveChangesByPassedAsync(cancellationToken);
+
+
+        public void Attach(object entity) =>
+            this._dataContext.Attach(entity);
+
+        public object AttachedObject(string identifier) => throw new NotImplementedException();
+            
         
-        
+
         #endregion
 
         public void Dispose()
@@ -181,5 +184,7 @@ namespace Galaxy.EFCore
             }
             _disposed = true;
         }
+
+      
     }
 }

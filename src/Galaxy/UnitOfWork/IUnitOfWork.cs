@@ -9,6 +9,7 @@ namespace Galaxy.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         void Attach(object entity);
+        object AttachedObject(string identifier);
         int SaveChanges();
         void Dispose(bool disposing);
         IRepository<TEntity> Repository<TEntity>() where TEntity : class, IAggregateRoot, IObjectState;

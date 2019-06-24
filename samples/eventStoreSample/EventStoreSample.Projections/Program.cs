@@ -11,6 +11,7 @@ using Galaxy.NewtonSoftJson;
 using Galaxy.NewtonSoftJson.Bootstrapper;
 using Galaxy.Repositories;
 using Galaxy.Serialization;
+using Galaxy.UnitOfWork;
 using Galaxy.Utf8Json.Bootstrapper;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,10 +49,10 @@ namespace EventStoreSample.Projections
                      .UseGalaxyEventStore((configs) =>
                      {
 
-                         configs.username = "admin";
-                         configs.password = "changeit";
-                         configs.uri = "tcp://admin:changeit@localhost:1113";
-
+                         configs.Username = "admin";
+                         configs.Password = "changeit";
+                         configs.Uri = "tcp://admin:changeit@localhost:1113";
+                         configs.IsSnapshottingOn = true;
                      }) 
                      .UseGalaxyMapster(); 
 
@@ -65,6 +66,7 @@ namespace EventStoreSample.Projections
             var esConnection = container.Resolve<IEventStoreConnection>(); 
             var defaultSerializer = container.Resolve<ISerializer>();
             var nullCheckpointStore = new NullInstanceCheckpointStore();
+            var esUnitOfWork = container.Resolve<IUnitOfWorkAsync>();
             var paymentRootRepo = container.Resolve<IRepositoryAsync<PaymentTransaction, Guid>>();
 
           
@@ -73,8 +75,9 @@ namespace EventStoreSample.Projections
                 .Deserializer(defaultSerializer)
                 .CheckpointStore(nullCheckpointStore)
                 .Snaphotter(
-                    new EventStoreSnapshotter<PaymentTransaction, Guid, Snapshot>(
+                    new EventStoreSnapshotter<PaymentTransaction, Guid, PaymentTransactionSnapshot>(
                         paymentRootRepo,
+                        esUnitOfWork,
                         () => esConnection,
                         e => e.Event.EventNumber > 0 && e.Event.EventNumber % 5 == 0,
                         stream => $"{stream}-Snapshot",

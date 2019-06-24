@@ -102,7 +102,7 @@ namespace Galaxy.EventStore
 
             aggregateRoot = await ApplyEventsToRoot(streamName, aggregateRoot);
 
-            var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
+            var aggregate = new Aggregate(streamName, (int)slice.LastEventNumber, aggregateRoot);
 
             this._unitOfworkAsync.Attach(aggregate);
 

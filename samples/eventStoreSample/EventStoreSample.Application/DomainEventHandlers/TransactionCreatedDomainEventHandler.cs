@@ -22,7 +22,7 @@ namespace EventStoreSample.Application.DomainEventHandlers
         {
             var msiSdn = notification.Msisdn;
             var aggregateRoot = notification.Msisdn;
-            await _eventBus.PublishAsync(new TransactionCreatedIntegrationEvent(notification.TransactionDateTime, notification.Msisdn, notification.OrderId));
+        //    await _eventBus.PublishAsync(new TransactionCreatedIntegrationEvent(notification.TransactionDateTime, notification.Msisdn, notification.OrderId));
         }
     }
 }

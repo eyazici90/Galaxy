@@ -21,14 +21,22 @@ namespace Galaxy.EventStore.Bootstrapper
 
         private static ContainerBuilder RegisterGalaxyEventStoreCoreModules(this ContainerBuilder builder, Action<IGalaxyEventStoreConfigurations> configurationsAction)
         {
-            builder.RegisterModule(new RepositoryModule());
+            var configs = new GalaxyEventStoreConfigurations();
+
+            configurationsAction(configs);
+
+            if (configs.IsSnapshottingOn) 
+            {
+                builder.RegisterModule(new SnapshotableRepositoryModule());
+            }
+            else
+            {
+                builder.RegisterModule(new RepositoryModule());
+            }
+            builder.RegisterModule(new SnapshotReaderModule()); 
             builder.RegisterModule(new UnitOfWorkModule());
 
-            builder.Register(c => {
-                var configs = new GalaxyEventStoreConfigurations();
-                configurationsAction(configs);
-                return configs;
-            })
+            builder.Register(c => configs)
             .As<IGalaxyEventStoreConfigurations>()
             .SingleInstance();
 
@@ -41,10 +49,10 @@ namespace Galaxy.EventStore.Bootstrapper
             configurationsAction(configs);
 
             ConnectionSettings settings = ConnectionSettings.Create()
-                                                            .SetDefaultUserCredentials(new UserCredentials(configs.username, configs.password)).Build();
+                                                            .SetDefaultUserCredentials(new UserCredentials(configs.Username, configs.Password)).Build();
 
             builder.Register(c => {
-                IEventStoreConnection connection = EventStoreConnection.Create(settings, new Uri(configs.uri));
+                IEventStoreConnection connection = EventStoreConnection.Create(settings, new Uri(configs.Uri));
                  connection.ConnectAsync().ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();

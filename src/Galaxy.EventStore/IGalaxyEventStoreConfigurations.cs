@@ -7,10 +7,11 @@ namespace Galaxy.EventStore
 {
     public interface IGalaxyEventStoreConfigurations
     {
-        IEventStoreConnection connection { get; set; }
-        string username { get; set; }
-        string password { get; set; }
-        string uri { get; set; }
+        IEventStoreConnection Connection { get; set; }
+        string Username { get; set; }
+        string Password { get; set; }
+        string Uri { get; set; }
+        bool IsSnapshottingOn { get; set; }
     }
    
 }

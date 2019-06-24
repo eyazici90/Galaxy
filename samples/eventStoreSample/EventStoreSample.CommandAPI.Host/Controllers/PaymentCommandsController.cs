@@ -14,18 +14,17 @@ namespace EventStoreSample.CommandAPI.Host.Controllers
     public class PaymentCommandsController : ControllerBase
     {
         private readonly IMediator _mediatr;
-        public PaymentCommandsController(IMediator mediatr)
-        {
+        public PaymentCommandsController(IMediator mediatr) =>
             _mediatr = mediatr ?? throw new ArgumentNullException(nameof(mediatr));
-        }
+        
 
-        [Route("api/Payment/Transaction/Direct")]
+        [Route("api/Payments/Transaction/Direct")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
         public Task<IActionResult> DirectPayment([FromBody] DirectPaymentCommand request) =>
             HandleOrThrow(request, async (r) => await this._mediatr.Send(r));
 
-        [Route("api/Payment/Transaction/Amount")]
+        [Route("api/Payments/Transaction/Amount")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPut]
         public Task<IActionResult> ChangeAmount([FromBody] ChangeOrSetAmountCommand request) =>
@@ -33,7 +32,7 @@ namespace EventStoreSample.CommandAPI.Host.Controllers
 
 
 
-        [Route("api/Payment/Transaction/Refund")]
+        [Route("api/Payments/Transaction/Refund")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [HttpPost]
         public Task<IActionResult> RefundPayment([FromBody] RefundPaymentCommand request) =>

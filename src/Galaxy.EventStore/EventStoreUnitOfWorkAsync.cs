@@ -164,6 +164,19 @@ namespace Galaxy.EventStore
                 throw new GalaxyException($"The same aggregate getting attached multiple times.");
             }
         }
+        public object AttachedObject(string identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            Aggregate aggregate;
+
+            _aggregates.TryGetValue(identifier, out aggregate);
+
+            return aggregate;
+        }
+        
 
         public void Dispose()
         {

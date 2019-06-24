@@ -113,12 +113,11 @@ namespace EventStoreSample.CommandAPI.Host
                      })
                      .UseGalaxyUtf8JsonSerialization()
                      .UseGalaxyEventStore((configs) =>
-                      {
-
-                          configs.username = "admin";
-                          configs.password = "changeit";
-                          configs.uri = "tcp://admin:changeit@localhost:1113";
-
+                      { 
+                          configs.Username = "admin";
+                          configs.Password = "changeit";
+                          configs.Uri = "tcp://admin:changeit@localhost:1113";
+                          configs.IsSnapshottingOn = true; 
                       })
                      .UseGalaxyRabbitMQ(conf => 
                       {
