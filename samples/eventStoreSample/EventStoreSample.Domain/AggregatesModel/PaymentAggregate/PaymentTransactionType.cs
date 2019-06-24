@@ -17,7 +17,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         private PaymentTransactionType()
         {
         }
-        public PaymentTransactionType(string name, string desc = default)
+        public PaymentTransactionType(string name, string desc = default) : this()
         {
             this._name = !string.IsNullOrWhiteSpace(name) ? name
                                                        : throw new ArgumentNullException(nameof(name));

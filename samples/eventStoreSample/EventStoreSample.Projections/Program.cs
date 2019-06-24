@@ -21,23 +21,21 @@ namespace EventStoreSample.Projections
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Projections Started !!!");
-
+        static void Main(string[] args) =>
             MainAsync(args).ConfigureAwait(false)
                     .GetAwaiter().GetResult();
-             
-            Console.ReadLine();
-        }
+              
 
         static async Task MainAsync(string[] args)
         {
+            Console.WriteLine("Projections Started !!!");
 
             var container = ConfigureGalaxy();
 
             await InitProjections(container);
-             
+
+            Console.ReadLine();
+
         }
         private static IContainer ConfigureGalaxy()
         {
@@ -64,14 +62,13 @@ namespace EventStoreSample.Projections
 
         private static async Task InitProjections(IContainer container)
         { 
-            var esConnection = container.Resolve<IEventStoreConnection>();
-            var mediatR = container.Resolve<IMediator>();
+            var esConnection = container.Resolve<IEventStoreConnection>(); 
             var defaultSerializer = container.Resolve<ISerializer>();
             var nullCheckpointStore = new NullInstanceCheckpointStore();
             var paymentRootRepo = container.Resolve<IRepositoryAsync<PaymentTransaction, Guid>>();
 
           
-            await ProjectionManagerBuilder.With
+            await ProjectionManagerBuilder.New
                 .Connection(esConnection)
                 .Deserializer(defaultSerializer)
                 .CheckpointStore(nullCheckpointStore)
@@ -86,9 +83,6 @@ namespace EventStoreSample.Projections
                 .Projections(
                       new PaymentTransactionProjection()
                 ).Activate();
-        }
-
-
-
+        } 
     }
 }

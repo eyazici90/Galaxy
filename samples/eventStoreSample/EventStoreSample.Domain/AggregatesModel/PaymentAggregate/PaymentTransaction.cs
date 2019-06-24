@@ -114,13 +114,11 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         }
 
         public void ChangeOrSetAmountTo(Money money)
-        {
-            // Max Daily Amount. Could get from environment!
+        { 
             if (money._amount > 1000)
             {
                 throw new PaymentDomainException($"Max daily amount exceed for this transaction {this.Id}");
-            }
-            // AggregateRoot leads all owned domain events !!!
+            } 
             ApplyEvent(new Events.V1.TransactionAmountChangedDomainEvent(money));
         }
 

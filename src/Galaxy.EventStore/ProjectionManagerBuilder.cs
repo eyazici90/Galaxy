@@ -10,7 +10,7 @@ namespace Galaxy.EventStore
 {
     public class ProjectionManagerBuilder
     {
-        public static readonly ProjectionManagerBuilder With = new ProjectionManagerBuilder();
+        public static readonly ProjectionManagerBuilder New = new ProjectionManagerBuilder();
         private ICheckpointStore _checkpointStore;
         private IEventStoreConnection _connection;
         private ISerializer _deserializer;
