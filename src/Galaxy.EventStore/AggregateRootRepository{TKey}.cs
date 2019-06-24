@@ -33,21 +33,19 @@ namespace Galaxy.EventStore
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        private async Task<TAggregateRoot> ApplyEventsToRoot(string streamName, TAggregateRoot aggregateRoot)
+        private async Task<TAggregateRoot> ApplyEventsToRoot(string streamName, int sliceStart, TAggregateRoot aggregateRoot)
         {
-            var sliceStart = StreamPosition.Start;
             StreamEventsSlice slice;
-
             do
             {
                 slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
 
-                slice.Events.ToList().ForEach(e=> 
+                slice.Events.ToList().ForEach(e =>
                 {
                     var resolvedEvent = this._serializer.Deserialize(Type.GetType(e.Event.EventType, true), Encoding.UTF8.GetString(e.Event.Data));
                     (aggregateRoot as IEntity).ApplyEvent(resolvedEvent);
                 });
-                 
+
                 sliceStart = Convert.ToInt32(slice.NextEventNumber);
 
             } while (!slice.IsEndOfStream);
@@ -88,9 +86,10 @@ namespace Galaxy.EventStore
         public async Task<TAggregateRoot> FindAsync(params object[] keyValues)
         {
             string streamName = StreamExtensions.GetStreamName(typeof(TAggregateRoot), keyValues[0].ToString());
+            var version = StreamPosition.Start;
             StreamEventsSlice slice =
                 await
-                    _connection.ReadStreamEventsForwardAsync(streamName, StreamPosition.Start, 100,
+                    _connection.ReadStreamEventsForwardAsync(streamName, version, 100,
                         false);
 
             if (slice.Status == SliceReadStatus.StreamDeleted || slice.Status == SliceReadStatus.StreamNotFound)
@@ -100,9 +99,9 @@ namespace Galaxy.EventStore
 
             var aggregateRoot = (TAggregateRoot)Activator.CreateInstance(typeof(TAggregateRoot), true);
 
-            aggregateRoot = await ApplyEventsToRoot(streamName, aggregateRoot);
+            aggregateRoot = await ApplyEventsToRoot(streamName, version, aggregateRoot);
 
-            var aggregate = new Aggregate(streamName, (int)slice.LastEventNumber, aggregateRoot);
+            var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
 
             this._unitOfworkAsync.Attach(aggregate);
 

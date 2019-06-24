@@ -32,11 +32,9 @@ namespace Galaxy.EventStore
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        private async Task<TAggregateRoot> ApplyEventsToRoot(string streamName, TAggregateRoot aggregateRoot)
-        {
-            var sliceStart = StreamPosition.Start;
-            StreamEventsSlice slice;
-
+        private async Task<TAggregateRoot> ApplyEventsToRoot(string streamName, int sliceStart, TAggregateRoot aggregateRoot)
+        { 
+            StreamEventsSlice slice; 
             do
             {
                 slice = await _connection.ReadStreamEventsForwardAsync(streamName, sliceStart, 200, false);
@@ -113,10 +111,10 @@ namespace Galaxy.EventStore
                 aggregateRoot.RestoreSnapshot(snapshot.Value.State);
             }
 
-            aggregateRoot = await ApplyEventsToRoot(streamName, aggregateRoot);
+            aggregateRoot = await ApplyEventsToRoot(streamName, version, aggregateRoot);
 
 
-            var aggregate = new Aggregate(streamName, (int)slice.LastEventNumber, aggregateRoot);
+            var aggregate = new Aggregate(keyValues[0].ToString(), (int)slice.LastEventNumber, aggregateRoot);
 
             this._unitOfworkAsync.Attach(aggregate);
 

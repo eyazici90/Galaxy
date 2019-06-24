@@ -14,6 +14,7 @@ using Galaxy.EventStore.Bootstrapper;
 using Galaxy.FluentValidation;
 using Galaxy.FluentValidation.Bootstrapper;
 using Galaxy.Mapster.Bootstrapper;
+using Galaxy.NewtonSoftJson.Bootstrapper;
 using Galaxy.RabbitMQ.Bootstrapper;
 using Galaxy.Utf8Json.Bootstrapper;
 using MassTransit;
@@ -111,7 +112,7 @@ namespace EventStoreSample.CommandAPI.Host
                             .InterceptedBy(typeof(ValidatorInterceptor))
                             .InstancePerLifetimeScope();
                      })
-                     .UseGalaxyUtf8JsonSerialization()
+                     .UseGalaxyNewtonSoftJsonSerialization()
                      .UseGalaxyEventStore((configs) =>
                       { 
                           configs.Username = "admin";

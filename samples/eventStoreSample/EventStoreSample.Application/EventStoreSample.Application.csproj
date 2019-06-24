@@ -13,9 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Optional" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Galaxy.EventStore\Galaxy.EventStore.csproj" />
     <ProjectReference Include="..\..\..\src\Galaxy.FluentValidation\Galaxy.FluentValidation.csproj" />
     <ProjectReference Include="..\..\..\src\Galaxy.Mapster\Galaxy.Mapster.csproj" />
+    <ProjectReference Include="..\..\..\src\Galaxy.NewtonSoftJson\Galaxy.NewtonSoftJson.csproj" />
     <ProjectReference Include="..\..\..\src\Galaxy.RabbitMQ\Galaxy.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\src\Galaxy.Utf8Json\Galaxy.Utf8Json.csproj" />
     <ProjectReference Include="..\EventStoreSample.Domain\EventStoreSample.Domain.csproj" />

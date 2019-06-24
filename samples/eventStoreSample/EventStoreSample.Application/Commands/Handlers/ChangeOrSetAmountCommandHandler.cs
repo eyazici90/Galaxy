@@ -1,9 +1,11 @@
 ﻿using EventStoreSample.Domain.AggregatesModel.PaymentAggregate;
 using Galaxy.Commands;
+using Galaxy.EventStore;
 using Galaxy.ObjectMapping;
 using Galaxy.Repositories;
 using Galaxy.UnitOfWork;
 using MediatR;
+using Optional;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,9 +27,10 @@ namespace EventStoreSample.Application.Commands.Handlers
         {
             await UpdateAsync(Guid.Parse(request.Id), async payment =>
             {
-                payment.ChangeOrSetAmountTo(
+                payment.SomeNotNull()
+                    .Match(p => p.ChangeOrSetAmountTo(
                         Money.Create(request.Amount.Value, request.CurrencyCode.Value)
-                    );
+                    ), () => throw new AggregateNotFoundException());
             });
 
             return await Task.FromResult(true);

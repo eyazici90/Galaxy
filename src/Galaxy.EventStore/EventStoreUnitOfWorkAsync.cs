@@ -158,8 +158,7 @@ namespace Galaxy.EventStore
                 throw new ArgumentNullException(nameof(aggregate));
             }
           
-            var castedAggregateRoot = aggregate as Aggregate;
-            if (!_aggregates.TryAdd(castedAggregateRoot.Identifier, castedAggregateRoot))
+            if (!_aggregates.TryAdd((aggregate as Aggregate).Identifier, aggregate as Aggregate))
             {
                 throw new GalaxyException($"The same aggregate getting attached multiple times.");
             }
@@ -171,7 +170,6 @@ namespace Galaxy.EventStore
                 throw new ArgumentNullException(nameof(identifier));
             }
             Aggregate aggregate;
-
             _aggregates.TryGetValue(identifier, out aggregate);
 
             return aggregate;

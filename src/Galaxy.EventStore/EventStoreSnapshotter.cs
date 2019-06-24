@@ -44,8 +44,8 @@ namespace Galaxy.EventStore
         public async Task TakeSnapshot(string streamId)
         {
             TAggregateRoot aggregateRoot = await _rootRepo.FindAsync(StreamExtensions.GetIdentifierFromStreamId(streamId));
-
-            var aggregate = (Aggregate)this._unitOfWorkAsync.AttachedObject(streamId); 
+            var identifier = StreamExtensions.GetIdentifierFromStreamId(streamId);
+            var aggregate = (Aggregate)this._unitOfWorkAsync.AttachedObject(identifier); 
 
             if (aggregateRoot == null) { throw new AggregateNotFoundException($"Aggregate not found by {streamId}"); }
 
