@@ -29,14 +29,14 @@ namespace Galaxy.EFCore
             return await DbSet.FindAsync(keyValues);
         }
 
-        public  async Task<TEntity> FindAsync(CancellationToken cancellationToken, TKey keyValues)
+        public  async Task<TEntity> FindAsync(TKey keyValues, CancellationToken cancellationToken)
         {
-            return await DbSet.FindAsync(cancellationToken, keyValues);
+            return await DbSet.FindAsync(keyValues, cancellationToken);
         }
 
         public virtual async Task<bool> DeleteAsync(CancellationToken cancellationToken, TKey keyValues)
         {
-            var entity = await FindAsync(cancellationToken, keyValues);
+            var entity = await FindAsync(keyValues, cancellationToken);
 
             if (entity == null)
             {

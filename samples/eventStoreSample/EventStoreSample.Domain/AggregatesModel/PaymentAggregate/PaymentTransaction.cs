@@ -27,11 +27,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         public int _transactionTypeId { get; private set; }
 
-        public PaymentTransactionType _paymentTransactionType { get; private set; }
-
-        public int? _referanceTransactionId { get; private set; }
-
-        public PaymentTransaction _referanceTransaction { get; private set; }
+        public PaymentTransactionType _paymentTransactionType { get; private set; } 
 
         private PaymentTransaction()
         {

@@ -42,7 +42,7 @@ namespace Galaxy.EFCore
 
         public virtual async Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
-            return await DbSet.FindAsync(cancellationToken, keyValues);
+            return await DbSet.FindAsync(keyValues, cancellationToken);
         }
 
         public virtual TEntity Insert(TEntity entity)

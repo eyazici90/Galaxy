@@ -9,7 +9,7 @@
     <PackageLicenseUrl>https://github.com/eyazici90/Galaxy/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Copyright 2019</Copyright>
     <Description>Solid &amp; next generation framework for your applications</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageProjectUrl>https://github.com/eyazici90/Galaxy</PackageProjectUrl>
     <PackageTags>galaxy;ddd;solid</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
