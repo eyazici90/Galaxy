@@ -25,17 +25,17 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         }
         private PaymentTransactionType DirectPaymentTyped()
         {
-            this.Id = 1;
+            this._id = 1;
             return this;
         }
         private PaymentTransactionType RefundPaymentTyped()
         {
-            this.Id = 2;
+            this._id = 2;
             return this;
         }
         private PaymentTransactionType ReservationPaymentTyped()
         {
-            this.Id = 3;
+            this._id = 3;
             return this;
         }
     }

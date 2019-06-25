@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Galaxy.Application
 {
-    public class CrudAppServiceAsync<TEntity, TEntityDto, TKey> : CrudAppService<TEntity, TEntityDto, TKey>, ICrudAppServiceAsync 
+    public class CrudAppServiceAsync<TEntity, TEntityDto, TKey> : CrudAppService<TEntity, TEntityDto, TKey> 
         where TEntity : class, IEntity<TKey>, IAggregateRoot, IObjectState
     {
         public CrudAppServiceAsync(IRepositoryAsync<TEntity, TKey> repositoryAsync
@@ -20,11 +20,11 @@ namespace Galaxy.Application
         }
 
         [DisableUnitOfWork]
-        public virtual async Task<TEntityDto> AddAsync(Func<Task<TEntity>> when)
+        public virtual async Task<TEntityDto> AddAsync(Func<Task<TEntity>> when, TKey identifier = default)
         {
             var aggregate = await when();
 
-            var insertedAggregate = await RepositoryAsync.InsertAsync(aggregate);
+            var insertedAggregate = await RepositoryAsync.InsertAsync(aggregate, identifier);
 
             await UnitOfWorkAsync.SaveChangesAsync();
 

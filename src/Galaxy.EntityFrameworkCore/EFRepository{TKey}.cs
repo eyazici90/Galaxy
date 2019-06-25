@@ -58,5 +58,16 @@ namespace Galaxy.EFCore
             var entity = DbSet.Find(id);
             Delete(entity);
         }
+
+        public virtual TEntity Insert(TEntity entity, TKey identifier = default)
+        {
+            entity.SyncObjectState(ObjectState.Added);
+            DbSet.Attach(entity);
+            Context.SyncObjectState(entity);
+            return entity;
+        }
+
+        public virtual async Task<TEntity> InsertAsync(TEntity entity, TKey identifier = default) => await Task.FromResult(Insert(entity));
+
     }
 }

@@ -12,7 +12,7 @@ namespace Galaxy.Repositories
     {
         TEntity Find(params object[] keyValues);
         IQueryable<TEntity> SelectQuery(string query, params object[] parameters);
-        TEntity Insert(TEntity entity);
+        TEntity Insert(TEntity entity, TPrimaryKey identifier = default);
         void InsertRange(IEnumerable<TEntity> entities);
         void InsertOrUpdateGraph(TEntity entity);
         void InsertGraphRange(IEnumerable<TEntity> entities);

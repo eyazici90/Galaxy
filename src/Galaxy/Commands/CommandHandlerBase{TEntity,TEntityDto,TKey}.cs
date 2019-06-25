@@ -25,11 +25,11 @@ namespace Galaxy.Commands
         }
 
         [DisableUnitOfWork]
-        public virtual async Task<TEntityDto> AddAsync(Func<Task<TAggregateRoot>> when)
+        public virtual async Task<TEntityDto> AddAsync(Func<Task<TAggregateRoot>> when, TPrimaryKey identifier = default)
         {
             var aggregate = await when();
 
-            var insertedAggregate = await AggregateRootRepository.InsertAsync(aggregate);
+            var insertedAggregate = await AggregateRootRepository.InsertAsync(aggregate, identifier);
 
             await this.UnitOfWorkAsync.SaveChangesAsync();
 
@@ -63,11 +63,11 @@ namespace Galaxy.Commands
         }
 
         [DisableUnitOfWork]
-        public virtual TEntityDto Add(Func<TAggregateRoot> when)
+        public virtual TEntityDto Add(Func<TAggregateRoot> when, TPrimaryKey identifier = default)
         {
             var aggregate = when();
 
-            var insertedAggregate = AggregateRootRepository.Insert(aggregate);
+            var insertedAggregate = AggregateRootRepository.Insert(aggregate, identifier);
 
             this.UnitOfWorkAsync.SaveChangesAsync()
                 .ConfigureAwait(false)

@@ -23,7 +23,14 @@ namespace EventStoreSample.Projections
 
                 case Events.V1.TransactionAmountChangedDomainEvent t:
                     Console.WriteLine($"{DateTime.Now} - Projected  event {typeof(Events.V1.TransactionAmountChangedDomainEvent)} amount : {t.Amount}");
+                    break;
 
+                case Events.V1.TransactionDetailAssignedToTransactionDomainEvent t:
+                    Console.WriteLine($"{DateTime.Now} - Projected  event {typeof(Events.V1.TransactionDetailAssignedToTransactionDomainEvent)} desc : {t.Description}");
+                    break;
+
+                case Events.V1.TransactionDetailCreatedDomainEvent t:
+                    Console.WriteLine($"{DateTime.Now} - Projected  event {typeof(Events.V1.TransactionDetailCreatedDomainEvent)} desc : {t.Description}");
                     break;
 
                

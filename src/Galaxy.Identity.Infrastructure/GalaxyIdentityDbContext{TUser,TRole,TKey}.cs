@@ -19,6 +19,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using EntityState = Microsoft.EntityFrameworkCore.EntityState;
 
 namespace Galaxy.Identity
 {

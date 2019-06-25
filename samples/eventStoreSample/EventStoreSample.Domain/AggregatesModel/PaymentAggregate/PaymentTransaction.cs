@@ -9,10 +9,10 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
     public static class PaymentTransaction
     {
-        public static PaymentTransactionState Create(string msisdn, string orderId, DateTime transactionDateTime)
+        public static PaymentTransactionState Create(string id, string msisdn, string orderId, DateTime transactionDateTime)
         {
             var state = new PaymentTransactionState(msisdn, orderId, transactionDateTime);
-            state.ApplyEvent(new Events.V1.TransactionCreatedDomainEvent(msisdn, orderId, transactionDateTime));
+            state.ApplyEvent(new Events.V1.TransactionCreatedDomainEvent(id, msisdn, orderId, transactionDateTime));
             return state;
         }
 
@@ -30,5 +30,8 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         public static void SetMoney(PaymentTransactionState state, decimal amount) =>
             state.ApplyEvent(new Events.V1.TransactionAmountChangedDomainEvent(amount));
+
+        public static void AssignDetail(PaymentTransactionState state, string description) =>
+           state.ApplyEvent(new Events.V1.TransactionDetailAssignedToTransactionDomainEvent(description));
     }
 }

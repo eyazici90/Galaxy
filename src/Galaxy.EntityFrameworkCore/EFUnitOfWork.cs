@@ -77,7 +77,7 @@ namespace Galaxy.EFCore
 
             var type = typeof(TEntity).Name;
 
-            if (_repositories.ContainsKey(type)) { return (IRepositoryAsync<TEntity>)_repositories[type]; }
+            if (_repositories.ContainsKey(type)) { return (IRepository<TEntity>)_repositories[type]; }
 
             var repositoryType = typeof(EFRepository<>);
 

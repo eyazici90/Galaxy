@@ -26,7 +26,7 @@ namespace EventStoreSample.Application.Commands.Handlers
         {
             await AddAsync(async () =>
             {
-                var state = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
+                var state = PaymentTransaction.Create(Guid.NewGuid().ToString(), request.Msisdn, request.OrderId, DateTime.Now);
 
                 PaymentTransaction
                     .SetMoney(state, request.Amount.Value);

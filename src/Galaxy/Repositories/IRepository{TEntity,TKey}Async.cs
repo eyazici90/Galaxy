@@ -10,7 +10,7 @@ namespace Galaxy.Repositories
 {
     public interface IRepositoryAsync<TEntity, TPrimaryKey> : IRepositoryAsync, IRepository<TEntity,TPrimaryKey> where TEntity : class, IAggregateRoot, IObjectState
     {
-        Task<TEntity> InsertAsync(TEntity entity);
+        Task<TEntity> InsertAsync(TEntity entity, TPrimaryKey identifier = default);
         Task<TEntity> UpdateAsync(TEntity entity);
         Task<TEntity> FindAsync(params object[] keyValues);
         Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues);

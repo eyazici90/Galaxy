@@ -45,7 +45,7 @@ namespace Galaxy.EFCore
             return await DbSet.FindAsync(keyValues, cancellationToken);
         }
 
-        public virtual TEntity Insert(TEntity entity)
+        public virtual TEntity Insert(TEntity entity, int identifier = default)
         {
             entity.SyncObjectState(ObjectState.Added);
             DbSet.Attach(entity);
@@ -53,7 +53,7 @@ namespace Galaxy.EFCore
             return entity;
         }
 
-        public virtual async Task<TEntity> InsertAsync(TEntity entity) => await Task.FromResult(Insert(entity)) ;
+        public virtual async Task<TEntity> InsertAsync(TEntity entity, int identifier = default) => await Task.FromResult(Insert(entity)) ;
        
 
         public virtual void InsertRange(IEnumerable<TEntity> entities)

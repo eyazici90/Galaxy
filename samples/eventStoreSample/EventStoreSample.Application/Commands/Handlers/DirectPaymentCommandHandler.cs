@@ -24,12 +24,13 @@ namespace EventStoreSample.Application.Commands.Handlers
 
         public async Task<bool> Handle(DirectPaymentCommand request, CancellationToken cancellationToken)
         {
+            var id = Guid.NewGuid();
             await AddAsync(async () =>
             {
-                var state = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
+                var state = PaymentTransaction.Create(id.ToString(), request.Msisdn, request.OrderId, DateTime.Now);
                 PaymentTransaction.SetMoney(state, request.Amount.Value);
                 return state;
-            });
+            }, id);
 
             return await Task.FromResult(true);
         }

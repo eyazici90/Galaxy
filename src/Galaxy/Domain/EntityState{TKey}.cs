@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Galaxy.Domain
 {
-    public abstract class AggregateRootEntity : AggregateRootEntity<int> , IAggregateRoot, IEntity, IObjectState
-    {
+
+    public abstract class EntityState<TPrimaryKey> : Entity<TPrimaryKey>, IObjectState, IEntity<TPrimaryKey>
+    { 
     }
 }

@@ -22,12 +22,12 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         }
         private PaymenTransactionStatus StatusSuccedeed()
         {
-            this.Id = 1;
+            this._id = 1;
             return this;
         }
         private PaymenTransactionStatus StatusFailed()
         {
-            this.Id = 2;
+            this._id = 2;
             return this;
         }
     }

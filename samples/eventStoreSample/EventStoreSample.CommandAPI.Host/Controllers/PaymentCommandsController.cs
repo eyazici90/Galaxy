@@ -30,7 +30,11 @@ namespace EventStoreSample.CommandAPI.Host.Controllers
         public Task<IActionResult> ChangeAmount([FromBody] ChangeOrSetAmountCommand request) =>
           HandleOrThrow(request, async (r) => await this._mediatr.Send(r));
 
-
+        [Route("api/Payments/Transaction/Details")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [HttpPut]
+        public Task<IActionResult> AssignDetail([FromBody] AssingPaymentDetailCommand request) =>
+           HandleOrThrow(request, async (r) => await this._mediatr.Send(r));
 
         [Route("api/Payments/Transaction/Refund")]
         [ProducesResponseType((int)HttpStatusCode.OK)]

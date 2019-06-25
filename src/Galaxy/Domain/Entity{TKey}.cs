@@ -9,8 +9,14 @@ namespace Galaxy.Domain
 {
     public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
-        public virtual TPrimaryKey  Id { get; protected set; }
+        public virtual TPrimaryKey _id { get; protected set; }
+        public virtual TPrimaryKey  Id
+        {
+           get { return _id; }
+        }
+
         private IEventRouter _eventRouter;
+
         private List<INotification> _domainEvents;
 
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();

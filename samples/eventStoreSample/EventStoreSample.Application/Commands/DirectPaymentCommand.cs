@@ -6,7 +6,7 @@ using System.Text;
 namespace EventStoreSample.Application.Commands
 {
     public class DirectPaymentCommand : IRequest<bool>
-    {
+    { 
         public decimal? Amount { get; set; }
 
         public int? CurrencyCode { get; set; }

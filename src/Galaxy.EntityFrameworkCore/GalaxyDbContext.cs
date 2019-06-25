@@ -17,6 +17,7 @@ using Galaxy.EFCore.Extensions;
 using Galaxy.EntityFrameworkCore; 
 using Galaxy.Domain.Auditing;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using EntityState = Microsoft.EntityFrameworkCore.EntityState;
 
 namespace Galaxy.EFCore
 {

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Galaxy.Domain
-{
-    public abstract class AggregateRootEntity : AggregateRootEntity<int> , IAggregateRoot, IEntity, IObjectState
+{ 
+    public abstract class EntityState : EntityState<int>, IEntity, IObjectState
     {
     }
 }
