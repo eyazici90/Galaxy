@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Galaxy.EventStore
 {
-    public class ProjectionManager
+    public class SubscriptionManager
     { 
         private readonly ICheckpointStore _checkpointStore;
         private readonly IEventStoreConnection _connection;
@@ -20,7 +20,7 @@ namespace Galaxy.EventStore
         private readonly ISerializer _serializer;
         private readonly ISnapshotter[] _snapshotters;
 
-        internal ProjectionManager(IEventStoreConnection connection,
+        internal SubscriptionManager(IEventStoreConnection connection,
             ISerializer serializer,
             ICheckpointStore checkpointStore,
             Projection[] projections,

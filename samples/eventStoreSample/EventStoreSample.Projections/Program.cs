@@ -70,7 +70,7 @@ namespace EventStoreSample.Projections
             var paymentRootRepo = container.Resolve<IRepositoryAsync<PaymentTransaction, Guid>>();
 
           
-            await ProjectionManagerBuilder.New
+            await SubscriptionManagerBuilder.New
                 .Connection(esConnection)
                 .Deserializer(defaultSerializer)
                 .CheckpointStore(nullCheckpointStore)

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Galaxy.EventStore
 {
-    public class ProjectionManagerBuilder
+    public class SubscriptionManagerBuilder
     {
-        public static readonly ProjectionManagerBuilder New = new ProjectionManagerBuilder();
+        public static readonly SubscriptionManagerBuilder New = new SubscriptionManagerBuilder();
         private ICheckpointStore _checkpointStore;
         private IEventStoreConnection _connection;
         private ISerializer _deserializer;
@@ -19,54 +19,54 @@ namespace Galaxy.EventStore
         private int? _readBatchSize;
         private ISnapshotter[] _snapshotters = { };
 
-        public ProjectionManagerBuilder Connection(IEventStoreConnection connection)
+        public SubscriptionManagerBuilder Connection(IEventStoreConnection connection)
         {
             _connection = connection;
             return this;
         }
 
-        public ProjectionManagerBuilder Deserializer(ISerializer deserializer)
+        public SubscriptionManagerBuilder Deserializer(ISerializer deserializer)
         {
             _deserializer = deserializer;
             return this;
         }
 
-        public ProjectionManagerBuilder MaxLiveQueueSize(int maxLiveQueueSize)
+        public SubscriptionManagerBuilder MaxLiveQueueSize(int maxLiveQueueSize)
         {
             _maxLiveQueueSize = maxLiveQueueSize;
             return this;
         }
 
-        public ProjectionManagerBuilder CheckpointStore(ICheckpointStore checkpointStore)
+        public SubscriptionManagerBuilder CheckpointStore(ICheckpointStore checkpointStore)
         {
             _checkpointStore = checkpointStore;
             return this;
         }
 
-        public ProjectionManagerBuilder ReadBatchSize(int readBatchSize)
+        public SubscriptionManagerBuilder ReadBatchSize(int readBatchSize)
         {
             _readBatchSize = readBatchSize;
             return this;
         }
 
-        public ProjectionManagerBuilder Snaphotter(params ISnapshotter[] snapshotters)
+        public SubscriptionManagerBuilder Snaphotter(params ISnapshotter[] snapshotters)
         {
             _snapshotters = snapshotters;
             return this;
         }
 
-        public ProjectionManagerBuilder Projections(params Projection[] projections)
+        public SubscriptionManagerBuilder Projections(params Projection[] projections)
         {
             _projections = projections;
             return this;
         }
 
-        public ProjectionManager Build() =>
-          new ProjectionManager(_connection, _deserializer, _checkpointStore, _projections, _snapshotters, _maxLiveQueueSize, _readBatchSize);
+        public SubscriptionManager Build() =>
+          new SubscriptionManager(_connection, _deserializer, _checkpointStore, _projections, _snapshotters, _maxLiveQueueSize, _readBatchSize);
 
-        public async Task<ProjectionManager> Activate()
+        public async Task<SubscriptionManager> Activate()
         {
-            ProjectionManager manager = Build();
+            SubscriptionManager manager = Build();
             await manager.Activate();
             return manager;
         }
