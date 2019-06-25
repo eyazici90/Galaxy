@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace EventStoreSample.Application.Commands.Handlers
 {
-    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransaction, object, Guid>
-        , IRequestHandler<DirectPaymentCommand, bool>
+    public class DirectPaymentCommandHandler : CommandHandlerBase<PaymentTransactionState, object, Guid>
+         , IRequestHandler<DirectPaymentCommand, bool>
     {
         public DirectPaymentCommandHandler(IUnitOfWorkAsync unitOfWorkAsync
-            , IRepositoryAsync<PaymentTransaction, Guid> aggregateRootRepository
+            , IRepositoryAsync<PaymentTransactionState, Guid> aggregateRootRepository
             , IObjectMapper objectMapper) : base(unitOfWorkAsync, aggregateRootRepository, objectMapper)
         {
         }
@@ -26,9 +26,9 @@ namespace EventStoreSample.Application.Commands.Handlers
         {
             await AddAsync(async () =>
             {
-                var paymentTransaction = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
-                paymentTransaction.SetMoney(request.CurrencyCode.Value, request.Amount.Value);
-                return paymentTransaction;
+                var state = PaymentTransaction.Create(request.Msisdn, request.OrderId, DateTime.Now);
+                PaymentTransaction.SetMoney(state, request.Amount.Value);
+                return state;
             });
 
             return await Task.FromResult(true);

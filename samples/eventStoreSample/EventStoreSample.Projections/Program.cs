@@ -67,7 +67,7 @@ namespace EventStoreSample.Projections
             var defaultSerializer = container.Resolve<ISerializer>();
             var nullCheckpointStore = new NullInstanceCheckpointStore();
             var esUnitOfWork = container.Resolve<IUnitOfWorkAsync>();
-            var paymentRootRepo = container.Resolve<IRepositoryAsync<PaymentTransaction, Guid>>();
+            var paymentRootRepo = container.Resolve<IRepositoryAsync<PaymentTransactionState, Guid>>();
 
           
             await SubscriptionManagerBuilder.New
@@ -75,7 +75,7 @@ namespace EventStoreSample.Projections
                 .Deserializer(defaultSerializer)
                 .CheckpointStore(nullCheckpointStore)
                 .Snaphotter(
-                    new EventStoreSnapshotter<PaymentTransaction, Guid, PaymentTransactionSnapshot>(
+                    new EventStoreSnapshotter<PaymentTransactionState, Guid, PaymentTransactionSnapshot>(
                         paymentRootRepo,
                         esUnitOfWork,
                         () => esConnection,

@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace EventStoreSample.Application.Commands.Handlers
 {
-    public sealed class ChangeOrSetAmountCommandHandler : CommandHandlerBase<PaymentTransaction, object, Guid>
+    public sealed class ChangeOrSetAmountCommandHandler : CommandHandlerBase<PaymentTransactionState, object, Guid>
         , IRequestHandler<ChangeOrSetAmountCommand, bool>
     {
         public ChangeOrSetAmountCommandHandler(IUnitOfWorkAsync unitOfWorkAsync
-            , IRepositoryAsync<PaymentTransaction, Guid> aggregateRootRepository
+            , IRepositoryAsync<PaymentTransactionState, Guid> aggregateRootRepository
             , IObjectMapper objectMapper) : base(unitOfWorkAsync, aggregateRootRepository, objectMapper)
         {
         }
@@ -28,7 +28,7 @@ namespace EventStoreSample.Application.Commands.Handlers
             await UpdateAsync(Guid.Parse(request.Id), async payment =>
             {
                 payment.SomeNotNull()
-                    .Match(p => p.ChangeOrSetAmountTo(
+                    .Match(p => PaymentTransaction.ChangeOrSetAmountTo(p,
                         Money.Create(request.Amount.Value, request.CurrencyCode.Value)
                     ), () => throw new AggregateNotFoundException());
             });
