@@ -181,47 +181,7 @@ namespace Galaxy.EFCore
             _entitesChecked = null;
             DbSet.Attach(entity);
         }
-
-        HashSet<object> _entitesChecked; // tracking of all process entities in the object graph when calling SyncObjectGraph
-
-        private void SyncObjectGraph(object entity) // scan object graph for all 
-        {
-            if(_entitesChecked == null)
-                _entitesChecked = new HashSet<object>();
-
-            if (_entitesChecked.Contains(entity))
-                return;
-
-            _entitesChecked.Add(entity);
-
-            var objectState = entity as IObjectState;
-
-            if (objectState != null && objectState.ObjectState == ObjectState.Added)
-                Context.SyncObjectState((IObjectState)entity);
-
-            // Set tracking state for child collections
-            foreach (var prop in entity.GetType().GetProperties())
-            {
-                // Apply changes to 1-1 and M-1 properties
-                var trackableRef = prop.GetValue(entity, null) as IObjectState;
-                if (trackableRef != null)
-                {
-                    if(trackableRef.ObjectState == ObjectState.Added)
-                        Context.SyncObjectState((IObjectState) entity);
-
-                    SyncObjectGraph(prop.GetValue(entity, null));
-                }
-
-                // Apply changes to 1-M properties
-                var items = prop.GetValue(entity, null) as IEnumerable<IObjectState>;
-                if (items == null) continue;
-
-                foreach (var item in items)
-                    SyncObjectGraph(item);
-            }
-        }
-
-      
+         
  
         public virtual async Task<bool> DeleteAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
@@ -233,7 +193,7 @@ namespace Galaxy.EFCore
             }
             entity.SyncObjectState(ObjectState.Deleted);
             DbSet.Attach(entity);
-
+            Context.SyncObjectState(entity);
             return true;
         }
             public virtual TEntity Find(params object[] keyValues)
@@ -251,5 +211,43 @@ namespace Galaxy.EFCore
             var entity = DbSet.Find(id);
             Delete(entity);
         }
+
+
+        HashSet<object> _entitesChecked;  
+
+        private void SyncObjectGraph(object entity)  
+        {
+            if (_entitesChecked == null)
+                _entitesChecked = new HashSet<object>();
+
+            if (_entitesChecked.Contains(entity))
+                return;
+
+            _entitesChecked.Add(entity);
+
+            var objectState = entity as IObjectState;
+
+            if (objectState != null && objectState.ObjectState == ObjectState.Added)
+                Context.SyncObjectState((IObjectState)entity);
+             
+            foreach (var prop in entity.GetType().GetProperties())
+            { 
+                var trackableRef = prop.GetValue(entity, null) as IObjectState;
+                if (trackableRef != null)
+                {
+                    if (trackableRef.ObjectState == ObjectState.Added)
+                        Context.SyncObjectState((IObjectState)entity);
+
+                    SyncObjectGraph(prop.GetValue(entity, null));
+                }
+                 
+                var items = prop.GetValue(entity, null) as IEnumerable<IObjectState>;
+                if (items == null) continue;
+
+                foreach (var item in items)
+                    SyncObjectGraph(item);
+            }
+        }
+
     }
 }
