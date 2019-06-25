@@ -59,7 +59,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public void RestoreSnapshot(object state)
         {
             var snapshot = (PaymentTransactionSnapshot)state;
-            _id = Guid.Parse(snapshot.Id); 
+            Id = Guid.Parse(snapshot.Id); 
             _transactionDateTime = snapshot.TransactionDateTime;
             _merchantTransactionDateTime = snapshot.MerchantTransactionDateTime;
             _msisdn = snapshot.Msisdn;
@@ -75,7 +75,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         public object TakeSnapshot() => new PaymentTransactionSnapshot
         {
-            Id = this._id.ToString(),
+            Id = this.Id.ToString(),
             TransactionDateTime = this._transactionDateTime,
             MerchantTransactionDateTime = this._merchantTransactionDateTime,
             Msisdn = this._msisdn,
@@ -91,7 +91,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private void When(Events.V1.TransactionCreatedDomainEvent @event)
         {
-            this._id = Guid.Parse(@event.Id);
+            this.Id = Guid.Parse(@event.Id);
 
             this._msisdn = @event.Msisdn;
 
@@ -113,7 +113,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 
         private void When(Events.V1.TransactionDetailAssignedToTransactionDomainEvent @event)
         {
-            var detailState = PaymentTransactionDetail.Create(this._id, @event.Description);
+            var detailState = PaymentTransactionDetail.Create(this.Id, @event.Description);
             this._paymentTransactionDetails.Append(detailState);   
         }
 

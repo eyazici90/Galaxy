@@ -25,17 +25,17 @@ namespace PaymentSample.Domain.AggregatesModel.PaymentAggregate
         }
         private PaymentTransactionType DirectPaymentTyped()
         {
-            this._id = 1;
+            this.Id = 1;
             return this;
         }
         private PaymentTransactionType RefundPaymentTyped()
         {
-            this._id = 2;
+            this.Id = 2;
             return this;
         }
         private PaymentTransactionType ReservationPaymentTyped()
         {
-            this._id = 3;
+            this.Id = 3;
             return this;
         }
     }
