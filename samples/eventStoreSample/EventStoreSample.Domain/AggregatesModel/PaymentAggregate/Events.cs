@@ -46,22 +46,15 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
                     this.TransactionStatusId = transactionStatusId;
                 }
             }
-            public class TransactionDetailCreatedDomainEvent : INotification
-            {
-                public Guid PaymentTransactionId { get; private set; }
-                public string Description{ get; private set; }
-                public TransactionDetailCreatedDomainEvent(Guid paymentTransactionId, string description)
-                {
-                    this.Description = description;
-                    this.PaymentTransactionId = paymentTransactionId; 
-                }
-            }
+            
 
             public class TransactionDetailAssignedToTransactionDomainEvent : INotification
             {
+                public string PaymentTransactionId { get; private set; }
                 public string Description { get; private set; }
-                public TransactionDetailAssignedToTransactionDomainEvent(string description)
+                public TransactionDetailAssignedToTransactionDomainEvent(string paymentTransactionId, string description)
                 {
+                    this.PaymentTransactionId = paymentTransactionId;
                     this.Description = description;
                 }
             }

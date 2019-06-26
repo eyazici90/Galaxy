@@ -8,7 +8,7 @@ using System.Text;
 namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
     public sealed class PaymentTransactionState : AggregateRootEntityState<Guid>, ISnapshotable
-    { 
+    {
         public DateTime _transactionDateTime { get; private set; }
 
         public DateTime? _merchantTransactionDateTime { get; private set; }
@@ -28,17 +28,17 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public int _transactionTypeId { get; private set; }
 
         public PaymentTransactionType _paymentTransactionType { get; private set; }
-         
-        public IReadOnlyCollection<PaymentTransactionDetailState> _paymentTransactionDetails { get; private set; }
 
-        public IEnumerable<PaymentTransactionDetailState> PaymentTransactionDetails => _paymentTransactionDetails.AsEnumerable();
+        public List<PaymentTransactionDetailState> _paymentTransactionDetails { get; private set; }
+
+        public IReadOnlyCollection<PaymentTransactionDetailState> PaymentTransactionDetails => _paymentTransactionDetails.AsReadOnly();
 
         private PaymentTransactionState()
         {
             RegisterEvent<Events.V1.TransactionCreatedDomainEvent>(When);
             RegisterEvent<Events.V1.TransactionAmountChangedDomainEvent>(When);
             RegisterEvent<Events.V1.TransactionStatusChangedDomainEvent>(When);
-            RegisterEvent<Events.V1.TransactionDetailAssignedToTransactionDomainEvent>(When); 
+            RegisterEvent<Events.V1.TransactionDetailAssignedToTransactionDomainEvent>(When);
         }
 
 
@@ -59,18 +59,18 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public void RestoreSnapshot(object state)
         {
             var snapshot = (PaymentTransactionSnapshot)state;
-            Id = Guid.Parse(snapshot.Id); 
+            Id = Guid.Parse(snapshot.Id);
             _transactionDateTime = snapshot.TransactionDateTime;
             _merchantTransactionDateTime = snapshot.MerchantTransactionDateTime;
             _msisdn = snapshot.Msisdn;
             _description = snapshot.Description;
             _orderId = snapshot.OrderId;
             _money = Money.Create(Convert.ToDecimal(snapshot.Amount), 0);
-            _paymentTransactionDetails = snapshot.PaymentTransactionDetails.Select(d => 
-                {
-                    var detail = PaymentTransactionDetail.Create(Guid.Parse(d.PaymentTransactionStateId), d.Description);
-                    return detail;
-                }).ToList().AsReadOnly();
+            _paymentTransactionDetails = snapshot.PaymentTransactionDetails.Select(d =>
+            {
+                var detail = PaymentTransactionDetail.Create(Guid.Parse(d.PaymentTransactionStateId), d.Description);
+                return detail;
+            }).ToList();
         }
 
         public object TakeSnapshot() => new PaymentTransactionSnapshot
@@ -82,11 +82,11 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             Description = this._description,
             OrderId = this._orderId,
             Amount = this._money._amount,
-            PaymentTransactionDetails = _paymentTransactionDetails.Select(d=> new PaymentTransactionDetailSnapshot
-                                                                                 {
-                                                                                   PaymentTransactionStateId = d._paymentTransactionStateId.ToString(),
-                                                                                   Description =   d._description
-                                                                                 })
+            PaymentTransactionDetails = _paymentTransactionDetails.Select(d => new PaymentTransactionDetailSnapshot
+            {
+                PaymentTransactionStateId = d._paymentTransactionStateId.ToString(),
+                Description = d._description
+            })
         };
 
         private void When(Events.V1.TransactionCreatedDomainEvent @event)
@@ -114,8 +114,8 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         private void When(Events.V1.TransactionDetailAssignedToTransactionDomainEvent @event)
         {
             var detailState = PaymentTransactionDetail.Create(this.Id, @event.Description);
-            this._paymentTransactionDetails.Append(detailState);   
+            detailState.ApplyEvent(@event);
+            this._paymentTransactionDetails.Add(detailState);
         }
-
     }
 }

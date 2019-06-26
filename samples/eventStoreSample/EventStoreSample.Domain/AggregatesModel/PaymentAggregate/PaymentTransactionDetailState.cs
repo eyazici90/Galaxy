@@ -14,7 +14,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         public bool _isNotified { get; private set; }
         private PaymentTransactionDetailState()
         {
-            RegisterEvent<Events.V1.TransactionDetailCreatedDomainEvent>(When);
+            RegisterEvent<Events.V1.TransactionDetailAssignedToTransactionDomainEvent>(When);
         } 
 
         public PaymentTransactionDetailState(Guid paymentTransactionStateId, string description, bool isNotified = false) : this() =>
@@ -31,10 +31,10 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             return true;
         }
 
-        private void When(Events.V1.TransactionDetailCreatedDomainEvent @event)
+        private void When(Events.V1.TransactionDetailAssignedToTransactionDomainEvent @event)
         {
             this._description = @event.Description;
-            this._paymentTransactionStateId = @event.PaymentTransactionId;
+            this._paymentTransactionStateId = Guid.Parse(@event.PaymentTransactionId);
         }
 
     }

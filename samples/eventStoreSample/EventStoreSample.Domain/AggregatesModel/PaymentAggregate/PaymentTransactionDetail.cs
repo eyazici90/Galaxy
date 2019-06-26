@@ -8,8 +8,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
     {
         public static PaymentTransactionDetailState Create(Guid paymentTransactionStateId, string description)
         {
-            var state = new PaymentTransactionDetailState(paymentTransactionStateId, description);
-            state.ApplyEvent(new Events.V1.TransactionDetailCreatedDomainEvent(paymentTransactionStateId, description));
+            var state = new PaymentTransactionDetailState(paymentTransactionStateId, description); 
             return state;
         }
     }

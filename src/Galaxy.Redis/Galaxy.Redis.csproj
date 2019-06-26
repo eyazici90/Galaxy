@@ -5,7 +5,7 @@
     <LangVersion>7.1</LangVersion>
     <Authors>Emre YAZICI</Authors>
     <Product />
-    <Version>1.0.3</Version>
+    <Version>1.0.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Redis integration for Galaxy</Description>
     <Copyright>Copyright 2019</Copyright>

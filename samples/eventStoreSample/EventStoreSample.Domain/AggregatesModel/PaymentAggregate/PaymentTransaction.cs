@@ -32,6 +32,6 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             state.ApplyEvent(new Events.V1.TransactionAmountChangedDomainEvent(amount));
 
         public static void AssignDetail(PaymentTransactionState state, string description) =>
-           state.ApplyEvent(new Events.V1.TransactionDetailAssignedToTransactionDomainEvent(description));
+           state.ApplyEvent(new Events.V1.TransactionDetailAssignedToTransactionDomainEvent(state.Id.ToString(), description));
     }
 }
