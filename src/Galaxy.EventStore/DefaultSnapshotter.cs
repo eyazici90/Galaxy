@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Galaxy.EventStore
 {
-    public class EventStoreSnapshotter<TAggregateRoot, TKey, TSnapshot> : ISnapshotter
+    public class DefaultSnapshotter<TAggregateRoot, TKey, TSnapshot> : ISnapshotter
          where TAggregateRoot : class, IAggregateRoot, IObjectState
     {
         private readonly IRepositoryAsync<TAggregateRoot, TKey> _rootRepo;
@@ -21,7 +21,7 @@ namespace Galaxy.EventStore
         private readonly Func<ResolvedEvent, bool> _strategy;
         private readonly ISerializer _serializer;
 
-        public EventStoreSnapshotter(
+        public DefaultSnapshotter(
             IRepositoryAsync<TAggregateRoot, TKey> rootRepo,
             IUnitOfWorkAsync unitOfWorkAsync,
             Func<IEventStoreConnection> getConnection,

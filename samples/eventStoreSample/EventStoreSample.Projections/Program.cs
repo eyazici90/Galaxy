@@ -75,7 +75,7 @@ namespace EventStoreSample.Projections
                 .Deserializer(defaultSerializer)
                 .CheckpointStore(nullCheckpointStore)
                 .Snaphotter(
-                    new EventStoreSnapshotter<PaymentTransactionState, Guid, PaymentTransactionSnapshot>(
+                    new DefaultSnapshotter<PaymentTransactionState, Guid, PaymentTransactionSnapshot>(
                         paymentRootRepo,
                         esUnitOfWork,
                         () => esConnection,
