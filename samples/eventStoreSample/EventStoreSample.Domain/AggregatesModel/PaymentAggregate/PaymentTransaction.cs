@@ -1,5 +1,6 @@
 ﻿
 using EventStoreSample.Domain.Exceptions;
+using EventStoreSample.Domain.Extensions;
 using Galaxy.Domain;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,9 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
     public static class PaymentTransaction
     {
-        public static PaymentTransactionState Create(string id, string msisdn, string orderId, DateTime transactionDateTime)
-        {
-            var state = new PaymentTransactionState(msisdn, orderId, transactionDateTime);
-            state.ApplyEvent(new Events.V1.TransactionCreatedDomainEvent(id, msisdn, orderId, transactionDateTime));
-            return state;
-        }
+        public static PaymentTransactionState Create(string id, string msisdn, string orderId, DateTime transactionDateTime) =>
+           StateFactory.Create(() => new PaymentTransactionState(msisdn, orderId, transactionDateTime)
+               , state => state.ApplyEvent(new Events.V1.TransactionCreatedDomainEvent(id, msisdn, orderId, transactionDateTime)));
 
         public static void ChangeOrSetAmountTo(PaymentTransactionState state, Money money)
         {
