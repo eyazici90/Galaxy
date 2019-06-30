@@ -10,17 +10,18 @@ namespace Galaxy.Domain
     public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
         public virtual TPrimaryKey Id { get; protected set; }
-       
+
         private IEventRouter _eventRouter;
 
         private List<INotification> _domainEvents;
 
         public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 
-        public Entity()
-        {
+        public Entity() =>
             _eventRouter = new InstanceEventRouter();
-        }
+        
+
+
 
         public void AddEvent(INotification eventItem)
         {
@@ -28,20 +29,17 @@ namespace Galaxy.Domain
             _domainEvents.Add(eventItem);
         }
 
-        public virtual void RemoveEvent(INotification eventItem)
-        {
+        public virtual void RemoveEvent(INotification eventItem) =>
             _domainEvents?.Remove(eventItem);
-        }
 
-        public virtual void ClearEvents()
-        {
+
+        public virtual void ClearEvents() =>
             _domainEvents?.Clear();
-        }
 
-        public virtual void RegisterEvent<TEvent>(Action<TEvent> handler)
-        {
+
+        public virtual void RegisterEvent<TEvent>(Action<TEvent> handler) =>
             _eventRouter.Register<TEvent>(handler);
-        }
+
 
         public virtual void ApplyEvent(object @event)
         {
@@ -64,14 +62,14 @@ namespace Galaxy.Domain
             }
         }
 
-        private void Play(object @event)
-        {
+        private void Play(object @event) =>
             _eventRouter.Route(@event);
-        }
-        
+
+
         public virtual void BeforeApplyChange(object @event)
         {
-        } 
+        }
+        
 
         public virtual void AfterApplyChange(object @event)
         {
@@ -79,10 +77,9 @@ namespace Galaxy.Domain
          
         public virtual ObjectState ObjectState { get; private set; }
 
-        public virtual void SyncObjectState(ObjectState objectState)
-        {
+        public virtual void SyncObjectState(ObjectState objectState) =>
             this.ObjectState = objectState;
-        }
+        
 
         public virtual bool IsTransient()
         {

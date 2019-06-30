@@ -107,17 +107,16 @@ namespace Galaxy.EventStore
             throw new NotImplementedException();
         }
 
-        public  TAggregateRoot Find(params object[] keyValues)
-        {
-            throw new NotImplementedException();
-        }
+        public  TAggregateRoot Find(params object[] keyValues) =>
+            FindAsync(keyValues).ConfigureAwait(false)
+                .GetAwaiter().GetResult();
+        
 
        
         
-        public async Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
-        {
-            return await this.FindAsync(keyValues);
-        }
+        public async Task<TAggregateRoot> FindAsync(CancellationToken cancellationToken, params object[] keyValues) =>
+             await this.FindAsync(keyValues);
+        
 
         public TAggregateRoot Insert(TAggregateRoot entity, TKey identifier)
         {
