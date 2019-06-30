@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Galaxy.Domain
 { 
-    public abstract class EntityState : EntityState<int>, IEntity, IObjectState
+    public abstract class EntityState<TState> : EntityState<TState, int>, IEntity, IObjectState
+         where TState : class
     {
     }
 }

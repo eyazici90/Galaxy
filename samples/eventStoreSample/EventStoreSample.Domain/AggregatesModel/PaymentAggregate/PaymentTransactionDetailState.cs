@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
-    public class PaymentTransactionDetailState : EntityState 
+    public class PaymentTransactionDetailState : EntityState<PaymentTransactionDetailState> 
     {
         public Guid _paymentTransactionStateId { get; private set; }
         public string _description  { get; private set; }
@@ -31,11 +31,13 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             return true;
         }
 
-        private void When(Events.V1.TransactionDetailAssignedToTransactionDomainEvent @event)
-        {
-            this._description = @event.Description;
-            this._paymentTransactionStateId = Guid.Parse(@event.PaymentTransactionId);
-        }
+        private void When(Events.V1.TransactionDetailAssignedToTransactionDomainEvent @event) =>
+            With(this, state =>
+            {
+                state._description = @event.Description;
+                state._paymentTransactionStateId = Guid.Parse(@event.PaymentTransactionId);
+            }); 
 
+        public override string GetStreamName(string id) => $"PaymentTransactionDetail-{id}";
     }
 }
