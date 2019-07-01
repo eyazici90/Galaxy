@@ -37,7 +37,6 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
                 state._description = @event.Description;
                 state._paymentTransactionStateId = Guid.Parse(@event.PaymentTransactionId);
             }); 
-
-        public override string GetStreamName(string id) => $"PaymentTransactionDetail-{id}";
+         
     }
 }
