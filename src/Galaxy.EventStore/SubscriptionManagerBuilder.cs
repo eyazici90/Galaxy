@@ -15,7 +15,7 @@ namespace Galaxy.EventStore
         private IEventStoreConnection _connection;
         private ISerializer _deserializer;
         private int? _maxLiveQueueSize;
-        private Projection[] _projections;
+        private ProjectionHandler[] _projections;
         private int? _readBatchSize;
         private ISnapshotter[] _snapshotters = { };
 
@@ -55,7 +55,7 @@ namespace Galaxy.EventStore
             return this;
         }
 
-        public SubscriptionManagerBuilder Projections(params Projection[] projections)
+        public SubscriptionManagerBuilder Projections(params ProjectionHandler[] projections)
         {
             _projections = projections;
             return this;

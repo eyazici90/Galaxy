@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EventStoreSample.Projections
 {
-    public class PaymentTransactionProjection : Projection  
+    public class PaymentTransactionProjection : ProjectionHandler
     { 
 
         public override async Task Handle(object e)

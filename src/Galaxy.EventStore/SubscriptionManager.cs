@@ -15,7 +15,7 @@ namespace Galaxy.EventStore
         private readonly ICheckpointStore _checkpointStore;
         private readonly IEventStoreConnection _connection;
         private readonly int _maxLiveQueueSize;
-        private readonly Projection[] _projections;
+        private readonly ProjectionHandler[] _projections;
         private readonly int _readBatchSize;
         private readonly ISerializer _serializer;
         private readonly ISnapshotter[] _snapshotters;
@@ -23,7 +23,7 @@ namespace Galaxy.EventStore
         internal SubscriptionManager(IEventStoreConnection connection,
             ISerializer serializer,
             ICheckpointStore checkpointStore,
-            Projection[] projections,
+            ProjectionHandler[] projections,
             ISnapshotter[] snapshotters,
             int? maxLiveQueueSize,
             int? readBatchSize)
@@ -39,7 +39,7 @@ namespace Galaxy.EventStore
 
         public Task Activate() => Task.WhenAll(_projections.Select(x => StartProjection(x)));
 
-        private async Task StartProjection(Projection projection)
+        private async Task StartProjection(ProjectionHandler projection)
         {
             var projectionTypeName = projection.GetType().FullName;
 
@@ -63,7 +63,7 @@ namespace Galaxy.EventStore
         }
  
         private Func<EventStoreCatchUpSubscription, ResolvedEvent, Task> EventAppeared(
-            Projection projection,
+            ProjectionHandler projection,
             string projectionName
         ) => async (_, e) =>
         {
@@ -89,7 +89,7 @@ namespace Galaxy.EventStore
             }
         };
 
-        private Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception> SubscriptionDropped(Projection projection, string projectionName)
+        private Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception> SubscriptionDropped(ProjectionHandler projection, string projectionName)
             => (subscription, reason, ex) =>
             { 
                 subscription.Stop();
@@ -111,7 +111,7 @@ namespace Galaxy.EventStore
                 }
             };
 
-        private static Action<EventStoreCatchUpSubscription> LiveProcessingStarted(Projection projection, string projectionName)
+        private static Action<EventStoreCatchUpSubscription> LiveProcessingStarted(ProjectionHandler projection, string projectionName)
             => _ => 
             {
 

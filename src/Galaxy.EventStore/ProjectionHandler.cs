@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace Galaxy.EventStore
 {
-    public abstract class Projection
+    public abstract class ProjectionHandler
     {
         readonly Type _type;
 
-        protected Projection() => _type = GetType();
+        protected ProjectionHandler() => _type = GetType();
 
         public abstract Task Handle(object e);
 
         public override string ToString() => _type.Name;
 
-        public static implicit operator string(Projection self) => self.ToString();
+        public static implicit operator string(ProjectionHandler self) => self.ToString();
     }
 }
