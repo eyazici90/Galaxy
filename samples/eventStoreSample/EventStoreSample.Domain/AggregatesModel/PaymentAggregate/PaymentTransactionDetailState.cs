@@ -6,9 +6,9 @@ using System.Text;
 
 namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
-    public class PaymentTransactionDetailState : EntityState<PaymentTransactionDetailState> 
+    public class PaymentTransactionDetailState : EntityState<PaymentTransactionDetailState, PaymentTransactionDetailId> 
     {
-        public Guid _paymentTransactionStateId { get; private set; }
+        public PaymentTransactionId _paymentTransactionId { get; private set; }
         public string _description  { get; private set; }
 
         public bool _isNotified { get; private set; }
@@ -35,7 +35,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             With(this, state =>
             {
                 state._description = @event.Description;
-                state._paymentTransactionStateId = Guid.Parse(@event.PaymentTransactionId);
+                state._paymentTransactionId = @event.PaymentTransactionId;
             }); 
          
     }

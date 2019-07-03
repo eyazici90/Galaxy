@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
 {
-    public sealed class PaymentTransactionState : AggregateRootEntityState<PaymentTransactionState, Guid>, ISnapshotable
+    public sealed class PaymentTransactionState : AggregateRootEntityState<PaymentTransactionState, PaymentTransactionId>, ISnapshotable
     {
         public DateTime _transactionDateTime { get; private set; }
 
@@ -60,7 +60,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             With(this, state => 
             {
                 var snapshot = (PaymentTransactionSnapshot)snapshotState;
-                state.Id = Guid.Parse(snapshot.Id);
+                state.Id = snapshot.Id;
                 state._transactionDateTime = snapshot.TransactionDateTime;
                 state._merchantTransactionDateTime = snapshot.MerchantTransactionDateTime;
                 state._msisdn = snapshot.Msisdn;
@@ -86,7 +86,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
             Amount = this._money._amount,
             PaymentTransactionDetails = _paymentTransactionDetails.Select(d => new PaymentTransactionDetailSnapshot
             {
-                PaymentTransactionStateId = d._paymentTransactionStateId.ToString(),
+                PaymentTransactionStateId = d._paymentTransactionId.ToString(),
                 Description = d._description
             })
         };
@@ -94,7 +94,7 @@ namespace EventStoreSample.Domain.AggregatesModel.PaymentAggregate
         private void When(Events.V1.TransactionCreatedDomainEvent @event) =>
             With(this, state =>
             {
-                state.Id = Guid.Parse(@event.Id);
+                state.Id = @event.Id;
 
                 state._msisdn = @event.Msisdn;
 
