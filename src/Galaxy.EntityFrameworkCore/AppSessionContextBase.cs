@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Galaxy.EFCore
 {
-    public class SessionBase : IAppSessionContext
+    public class AppSessionContextBase : IAppSessionContext
     {
         public virtual Nullable<int> TenantId { get ; set ; }
         public virtual Nullable<int> UserId { get ; set ; }

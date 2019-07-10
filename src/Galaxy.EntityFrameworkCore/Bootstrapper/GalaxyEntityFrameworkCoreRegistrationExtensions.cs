@@ -18,7 +18,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
         public static ContainerBuilder UseGalaxyEntityFrameworkCore<TDbContext>(this ContainerBuilder builder,
            Action<DbContextOptionsBuilder<TDbContext>> optionsAction) where TDbContext : DbContext
         {
-            builder.RegisterType<SessionBase>()
+            builder.RegisterType<AppSessionContextBase>()
                 .As<IAppSessionContext>()
                 .InstancePerLifetimeScope();
 
@@ -48,7 +48,7 @@ namespace Galaxy.EntityFrameworkCore.Bootstrapper
           Action<DbContextOptionsBuilder<TDbContext>> optionsAction)
           where TDbContext : DbContext
         {
-            builder.AddGalaxyDbContext(optionsAction, typeof(SessionBase));
+            builder.AddGalaxyDbContext(optionsAction, typeof(AppSessionContextBase));
         }
 
         private static void AddGalaxyDbContext<TDbContext>(this ContainerBuilder builder,
